@@ -3,10 +3,12 @@
   <ItemGroup>
     <ClCompile Include="System\Window.cpp" />
     <ClCompile Include="Framework.cpp" />
+    <ClCompile Include="System\D3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="System\Window.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="System\IExecute.h" />
+    <ClInclude Include="System\D3D.h" />
   </ItemGroup>
 </Project>
