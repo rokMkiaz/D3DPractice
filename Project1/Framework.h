@@ -36,3 +36,4 @@ typedef D3DXMATRIX Matrix;
 typedef D3DXQUATERNION Quaternion;
 typedef D3DXPLANE Plane;
 
+#include"Systems/D3D.h"

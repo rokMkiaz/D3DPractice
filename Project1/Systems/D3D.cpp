@@ -314,18 +314,23 @@ void D3D::DeleteBackBuffer()
 }
 
 D3DEnumAdapterInfo::D3DEnumAdapterInfo()
+	:adapter(nullptr), outputInfo(nullptr)
 {
 }
 
 D3DEnumAdapterInfo::~D3DEnumAdapterInfo()
 {
+	SafeRelease(adapter);
+	SafeDelete(outputInfo);
 }
 
 D3DEnumOutputInfo::D3DEnumOutputInfo()
+	:output(nullptr), numerator(0), denominator(1)
 {
 }
 
 D3DEnumOutputInfo::~D3DEnumOutputInfo()
 {
+	SafeRelease(output);
 }
 

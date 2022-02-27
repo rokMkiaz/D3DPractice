@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="System\Window.cpp" />
+    <ClCompile Include="Systems\Window.cpp" />
     <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="System\D3D.cpp" />
+    <ClCompile Include="Systems\D3D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="System\Window.h" />
+    <ClInclude Include="Systems\Window.h" />
     <ClInclude Include="Framework.h" />
-    <ClInclude Include="System\IExecute.h" />
-    <ClInclude Include="System\D3D.h" />
+    <ClInclude Include="Systems\IExecute.h" />
+    <ClInclude Include="Systems\D3D.h" />
   </ItemGroup>
 </Project>

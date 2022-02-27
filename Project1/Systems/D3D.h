@@ -125,7 +125,7 @@ public:
 	IDXGIAdapter1* adapter;
 	DXGI_ADAPTER_DESC1 adapterDesc;
 
-	D3DEnumOutputInfo* ouputInfo;
+	D3DEnumOutputInfo* outputInfo;
 };
 
 class D3DEnumOutputInfo //모니터 성능
