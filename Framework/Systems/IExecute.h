@@ -5,7 +5,7 @@ class IExecute
 public:
 	virtual void Initialize() = 0;
 	virtual void Ready() = 0;
-	virtual void Destory() = 0;
+	virtual void Destroy() = 0;
 
 	virtual void Update() = 0;
 	virtual void PreRender() = 0;

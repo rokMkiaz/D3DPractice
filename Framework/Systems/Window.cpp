@@ -31,7 +31,7 @@ WPARAM Window::Run(IExecute* main)
 			MainRender();
 		}
 	}
-	mainExecute->Destory();
+	mainExecute->Destroy();
 
 	D3D::Delete();
 

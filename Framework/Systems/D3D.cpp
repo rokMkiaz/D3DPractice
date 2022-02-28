@@ -167,7 +167,7 @@ bool D3D::EnumerateAdapterOutput(D3DEnumAdapterInfo* adapterInfo)
 			outputInfo->denominator = displayModes[i].RefreshRate.Denominator;
 		}
 	}
-	adapterInfo->ouputInfo = outputInfo;
+	adapterInfo->outputInfo = outputInfo;
 
 	SafeDeleteArray(displayModes);
 
@@ -195,8 +195,8 @@ void D3D::CreateSwapChainAndDevic()
 
 	if (d3dDesc.bVsync == true)
 	{
-		swapChainDesc.BufferDesc.RefreshRate.Numerator = adapterInfos[0]->ouputInfo->numerator;
-		swapChainDesc.BufferDesc.RefreshRate.Denominator = adapterInfos[0]->ouputInfo->denominator;
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = adapterInfos[0]->outputInfo->numerator;
+		swapChainDesc.BufferDesc.RefreshRate.Denominator = adapterInfos[0]->outputInfo->denominator;
 	}
 	else
 	{
@@ -232,8 +232,8 @@ void D3D::CreateSwapChainAndDevic()
 		}
 	}
 
-	numerator = adapterInfos[0]->ouputInfo->numerator;
-	denominator = adapterInfos[0]->ouputInfo->denominator;
+	numerator = adapterInfos[0]->outputInfo->numerator;
+	denominator = adapterInfos[0]->outputInfo->denominator;
 
 	gpuMemorySize = adapterInfos[selectedAdapterIndex]->adapterDesc.DedicatedVideoMemory / 1024 / 1024;
 	gpuDescription = adapterInfos[selectedAdapterIndex]->adapterDesc.Description;
