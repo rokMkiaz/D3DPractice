@@ -2,9 +2,12 @@
 #include "Main.h"
 #include "Systems/Window.h"
 
+
+#include"TEST/Test.h"
+
 void Main::Initialize()
 {
-	Push(nullptr);
+	Push(new Test);
 }
 
 void Main::Ready()

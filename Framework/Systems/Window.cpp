@@ -54,7 +54,7 @@ void Window::Create()
 	wndClass.hIconSm = wndClass.hIcon;
 	wndClass.hInstance = desc.Instance;
 	wndClass.lpfnWndProc = (WNDPROC)WndProc;
-	wndClass.lpszClassName = L"Window";
+	wndClass.lpszClassName = desc.AppName.c_str();
 	wndClass.lpszMenuName = NULL;
 	wndClass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wndClass.cbSize = sizeof(WNDCLASSEX);
@@ -149,9 +149,18 @@ LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 
 void Window::MainRender()
 {
-
-
 	mainExecute->Update();
 
 	mainExecute->PreRender();
+
+	D3DDesc desc = D3D::GetDesc();
+
+	D3D::Get()->SetRenderTarget();
+	D3D::Get()->Clear(desc.Background);
+	{		
+		mainExecute->Render();
+		
+		mainExecute->PostRender();
+	}
+	D3D::Get()->Present();
 }
