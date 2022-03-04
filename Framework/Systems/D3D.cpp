@@ -34,7 +34,7 @@ void D3D::SetRenderTarget(ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* d
 {
 	if (rtv == nullptr)
 		rtv = renderTargetView;
-	if (dsv = nullptr)
+	if (dsv == nullptr)
 		dsv = depthStencilView;
 
 	D3D::GetDC()->OMSetRenderTargets(1, &rtv, dsv);

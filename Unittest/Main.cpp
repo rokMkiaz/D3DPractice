@@ -7,7 +7,7 @@
 
 void Main::Initialize()
 {
-	Push(new Test);
+	//Push(new Test);
 }
 
 void Main::Ready()

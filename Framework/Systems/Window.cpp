@@ -1,6 +1,8 @@
 #include"Framework.h"
-#include"IExecute.h"
 #include"Window.h"
+#include"IExecute.h"
+
+IExecute* Window::mainExecute = NULL;
 
 WPARAM Window::Run(IExecute* main)
 {
@@ -60,7 +62,7 @@ void Window::Create()
 	wndClass.cbSize = sizeof(WNDCLASSEX);
 
 	WORD wHr = RegisterClassEx(&wndClass);
-	Check(wHr != 0);
+	assert(wHr != 0);
 
 	if (desc.bFullScreen == true)
 	{
@@ -74,8 +76,8 @@ void Window::Create()
 		ChangeDisplaySettings(&devMode, CDS_FULLSCREEN);
 	}
 
-	desc.Handle = CreateWindowEx(
-
+	desc.Handle = CreateWindowEx
+	(
 		WS_EX_APPWINDOW,
 		desc.AppName.c_str(),
 		desc.AppName.c_str(),

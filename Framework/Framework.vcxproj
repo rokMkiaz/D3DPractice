@@ -183,12 +183,16 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Systems\D3D.cpp" />
+    <ClCompile Include="Systems\Keyboard.cpp" />
+    <ClCompile Include="Systems\Mouse.cpp" />
     <ClCompile Include="Systems\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Systems\D3D.h" />
     <ClInclude Include="Systems\IExecute.h" />
+    <ClInclude Include="Systems\Keyboard.h" />
+    <ClInclude Include="Systems\Mouse.h" />
     <ClInclude Include="Systems\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
