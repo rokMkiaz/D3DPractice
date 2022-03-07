@@ -12,73 +12,117 @@ bool Path::ExistFile(string path)
 
 bool Path::ExistFile(wstring path)
 {
-	return false;
+	DWORD fileValue = GetFileAttributes(path.c_str()); //파일 속성을 알아보는 용도
+
+	return fileValue < 0xFFFFFFFF;
 }
 
 bool Path::ExistDirectory(string path)
 {
-	return false;
+	return ExistDirectory(String::ToWString(path));
 }
 
 bool Path::ExistDirectory(wstring path)
 {
-	return false;
+	DWORD attribute = GetFileAttributes(path.c_str());
+
+	BOOL temp = (attribute != INVALID_FILE_ATTRIBUTES &&
+		(attribute & FILE_ATTRIBUTE_DIRECTORY));
+
+	return temp == TRUE;
 }
 
 string Path::Combine(string path1, string path2)
 {
-	return string();
+	return path1 + path2;
 }
 
 wstring Path::Combine(wstring path1, wstring path2)
 {
-	return wstring();
+	return path1 + path2;
 }
 
 string Path::Combine(vector<string> paths)
 {
-	return string();
+	string temp = "";
+	for (string path : paths)
+		temp += path;
+
+	return temp;
+}
+wstring Path::Combine(vector<wstring> paths)
+{
+	wstring temp = L"";
+	for (wstring path : paths)
+		temp += path;
+
+	return temp;
 }
 
 string Path::GetDirectoryName(string path)
 {
-	return string();
+	String::Replace(&path, "\\", "/");
+	size_t index = path.find_last_of('/');
+
+	return path.substr(0, index + 1);
 }
 
 wstring Path::GetDirectoryName(wstring path)
 {
-	return wstring();
+	String::Replace(&path, L"\\", L"/");
+	size_t index = path.find_last_of('/');
+
+	return path.substr(0, index + 1);
 }
 
 string Path::GetExtension(string path)
 {
-	return string();
+	String::Replace(&path, "\\", "/");
+	size_t index = path.find_last_of('.');
+
+	return path.substr(index + 1, path.length());;
 }
 
 wstring Path::GetExtension(wstring path)
 {
-	return wstring();
+	String::Replace(&path, L"\\", L"/");
+	size_t index = path.find_last_of('.');
+
+	return path.substr(index + 1, path.length());;
 }
 
 string Path::GetFileName(string path)
 {
-	return string();
+	String::Replace(&path, "\\", "/");
+	size_t index = path.find_last_of('/');
+
+	return path.substr(index + 1, path.length());
 }
 
 wstring Path::GetFileName(wstring path)
 {
-	return wstring();
+	String::Replace(&path, L"\\", L"/");
+	size_t index = path.find_last_of('/');
+
+	return path.substr(index + 1, path.length());
 }
 
 string Path::GetFileNameWithoutExtension(string path)
 {
-	return string();
+	string fileName = GetFileName(path);
+
+	size_t index = fileName.find_last_of('.');
+	return fileName.substr(0, index);
 }
 
 wstring Path::GetFileNameWithoutExtension(wstring path)
 {
-	return wstring();
+	wstring fileName = GetFileName(path);
+
+	size_t index = fileName.find_last_of('.');
+	return fileName.substr(0, index);
 }
+
 
 void Path::OpenFileDialog(wstring file, const WCHAR* filter, wstring folder, function<void(wstring)> func, HWND hwnd)
 {
