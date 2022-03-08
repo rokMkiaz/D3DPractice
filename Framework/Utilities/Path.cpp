@@ -123,21 +123,116 @@ wstring Path::GetFileNameWithoutExtension(wstring path)
 	return fileName.substr(0, index);
 }
 
+//분류
+const WCHAR* Path::ImageFilter = L"Image\0*.png;*.bmp;*.jpg";
+const WCHAR* Path::BinModelFilter = L"Binary Model\0*.model";
+const WCHAR* Path::FbxModelFilter = L"Fbx Model\0*.fbx;*.obj\0";
+const WCHAR* Path::ShaderFilter = L"HLSL file\0*.hlsl";
 
 void Path::OpenFileDialog(wstring file, const WCHAR* filter, wstring folder, function<void(wstring)> func, HWND hwnd)
 {
+	WCHAR name[255];
+	wcscpy_s(name, file.c_str());
+
+	wstring tempFolder = folder;
+	String::Replace(&tempFolder, L"/", L"\\");
+
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = hwnd;
+	ofn.lpstrFilter = filter;
+	ofn.lpstrFile = name;
+	ofn.lpstrFileTitle = L"불러오기";
+	ofn.nMaxFile = 255;
+	ofn.lpstrInitialDir = tempFolder.c_str();
+	ofn.Flags = OFN_NOCHANGEDIR;
+
+	if (GetOpenFileName(&ofn) == TRUE)
+	{
+		if (func != NULL)
+		{
+			wstring loadName = name;
+			String::Replace(&loadName, L"\\", L"/");
+
+			func(loadName);
+		}
+	}
 }
 
 void Path::SaveFileDialog(wstring file, const WCHAR* filter, wstring folder, function<void(wstring)> func, HWND hwnd)
 {
+	WCHAR name[255];
+	wcscpy_s(name, file.c_str());
+
+	wstring tempFolder = folder;
+	String::Replace(&tempFolder, L"/", L"\\");
+
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = hwnd;
+	ofn.lpstrFilter = filter;
+	ofn.lpstrFile = name;
+	ofn.lpstrFileTitle = L"저장하기";
+	ofn.nMaxFile = 255;
+	ofn.lpstrInitialDir = tempFolder.c_str();
+	ofn.Flags = OFN_NOCHANGEDIR;
+
+	if (GetSaveFileName(&ofn) == TRUE)
+	{
+		if (func != NULL)
+		{
+			wstring loadName = name;
+			String::Replace(&loadName, L"\\", L"/");
+
+			func(loadName);
+		}
+	}
+
 }
 
 void Path::GetFiles(vector<string>* files, string path, string filter, bool bFindSubFolder)
 {
+	vector<wstring> wFiles;
+	wstring wPath = String::ToWString(path);
+	wstring wFilter = String::ToWString(filter);
+
+	GetFiles(&wFiles, wPath, wFilter, bFindSubFolder);
+
+	for (wstring str : wFiles)
+		files->push_back(String::ToString(str));
 }
 
 void Path::GetFiles(vector<wstring>* files, wstring path, wstring filter, bool bFindSubFolder)
 {
+	wstring file = path + filter;
+
+	WIN32_FIND_DATA findData;
+	HANDLE handle = FindFirstFile(file.c_str(), &findData);
+
+	if (handle != INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			if (findData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
+			{
+				if (bFindSubFolder == true && findData.cFileName[0] != '.')
+				{
+					wstring folder = path + wstring(findData.cFileName) + L"/";
+
+					GetFiles(files, folder, filter, bFindSubFolder);
+				}
+			}
+			else
+			{
+				wstring fileName = path + wstring(findData.cFileName);
+				files->push_back(fileName);
+			}
+		} while (FindNextFile(handle, &findData));
+
+		FindClose(handle);
+	}
 }
 
 void Path::CreateFolder(string path)
