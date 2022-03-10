@@ -237,26 +237,44 @@ void Path::GetFiles(vector<wstring>* files, wstring path, wstring filter, bool b
 
 void Path::CreateFolder(string path)
 {
+	CreateFolder(String::ToWString(path));
 }
 
 void Path::CreateFolder(wstring path)
 {
+	if (ExistDirectory(path) == false)
+		CreateDirectory(path.c_str(), NULL); //출력에 파일이 없으면 폴더를 만들어라
 }
 
 void Path::CreateFolders(string path)
 {
+	CreateFolders(String::ToWString(path));
 }
 
 void Path::CreateFolders(wstring path)
 {
+	String::Replace(&path, L"\\", L"/");
+
+	vector<wstring> folders;
+	String::SplitString(&folders, path, L"/");
+
+	wstring temp = L"";
+	for (wstring folder : folders)
+	{
+		temp += folder + L"/";
+
+		CreateFolder(temp);
+	}
 }
 
 bool Path::IsRelativePath(string path)
 {
-	return false;
+	return IsRelativePath(String::ToWString(path));
 }
 
 bool Path::IsRelativePath(wstring path)
 {
-	return false;
+	BOOL b = PathIsRelative(path.c_str());  //경로 처리 함수
+
+	return b >= TRUE;
 }
