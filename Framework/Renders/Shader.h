@@ -92,7 +92,7 @@ private:
 	{
 		wstring name;
 		D3DX11_TECHNIQUE_DESC desc;
-		ID3DX11EffectTechnique* iTechnique;
+		ID3DX11EffectTechnique* iTechnique; //ID3DX11Effect는 렌더링 효과를 구현하기 위한 상태개체, 리소스 및 셰이더 집합을 관리 클래스
 
 		vector<Pass> passes;
 

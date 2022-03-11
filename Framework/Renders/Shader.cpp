@@ -146,6 +146,7 @@ void Shader::CreateEffect()
 
 ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHADER_DESC* effectVsDesc, vector<D3D11_SIGNATURE_PARAMETER_DESC>& params)
 {
+
 	std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
 
 	for (D3D11_SIGNATURE_PARAMETER_DESC& paramDesc : params)
