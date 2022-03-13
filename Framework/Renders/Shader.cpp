@@ -144,8 +144,9 @@ void Shader::CreateEffect()
 
 }
 
+//IA당시 정점 구성성분 특성에 따른 생성
 ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHADER_DESC* effectVsDesc, vector<D3D11_SIGNATURE_PARAMETER_DESC>& params)
-{
+{ 
 
 	std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
 
@@ -196,6 +197,15 @@ ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHA
 				elementDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		}
 
-
+		string name = paramDesc.SemanticName;
+		transform(name.begin(), name.end(), name.begin(), toupper);//특정 함수를 써서 값을 변경할 때 사용  /DirectTex.h 
+	
+		if (name == "POSITION")
+		{
+			elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+			//elementDesc.InputSlot = paramDesc.SemanticIndex;
+		}
 	}
 }
+
+

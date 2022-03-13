@@ -5,14 +5,14 @@
 
 
 //STL
-#include<string>
-#include<vector>
+#include <string>
+#include <vector>
 #include <functional>
-
+//#include <iterator>
+//#include <mutex> 
 using namespace std;
 
 //Direct3D
-
 #include <d3dcompiler.h> 
 #include <d3d11.h> 
 #include <d3dx10math.h> 
@@ -27,8 +27,13 @@ using namespace std;
 #pragma comment(lib, "d3dcompiler.lib") 
 #pragma comment(lib, "Effects11d.lib")
 
+//DirectXTex
+#include <DirectXTex.h>
+#pragma comment(lib, "directxtex.lib")
+
 
 #define Check(hr) { assert(SUCCEEDED(hr)); }
+#define Super __super
 
 #define SafeRelease(p){ if(p){ (p)->Release(); (p) = NULL; } }
 #define SafeDelete(p){ if(p){ delete (p); (p) = NULL; } }
