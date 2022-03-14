@@ -205,7 +205,233 @@ ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHA
 			elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
 			//elementDesc.InputSlot = paramDesc.SemanticIndex;
 		}
+		if (String::StartsWith(name, "INST") == true)
+		{
+			String::Replace(&name, "INST", "");
+			string start = name.substr(0, 1);
+			int slot = atoi(start.c_str());
+
+			elementDesc.InputSlot = slot;
+			elementDesc.AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
+			elementDesc.InputSlotClass = D3D11_INPUT_PER_INSTANCE_DATA;
+			elementDesc.InstanceDataStepRate = 1;
+		}
+
+		if (String::StartsWith(name, "SV_") == false)
+			inputLayoutDesc.push_back(elementDesc);
 	}
+
+	const void* pCode = effectVsDesc->pBytecode;
+	UINT pCodeSize = effectVsDesc->BytecodeLength;
+
+	if (inputLayoutDesc.size() > 0)
+	{
+		ID3D11InputLayout* inputLayout = NULL;
+		HRESULT hr = D3D::GetDevice()->CreateInputLayout
+		(
+			&inputLayoutDesc[0],
+			inputLayoutDesc.size(),
+			pCode,
+			pCodeSize,
+			&inputLayout
+		);
+		Check(hr);
+
+		return inputLayout;
+	}
+
+	return NULL;
+}
+void Shader::Pass::Draw(UINT vertexCount, UINT startVertexLocation)
+{
+	BeginDraw();
+	{
+		D3D::GetDC()->Draw(vertexCount, startVertexLocation);
+	}
+	EndDraw();
+}
+void Shader::Pass::DrawIndexed(UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
+{
+	BeginDraw();
+	{
+		D3D::GetDC()->DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
+	}
+	EndDraw();
 }
 
+void Shader::Pass::DrawInstanced(UINT vertexCountPerInstance, UINT instanceCount, UINT startVertexLocation, UINT startInstanceLocation)
+{
+	BeginDraw();
+	{
+		D3D::GetDC()->DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
+	}
+	EndDraw();
+}
 
+void Shader::Pass::DrawIndexedInstanced(UINT indexCountPerInstance, UINT instanceCount, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation)
+{
+	BeginDraw();
+	{
+		D3D::GetDC()->DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startIndexLocation);
+	}
+	EndDraw();
+}
+void Shader::Pass::BeginDraw()
+{
+	iPass->ComputeStateBlockMask(&stateBlockMask);
+	
+	D3D::GetDC()->IASetInputLayout(inputLayout);
+	iPass->Apply(0, D3D::GetDC());
+}
+void Shader::Pass::EndDraw()
+{
+	if (stateBlockMask.RSRasterizerState == 1)
+		D3D::GetDC()->RSSetState(stateBlock->rsRasterizerState);
+
+	if (stateBlockMask.OMDepthStencilState == 1)
+		D3D::GetDC()->OMSetDepthStencilState(stateBlock->omDepthStencilState, stateBlock->omStencilRef);
+
+	if (stateBlockMask.OMBlendState == 1)
+		D3D::GetDC()->OMSetBlendState(stateBlock->omBlendState, stateBlock->omBlendFactor, stateBlock->omSampleMask);
+
+	D3D::GetDC()->HSSetShader(NULL, NULL, 0);
+	D3D::GetDC()->DSSetShader(NULL, NULL, 0);
+	D3D::GetDC()->GSSetShader(NULL, NULL, 0);
+}
+void Shader::Pass::Dispatch(UINT x, UINT y, UINT z)
+{
+	iPass->Apply(0, D3D::GetDC());
+	D3D::GetDC()->Dispatch(x, y, z);
+
+
+	ID3D11ShaderResourceView* null[1] = { 0 };
+	D3D::GetDC()->CSSetShaderResources(0, 1, null);
+
+	ID3D11UnorderedAccessView* nullUav[1] = { 0 };
+	D3D::GetDC()->CSSetUnorderedAccessViews(0, 1, nullUav, NULL);
+
+	D3D::GetDC()->CSSetShader(NULL, NULL, 0);
+}
+void Shader::Technique::Draw(UINT pass, UINT vertexCount, UINT startVertexLocation)
+{
+	passes[pass].Draw(vertexCount, startVertexLocation);
+}
+void Shader::Technique::DrawIndexed(UINT pass, UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
+{
+	passes[pass].DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
+}
+
+void Shader::Technique::DrawInstanced(UINT pass, UINT vertexCountPerInstance, UINT instanceCount, UINT startVertexLocation, UINT startInstanceLocation)
+{
+	passes[pass].DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
+}
+
+void Shader::Technique::DrawIndexedInstanced(UINT pass, UINT indexCountPerInstance, UINT instanceCount, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation)
+{
+	passes[pass].DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
+}
+
+void Shader::Technique::Dispatch(UINT pass, UINT x, UINT y, UINT z)
+{
+	passes[pass].Dispatch(x, y, z);
+}
+
+void Shader::Draw(UINT technique, UINT pass, UINT vertexCount, UINT startVertexLocation)
+{
+	techniques[technique].passes[pass].Draw(vertexCount, startVertexLocation);
+}
+
+void Shader::DrawIndexed(UINT technique, UINT pass, UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
+{
+	techniques[technique].passes[pass].DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
+}
+
+void Shader::DrawInstanced(UINT technique, UINT pass, UINT vertexCountPerInstance, UINT instanceCount, UINT startVertexLocation, UINT startInstanceLocation)
+{
+	techniques[technique].passes[pass].DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
+}
+
+void Shader::DrawIndexedInstanced(UINT technique, UINT pass, UINT indexCountPerInstance, UINT instanceCount, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation)
+{
+	techniques[technique].passes[pass].DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
+}
+
+void Shader::Dispatch(UINT technique, UINT pass, UINT x, UINT y, UINT z)
+{
+	techniques[technique].passes[pass].Dispatch(x, y, z);
+}
+
+ID3DX11EffectVariable* Shader::Variable(string name)
+{
+	return effect->GetVariableByName(name.c_str());
+}
+
+ID3DX11EffectScalarVariable* Shader::AsScalar(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsScalar();
+}
+
+ID3DX11EffectVectorVariable* Shader::AsVector(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsVector();
+}
+
+ID3DX11EffectMatrixVariable* Shader::AsMatrix(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsMatrix();
+}
+
+ID3DX11EffectStringVariable* Shader::AsString(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsString();
+}
+
+ID3DX11EffectShaderResourceVariable* Shader::AsSRV(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsShaderResource();
+}
+
+ID3DX11EffectRenderTargetViewVariable* Shader::AsRTV(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsRenderTargetView();
+}
+
+ID3DX11EffectDepthStencilViewVariable* Shader::AsDSV(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsDepthStencilView();
+}
+
+ID3DX11EffectConstantBuffer* Shader::AsConstantBuffer(string name)
+{
+	return effect->GetConstantBufferByName(name.c_str());
+}
+
+ID3DX11EffectShaderVariable* Shader::AsShader(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsShader();
+}
+
+ID3DX11EffectBlendVariable* Shader::AsBlend(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsBlend();
+}
+
+ID3DX11EffectDepthStencilVariable* Shader::AsDepthStencil(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsDepthStencil();
+}
+
+ID3DX11EffectRasterizerVariable* Shader::AsRasterizer(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsRasterizer();
+}
+
+ID3DX11EffectSamplerVariable* Shader::AsSampler(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsSampler();
+}
+
+ID3DX11EffectUnorderedAccessViewVariable* Shader::AsUAV(string name)
+{
+	return effect->GetVariableByName(name.c_str())->AsUnorderedAccessView();
+}
