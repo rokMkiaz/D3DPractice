@@ -6,6 +6,7 @@ class Keyboard
 {
 public:
 	static Keyboard* Get();
+
 	static void Create();
 	static void Delete();
 
@@ -14,7 +15,6 @@ public:
 	bool Down(DWORD key) { return keyMap[key] == KEY_INPUT_STATUS_DOWN; }
 	bool Up(DWORD key) { return keyMap[key] == KEY_INPUT_STATUS_UP; }
 	bool Press(DWORD key) { return keyMap[key] == KEY_INPUT_STATUS_PRESS; }
-
 
 private:
 	Keyboard();
@@ -25,7 +25,6 @@ private:
 	byte keyState[MAX_INPUT_KEY];
 	byte keyOldState[MAX_INPUT_KEY];
 	byte keyMap[MAX_INPUT_KEY];
-
 
 	enum
 	{

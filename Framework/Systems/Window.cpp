@@ -12,6 +12,11 @@ WPARAM Window::Run(IExecute* main)
 	D3DDesc desc = D3D::GetDesc();
 
 	D3D::Create();
+	Keyboard::Create();
+	Mouse::Create();
+
+	Time::Create();
+	Time::Get()->Start();
 
 	mainExecute->Initialize();
 
@@ -35,6 +40,9 @@ WPARAM Window::Run(IExecute* main)
 	}
 	mainExecute->Destroy();
 
+	Time::Delete();
+	Mouse::Delete();
+	Keyboard::Delete();
 	D3D::Delete();
 
 	Destory();

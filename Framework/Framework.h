@@ -9,7 +9,7 @@
 #include <vector>
 #include <functional>
 //#include <iterator>
-//#include <mutex> 
+#include <mutex> 
 using namespace std;
 
 //Direct3D
@@ -50,6 +50,7 @@ typedef D3DXPLANE Plane;
 #include "Systems/D3D.h"
 #include "Systems/Keyboard.h"
 #include "Systems/Mouse.h"
+#include "Systems/Time.h"
 
 //TODO::
 #include "Viewer/Camera.h"
