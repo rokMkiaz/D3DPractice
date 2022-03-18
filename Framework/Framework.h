@@ -52,9 +52,14 @@ typedef D3DXPLANE Plane;
 #include "Systems/Mouse.h"
 #include "Systems/Time.h"
 
+#include "Viewer/Viewport.h"
+#include "Viewer/Projection.h"
+#include "Viewer/Perspective.h"
+
 //TODO::
 #include "Viewer/Camera.h"
 #include "Viewer/Freedom.h"
+
 
 #include "Renders/Shader.h"
 #include "Renders/VertexLayouts.h"
