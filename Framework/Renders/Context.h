@@ -37,6 +37,7 @@ private:
 	class Viewport* viewport;
 	class Camera* camera;
 
+	// 3D �ݻ籤
 	Color ambient = Color(0, 0, 0, 1);
 	Color specular = Color(1, 1, 1, 1);
 	Vector3 direction = Vector3(-1, -1, 1);
