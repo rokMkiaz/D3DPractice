@@ -1,7 +1,6 @@
 #include "Framework.h"
 #include "Projection.h"
 
-
 Projection::Projection()
 	: width(0), height(0), zn(0), zf(0), fov(0)
 {

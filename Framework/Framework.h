@@ -63,6 +63,7 @@ typedef D3DXPLANE Plane;
 
 #include "Renders/Shader.h"
 #include "Renders/VertexLayouts.h"
+#include "Renders/Context.h"
 
 #include "Utilities/String.h"
 #include "Utilities/Path.h"

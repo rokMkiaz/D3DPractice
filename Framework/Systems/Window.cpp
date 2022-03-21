@@ -159,6 +159,9 @@ LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 
 void Window::MainRender()
 {
+	Time::Get()->Update();
+	Context::Get()->Update();
+
 	mainExecute->Update();
 
 	mainExecute->PreRender();

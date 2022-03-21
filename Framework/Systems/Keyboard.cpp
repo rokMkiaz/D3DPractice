@@ -1,6 +1,8 @@
 #include"Framework.h"
 #include"Keyboard.h"
 
+Keyboard* Keyboard::instance = NULL;
+
 Keyboard* Keyboard::Get()
 {
 	assert(instance != NULL);

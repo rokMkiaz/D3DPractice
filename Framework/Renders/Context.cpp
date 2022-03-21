@@ -36,3 +36,37 @@ Context::~Context()
 	SafeDelete(viewport);
 	SafeDelete(camera);
 }
+void Context::ResizeScreen()
+{
+	perspective->Set(D3D::Width(), D3D::Height());
+	viewport->Set(D3D::Width(), D3D::Height());
+}
+void Context::Update()
+{
+	camera->Update();
+}
+void Context::Render()
+{
+	viewport->RSSetViewport();
+
+	Vector3 R;
+	camera->RotationDegree(&R);
+
+	Vector3 P;
+	camera->Position(&P);
+}
+Matrix Context::View()
+{
+	Matrix view;
+	camera->GetMatrix(&view);
+
+	return view;
+}
+
+D3DXMATRIX Context::Projection()
+{
+	Matrix projection;
+	perspective->GetMatrix(&projection);
+
+	return projection;
+}

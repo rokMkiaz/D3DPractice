@@ -3,9 +3,11 @@
 
 void Test::Initialize()
 {
+	Context::Get()->GetCamera()->RotationDegree(0, 0, 0);
+	Context::Get()->GetCamera()->Position(0, 0, -17);
+
 	shader = new Shader(L"07_Rect.fx");
 
-	int i = 0;
 
 	vertices[0].Position = Vector3(+0.0f, +0.0f, 0.0f);
 	vertices[1].Position = Vector3(+0.0f, +0.5f, 0.0f);
