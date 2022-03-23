@@ -67,6 +67,12 @@ typedef D3DXPLANE Plane;
 #include "Renders/iBuffer.h"
 #include "Renders/Buffers/VertexBuffer.h"
 #include "Renders/Buffers/IndexBuffer.h"
+#include "Renders/Buffers/ConstantBuffer.h"
+//Csbuffer
+#include "Renders/Buffers/CsResource.h"
+#include "Renders/Buffers/RawBuffer.h"
+#include "Renders/Buffers/TextureBuffer.h"
+#include "Renders/Buffers/StructuredBuffer.h"
 
 #include "Utilities/String.h"
 #include "Utilities/Path.h"
