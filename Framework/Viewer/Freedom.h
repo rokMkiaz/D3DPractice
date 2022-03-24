@@ -14,4 +14,3 @@ private:
 	float rotation = 5.0f;
 
 };
-#pragma once

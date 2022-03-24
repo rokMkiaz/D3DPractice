@@ -18,6 +18,8 @@ WPARAM Window::Run(IExecute* main)
 	Time::Create();
 	Time::Get()->Start();
 
+	Context::Create();
+
 	mainExecute->Initialize();
 
 	MSG msg = { 0 };
@@ -40,6 +42,7 @@ WPARAM Window::Run(IExecute* main)
 	}
 	mainExecute->Destroy();
 
+	Context::Delete();
 	Time::Delete();
 	Mouse::Delete();
 	Keyboard::Delete();
@@ -160,6 +163,8 @@ LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 void Window::MainRender()
 {
 	Time::Get()->Update();
+
+
 	Context::Get()->Update();
 
 	mainExecute->Update();
@@ -171,6 +176,8 @@ void Window::MainRender()
 	D3D::Get()->SetRenderTarget();
 	D3D::Get()->Clear(desc.Background);
 	{		
+		Context::Get()->Render();
+
 		mainExecute->Render();
 		
 		mainExecute->PostRender();
