@@ -202,6 +202,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Viewer\Freedom.cpp" />
     <ClCompile Include="Viewer\Perspective.cpp" />
     <ClCompile Include="Viewer\Projection.cpp" />
+    <ClCompile Include="Viewer\RenderTarget.cpp" />
     <ClCompile Include="Viewer\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -230,6 +231,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Viewer\Freedom.h" />
     <ClInclude Include="Viewer\Perspective.h" />
     <ClInclude Include="Viewer\Projection.h" />
+    <ClInclude Include="Viewer\RenderTarget.h" />
     <ClInclude Include="Viewer\Viewport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

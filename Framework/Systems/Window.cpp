@@ -164,6 +164,8 @@ void Window::MainRender()
 {
 	Time::Get()->Update();
 
+	Keyboard::Get()->Update();
+	Mouse::Get()->Update();
 
 	Context::Get()->Update();
 

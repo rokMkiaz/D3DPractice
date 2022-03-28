@@ -1,5 +1,6 @@
 #pragma once
-#include"Systems\IExecute.h"
+#include "Systems/IExecute.h"
+
 class Test : public IExecute
 {
 public:
@@ -15,6 +16,17 @@ public:
 private:
 	Shader* shader;
 
-	Vertex vertices[6];
+
+	UINT vertexCount;
+	Vertex* vertices;
 	ID3D11Buffer* vertexBuffer;
+
+	UINT indexCount;
+	UINT* indices;
+	ID3D11Buffer* indexBuffer;
+
+	Vector3 position = Vector3(0, 0, 0);
+	Vector3 rotation = Vector3(0, 0, 0);
+	Matrix world;
+	Color color = Color(0, 0, 1, 1);
 };
