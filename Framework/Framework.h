@@ -55,6 +55,9 @@ typedef D3DXPLANE Plane;
 #include "Viewer/Viewport.h"
 #include "Viewer/Projection.h"
 #include "Viewer/Perspective.h"
+#include "Viewer/Orthographic.h"
+#include "Viewer/RenderTarget.h"
+#include "Viewer/DepthStencil.h"
 
 //TODO::
 #include "Viewer/Camera.h"
