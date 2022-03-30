@@ -192,6 +192,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Renders\Texture.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
+    <ClCompile Include="Systems\Gui.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp" />
     <ClCompile Include="Systems\Mouse.cpp" />
     <ClCompile Include="Systems\Time.cpp" />
@@ -222,6 +223,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Renders\Texture.h" />
     <ClInclude Include="Renders\VertexLayouts.h" />
     <ClInclude Include="Systems\D3D.h" />
+    <ClInclude Include="Systems\Gui.h" />
     <ClInclude Include="Systems\IExecute.h" />
     <ClInclude Include="Systems\Keyboard.h" />
     <ClInclude Include="Systems\Mouse.h" />

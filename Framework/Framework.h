@@ -27,6 +27,12 @@ using namespace std;
 #pragma comment(lib, "d3dcompiler.lib") 
 #pragma comment(lib, "Effects11d.lib")
 
+//ImGui
+#include <ImGui_New/imgui.h>
+#include <ImGui_New/imgui_impl_dx11.h>
+#include <ImGui_New/imgui_impl_win32.h>
+#pragma comment(lib, "ImGui_New/imgui.lib")
+
 //DirectXTex
 #include <DirectXTex.h>
 #pragma comment(lib, "directxtex.lib")
