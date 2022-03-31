@@ -107,8 +107,10 @@ void Test::Destroy()
 
 void Test::Update()
 {
+	static float speed = 10.0f;
+	ImGui::SliderFloat("Speed", &speed, 5, 20);
 
-	float speed = 10.0f;
+
 
 	if (Keyboard::Get()->Press(VK_SHIFT))
 	{
@@ -134,11 +136,10 @@ void Test::Update()
 		else if (Keyboard::Get()->Press(VK_DOWN))
 			position.z -= speed * Time::Delta();
 	}
-
+	int i = 0;
 	Matrix R, T;
 	D3DXMatrixRotationYawPitchRoll(&R, rotation.y, rotation.x, rotation.z);
 	D3DXMatrixTranslation(&T, position.x, position.y, position.z);
-
 
 	world = R * T;
 }

@@ -18,6 +18,7 @@ WPARAM Window::Run(IExecute* main)
 	Time::Create();
 	Time::Get()->Start();
 
+	Gui::Create();
 	Context::Create();
 
 	mainExecute->Initialize();
@@ -43,6 +44,7 @@ WPARAM Window::Run(IExecute* main)
 	mainExecute->Destroy();
 
 	Context::Delete();
+	Gui::Delete();
 	Time::Delete();
 	Mouse::Delete();
 	Keyboard::Delete();
@@ -139,6 +141,10 @@ void Window::Destory()
 
 LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	Mouse::Get()->InputProc(message, wParam, lParam);
+
+	if (Gui::Get()->MsgProc(handle, message, wParam, lParam))
+		return true;
 
 	if (message == WM_SIZE)
 	{
@@ -146,6 +152,12 @@ LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			float width = (float)LOWORD(lParam);
 			float height = (float)HIWORD(lParam);
+
+			if (D3D::Get() != NULL)
+				D3D::Get()->ResizeScreen(width, height);
+
+			if (Context::Get() != NULL)
+				Context::Get()->ResizeScreen();
 
 			mainExecute->ResizeScreen();
 		}
@@ -164,9 +176,12 @@ void Window::MainRender()
 {
 	Time::Get()->Update();
 
-	Keyboard::Get()->Update();
-	Mouse::Get()->Update();
-
+	if (ImGui::IsMouseHoveringAnyWindow() == false)
+	{
+		Keyboard::Get()->Update();
+		Mouse::Get()->Update();
+	}
+	Gui::Get()->Update();
 	Context::Get()->Update();
 
 	mainExecute->Update();
@@ -183,6 +198,8 @@ void Window::MainRender()
 		mainExecute->Render();
 		
 		mainExecute->PostRender();
+
+		Gui::Get()->Render();
 	}
 	D3D::Get()->Present();
 }

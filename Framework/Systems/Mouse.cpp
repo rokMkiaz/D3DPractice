@@ -126,7 +126,22 @@ void Mouse::Update()
 
 LRESULT Mouse::InputProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return LRESULT();
+	if (message == WM_LBUTTONDOWN || message == WM_MOUSEMOVE)
+	{
+		position.x = (float)LOWORD(lParam);
+		position.y = (float)HIWORD(lParam);
+	}
+
+	if (message == WM_MOUSEWHEEL)
+	{
+		short tWheelValue = (short)HIWORD(wParam);
+
+		wheelOldStatus.z = wheelStatus.z;
+		wheelStatus.z += (float)tWheelValue;
+	}
+
+	return TRUE;
 }
+
 
 

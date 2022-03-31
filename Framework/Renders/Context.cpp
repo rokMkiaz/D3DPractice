@@ -49,11 +49,22 @@ void Context::Render()
 {
 	viewport->RSSetViewport();
 
+	string str = string("FrameRate : ") + to_string(ImGui::GetIO().Framerate);
+	Gui::Get()->RenderText(5, 5, 1, 1, 1, str);
+
 	Vector3 R;
 	camera->RotationDegree(&R);
 
 	Vector3 P;
 	camera->Position(&P);
+
+	str = "Camera Rotation : ";
+	str += to_string((int)R.x) + ", " + to_string((int)R.y) + ", " + to_string((int)R.z);
+	Gui::Get()->RenderText(5, 20, 1, 1, 1, str);
+
+	str = "Camera Position : ";
+	str += to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
+	Gui::Get()->RenderText(5, 35, 1, 1, 1, str);
 }
 Matrix Context::View()
 {

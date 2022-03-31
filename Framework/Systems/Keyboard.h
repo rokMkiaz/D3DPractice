@@ -1,6 +1,7 @@
 #pragma once
 
 #define MAX_INPUT_KEY 255
+#define MAX_INPUT_MOUSE 8
 
 class Keyboard
 {
