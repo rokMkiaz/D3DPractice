@@ -181,6 +181,7 @@ void Window::MainRender()
 		Keyboard::Get()->Update();
 		Mouse::Get()->Update();
 	}
+
 	Gui::Get()->Update();
 	Context::Get()->Update();
 

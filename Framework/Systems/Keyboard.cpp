@@ -29,6 +29,8 @@ void Keyboard::Update()
 	ZeroMemory(keyState, sizeof(keyState));
 	ZeroMemory(keyMap, sizeof(keyMap));
 
+	GetKeyboardState(keyState); //Keyboard의 Key입력이나 Mouse Button의 누름상태를 반환
+
 	for (DWORD i = 0; i < MAX_INPUT_KEY; i++)
 	{
 		byte key = keyState[i] & 0x80;

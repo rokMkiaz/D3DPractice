@@ -136,7 +136,9 @@ void Test::Update()
 		else if (Keyboard::Get()->Press(VK_DOWN))
 			position.z -= speed * Time::Delta();
 	}
-	int i = 0;
+
+	position.x += speed * Time::Delta();
+	
 	Matrix R, T;
 	D3DXMatrixRotationYawPitchRoll(&R, rotation.y, rotation.x, rotation.z);
 	D3DXMatrixTranslation(&T, position.x, position.y, position.z);
