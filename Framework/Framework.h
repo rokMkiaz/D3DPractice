@@ -88,6 +88,9 @@ typedef D3DXPLANE Plane;
 #include "Renders/Buffers/RawBuffer.h"
 #include "Renders/Buffers/TextureBuffer.h"
 #include "Renders/Buffers/StructuredBuffer.h"
+#include "Renders/Transform.h"
+#include "Renders/Renderer.h"
 
+#include "Utilities/Math.h"
 #include "Utilities/String.h"
 #include "Utilities/Path.h"

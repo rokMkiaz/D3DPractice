@@ -73,15 +73,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir).Dx2010\Include;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)$(SolutionDir).Dx2010\Lib\x86;</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)\Include\;$(SolutionDir).Dx2010\Include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir).Dx2010\Lib\x86;</LibraryPath>
     <TargetExt>.lib</TargetExt>
     <IntDir>$(SolutionDir)Debug_$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir).Dx2010\Include;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)$(SolutionDir).Dx2010\Lib\x86;</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath)\Include\;$(SolutionDir).Dx2010\Include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir).Dx2010\Lib\x86;</LibraryPath>
     <TargetExt>.lib</TargetExt>
     <IntDir>$(SolutionDir)Debug_$(ProjectName)\</IntDir>
   </PropertyGroup>
@@ -189,14 +189,17 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Renders\Buffers\TextureBuffer.cpp" />
     <ClCompile Include="Renders\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Renders\Context.cpp" />
+    <ClCompile Include="Renders\Renderer.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Renders\Texture.cpp" />
+    <ClCompile Include="Renders\Transform.cpp" />
     <ClCompile Include="Systems\D3D.cpp" />
     <ClCompile Include="Systems\Gui.cpp" />
     <ClCompile Include="Systems\Keyboard.cpp" />
     <ClCompile Include="Systems\Mouse.cpp" />
     <ClCompile Include="Systems\Time.cpp" />
     <ClCompile Include="Systems\Window.cpp" />
+    <ClCompile Include="Utilities\Math.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
     <ClCompile Include="Viewer\Camera.cpp" />
@@ -219,8 +222,10 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Renders\Buffers\VertexBuffer.h" />
     <ClInclude Include="Renders\Context.h" />
     <ClInclude Include="Renders\iBuffer.h" />
+    <ClInclude Include="Renders\Renderer.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="Renders\Texture.h" />
+    <ClInclude Include="Renders\Transform.h" />
     <ClInclude Include="Renders\VertexLayouts.h" />
     <ClInclude Include="Systems\D3D.h" />
     <ClInclude Include="Systems\Gui.h" />
@@ -229,6 +234,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Systems\Mouse.h" />
     <ClInclude Include="Systems\Time.h" />
     <ClInclude Include="Systems\Window.h" />
+    <ClInclude Include="Utilities\Math.h" />
     <ClInclude Include="Utilities\Path.h" />
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Viewer\Camera.h" />
