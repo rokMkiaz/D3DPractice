@@ -17,13 +17,13 @@ Renderer::Renderer(wstring shaderFile)
 
 void Renderer::Initialize()
 {
-	//perFrame = new PerFrame(shader);
+	perFrame = new PerFrame(shader);
 	transform = new Transform(shader);
 }
 
 Renderer::~Renderer()
 {
-	//SafeDelete(perFrame);
+	SafeDelete(perFrame);
 	SafeDelete(transform);
 
 	SafeDelete(vertexBuffer);
@@ -35,7 +35,7 @@ Renderer::~Renderer()
 
 void Renderer::Update()
 {
-	//perFrame->Update();
+	perFrame->Update();
 	transform->Update();
 }
 
@@ -51,6 +51,6 @@ void Renderer::Render()
 
 	D3D::GetDC()->IASetPrimitiveTopology(topology);
 
-	//perFrame->Render();
+	perFrame->Render();
 	transform->Render();
 }
