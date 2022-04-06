@@ -32,8 +32,9 @@ void D3D::Delete()
 
 void D3D::SetRenderTarget(ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* dsv)
 {
-	if (rtv == nullptr)
+	if (rtv == nullptr)//널이들어오면 시스템, 아니면 사용자
 		rtv = renderTargetView;
+
 	if (dsv == nullptr)
 		dsv = depthStencilView;
 
@@ -61,8 +62,8 @@ void D3D::ResizeScreen(float width, float height) //백버퍼삭제, 창조절 이후 백버
 {
 	if (width < 1 || height < 1)
 		return;
-	d3dDesc.Width = width;
-	d3dDesc.Height = height;
+	d3dDesc.width = width;
+	d3dDesc.height = height;
 
 	DeleteBackBuffer(); 
 	{
@@ -76,8 +77,8 @@ D3D::D3D()
 	:numerator(0),denominator(1)
 {
 	SetGpuInfo();
-	CreateSwapChainAndDevic();
-	CreateBackBuffer(d3dDesc.Width, d3dDesc.Height);
+	CreateSwapChainAndDevice();
+	CreateBackBuffer(d3dDesc.width, d3dDesc.height);
 }
 
 D3D::~D3D()
@@ -158,8 +159,8 @@ bool D3D::EnumerateAdapterOutput(D3DEnumAdapterInfo* adapterInfo)
 	for (UINT i = 0; i < numModes; i++)
 	{
 		bool isCheck = true;
-		isCheck &= displayModes[i].Width == d3dDesc.Width;
-		isCheck &= displayModes[i].Height == d3dDesc.Height;
+		isCheck &= displayModes[i].Width == d3dDesc.width;
+		isCheck &= displayModes[i].Height == d3dDesc.height;
 
 		if (isCheck == true)
 		{
@@ -179,7 +180,7 @@ void D3D::SetGpuInfo()
 	EnumerateAdapters();
 }
 
-void D3D::CreateSwapChainAndDevic()
+void D3D::CreateSwapChainAndDevice()
 {
 	SafeRelease(device);
 	SafeRelease(deviceContext);
@@ -205,16 +206,16 @@ void D3D::CreateSwapChainAndDevic()
 	}
 
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.OutputWindow = d3dDesc.Handle;
+	swapChainDesc.OutputWindow = d3dDesc.handle;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.Windowed = !d3dDesc.bFullScreen;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	swapChainDesc.Flags = 0;
 
-	UINT creationFlage = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 #if defined(_DEBUG)
-	creationFlage = D3DCOMPILE_PREFER_FLOW_CONTROL | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+	creationFlags = D3DCOMPILE_PREFER_FLOW_CONTROL | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
 	D3D_FEATURE_LEVEL featureLevels[] =
@@ -243,7 +244,7 @@ void D3D::CreateSwapChainAndDevic()
 		adapterInfos[selectedAdapterIndex]->adapter,
 		D3D_DRIVER_TYPE_UNKNOWN,
 		NULL,
-		creationFlage,
+		creationFlags,
 		featureLevels,
 		1,
 		D3D11_SDK_VERSION,

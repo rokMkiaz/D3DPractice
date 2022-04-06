@@ -5,14 +5,14 @@ class D3DEnumAdapterInfo;
 
 struct D3DDesc
 {
-	wstring AppName;
-	HINSTANCE Instance;
-	HWND Handle;
-	float Width;
-	float Height;
+	wstring appName;
+	HINSTANCE instance;
+	HWND handle;
+	float width;
+	float height;
 	bool bVsync;
 	bool bFullScreen;
-	D3DXCOLOR Background;
+	D3DXCOLOR background;
 };
 
 class D3D
@@ -40,12 +40,12 @@ public:
 
 	static float Width()
 	{
-		return d3dDesc.Width;
+		return d3dDesc.width;
 	}
 
 	static float Height()
 	{
-		return d3dDesc.Height;
+		return d3dDesc.height;
 	}
 
 	static const D3DDesc& GetDesc()
@@ -55,7 +55,7 @@ public:
 
 	static const HWND& GetHandle()
 	{
-		return d3dDesc.Handle;
+		return d3dDesc.handle;
 	}
 
 	static void SetDesc(D3DDesc& desc)
@@ -82,7 +82,7 @@ private:
 
 	static void SetGpuInfo();
 	
-	void CreateSwapChainAndDevic();
+	void CreateSwapChainAndDevice();
 
 	void CreateBackBuffer(float width, float height);
 	void DeleteBackBuffer();

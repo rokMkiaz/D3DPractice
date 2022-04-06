@@ -121,7 +121,7 @@ Gui::Gui()
 
 	D3DDesc desc = D3D::GetDesc();
 
-	ImGui_ImplWin32_Init(desc.Handle);
+	ImGui_ImplWin32_Init(desc.handle);
 	ImGui_ImplDX11_Init(D3D::GetDevice(), D3D::GetDC());
 
 	ApplyStyle();

@@ -250,6 +250,7 @@ void Shader::Pass::Draw(UINT vertexCount, UINT startVertexLocation)
 	}
 	EndDraw();
 }
+
 void Shader::Pass::DrawIndexed(UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
 {
 	BeginDraw();
@@ -276,13 +277,15 @@ void Shader::Pass::DrawIndexedInstanced(UINT indexCountPerInstance, UINT instanc
 	}
 	EndDraw();
 }
+
 void Shader::Pass::BeginDraw()
 {
 	iPass->ComputeStateBlockMask(&stateBlockMask);
-	
+
 	D3D::GetDC()->IASetInputLayout(inputLayout);
 	iPass->Apply(0, D3D::GetDC());
 }
+
 void Shader::Pass::EndDraw()
 {
 	if (stateBlockMask.RSRasterizerState == 1)
@@ -298,6 +301,7 @@ void Shader::Pass::EndDraw()
 	D3D::GetDC()->DSSetShader(NULL, NULL, 0);
 	D3D::GetDC()->GSSetShader(NULL, NULL, 0);
 }
+
 void Shader::Pass::Dispatch(UINT x, UINT y, UINT z)
 {
 	iPass->Apply(0, D3D::GetDC());
@@ -312,10 +316,12 @@ void Shader::Pass::Dispatch(UINT x, UINT y, UINT z)
 
 	D3D::GetDC()->CSSetShader(NULL, NULL, 0);
 }
+
 void Shader::Technique::Draw(UINT pass, UINT vertexCount, UINT startVertexLocation)
 {
 	passes[pass].Draw(vertexCount, startVertexLocation);
 }
+
 void Shader::Technique::DrawIndexed(UINT pass, UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
 {
 	passes[pass].DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);

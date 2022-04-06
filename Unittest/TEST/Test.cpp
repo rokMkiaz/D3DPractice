@@ -148,6 +148,7 @@ void Test::Update()
 
 void Test::Render()
 {
+
 	shader->AsVector("Color")->SetFloatVector(color);
 	shader->AsMatrix("World")->SetMatrix(world);
 	shader->AsMatrix("View")->SetMatrix(Context::Get()->View());

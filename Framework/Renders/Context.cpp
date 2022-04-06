@@ -26,8 +26,8 @@ Context::Context()
 {
 	D3DDesc desc = D3D::GetDesc();
 
-	perspective = new Perspective(desc.Width, desc.Height);
-	viewport = new Viewport(desc.Width, desc.Height);
+	perspective = new Perspective(desc.width, desc.height);
+	viewport = new Viewport(desc.width, desc.height);
 	camera = new Freedom();
 }
 Context::~Context()
