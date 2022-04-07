@@ -82,8 +82,8 @@ void Shader::CreateEffect()
 		assert(false);
 	}
 	Check(D3DX11CreateEffectFromMemory(fxBlob->GetBufferPointer(), fxBlob->GetBufferSize(), 0, D3D::GetDevice(), &effect));
+	
 	effect->GetDesc(&effectDesc);
-
 	for (UINT i = 0; i < effectDesc.Techniques; i++)
 	{
 		Technique technique;

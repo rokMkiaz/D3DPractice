@@ -191,6 +191,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Renders\Buffers\TextureBuffer.cpp" />
     <ClCompile Include="Renders\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Renders\Context.cpp" />
+    <ClCompile Include="Renders\DebugLine.cpp" />
     <ClCompile Include="Renders\PerFrame.cpp" />
     <ClCompile Include="Renders\Renderer.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
@@ -226,6 +227,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Renders\Buffers\TextureBuffer.h" />
     <ClInclude Include="Renders\Buffers\VertexBuffer.h" />
     <ClInclude Include="Renders\Context.h" />
+    <ClInclude Include="Renders\DebugLine.h" />
     <ClInclude Include="Renders\iBuffer.h" />
     <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Renderer.h" />

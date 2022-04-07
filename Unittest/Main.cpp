@@ -28,12 +28,14 @@ void Main::Update()
 {
 	for (IExecute* exe : executes)
 		exe->Update();
+
 }
 
 void Main::PreRender()
 {
 	for (IExecute* exe : executes)
 		exe->PreRender();
+
 }
 
 void Main::Render()

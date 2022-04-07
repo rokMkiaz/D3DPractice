@@ -162,5 +162,5 @@ void Test::Render()
 	D3D::GetDC()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	D3D::GetDC()->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-	shader->DrawIndexed(0, 1, indexCount);
+	shader->DrawIndexed(0, 0, indexCount);
 }
