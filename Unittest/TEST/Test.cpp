@@ -107,6 +107,7 @@ void Test::Destroy()
 
 void Test::Update()
 {
+	Context::Get()->GetCamera()->Update();
 	static float speed = 10.0f;
 	ImGui::SliderFloat("Speed", &speed, 5, 20);
 

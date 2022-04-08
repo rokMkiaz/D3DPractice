@@ -70,6 +70,7 @@ typedef D3DXPLANE Plane;
 #include "Viewer/Orthographic.h"
 #include "Viewer/RenderTarget.h"
 #include "Viewer/DepthStencil.h"
+#include "Viewer/Fixity.h"
 
 //TODO::
 #include "Viewer/Camera.h"
@@ -79,6 +80,7 @@ typedef D3DXPLANE Plane;
 #include "Renders/Shader.h"
 #include "Renders/VertexLayouts.h"
 #include "Renders/Context.h"
+#include "Renders/DebugLine.h"
 #include "Renders/iBuffer.h"
 #include "Renders/Buffers/VertexBuffer.h"
 #include "Renders/Buffers/IndexBuffer.h"

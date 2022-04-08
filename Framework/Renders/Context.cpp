@@ -44,6 +44,7 @@ void Context::ResizeScreen()
 void Context::Update()
 {
 	camera->Update();
+
 }
 void Context::Render()
 {

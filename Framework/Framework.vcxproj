@@ -203,6 +203,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Systems\Mouse.cpp" />
     <ClCompile Include="Systems\Time.cpp" />
     <ClCompile Include="Systems\Window.cpp" />
+    <ClCompile Include="Viewer\Fixity.cpp" />
     <ClCompile Include="Utilities\Math.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
@@ -247,6 +248,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Utilities\String.h" />
     <ClInclude Include="Viewer\Camera.h" />
     <ClInclude Include="Viewer\DepthStencil.h" />
+    <ClInclude Include="Viewer\Fixity.h" />
     <ClInclude Include="Viewer\Freedom.h" />
     <ClInclude Include="Viewer\Orthographic.h" />
     <ClInclude Include="Viewer\Perspective.h" />
