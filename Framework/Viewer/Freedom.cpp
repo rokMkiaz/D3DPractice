@@ -12,6 +12,7 @@ Freedom::~Freedom()
 
 void Freedom::Update()
 {
+
 	if (Mouse::Get()->Press(1) == false) return;
 
 	//»ó´ë

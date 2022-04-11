@@ -185,7 +185,6 @@ void Window::MainRender()
 	}
 
 	Gui::Get()->Update();
-
 	Context::Get()->Update();
 	DebugLine::Get()->Update();
 
