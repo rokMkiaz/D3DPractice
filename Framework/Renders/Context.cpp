@@ -43,6 +43,7 @@ void Context::ResizeScreen()
 }
 void Context::Update()
 {
+
 	camera->Update();
 
 }
@@ -63,9 +64,12 @@ void Context::Render()
 	str += to_string((int)R.x) + ", " + to_string((int)R.y) + ", " + to_string((int)R.z);
 	Gui::Get()->RenderText(5, 20, 1, 1, 1, str);
 
-	str = "Camera Position : ";
-	str += to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
-	Gui::Get()->RenderText(5, 35, 1, 1, 1, str);
+	//str = "Camera Position : ";
+	//str += to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
+	//Gui::Get()->RenderText(5, 35, 1, 1, 1, str);
+
+
+
 }
 Matrix Context::View()
 {
@@ -73,6 +77,8 @@ Matrix Context::View()
 	camera->GetMatrix(&view);
 
 	return view;
+
+
 }
 
 D3DXMATRIX Context::Projection()

@@ -158,8 +158,12 @@ LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 			if (D3D::Get() != NULL)
 				D3D::Get()->ResizeScreen(width, height);
 
+
+
 			if (Context::Get() != NULL)
 				Context::Get()->ResizeScreen();
+
+
 
 			mainExecute->ResizeScreen();
 		}
@@ -183,6 +187,7 @@ void Window::MainRender()
 		Keyboard::Get()->Update();
 		Mouse::Get()->Update();
 	}
+
 
 	Gui::Get()->Update();
 	Context::Get()->Update();
