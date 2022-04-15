@@ -112,7 +112,6 @@ void Test::Update()
 	ImGui::SliderFloat("Speed", &speed, 5, 20);
 
 
-
 	if (Keyboard::Get()->Press(VK_SHIFT))
 	{
 		if (Keyboard::Get()->Press(VK_RIGHT))
@@ -149,6 +148,8 @@ void Test::Update()
 
 void Test::Render()
 {
+
+
 
 	shader->AsVector("Color")->SetFloatVector(color);
 	shader->AsMatrix("World")->SetMatrix(world);

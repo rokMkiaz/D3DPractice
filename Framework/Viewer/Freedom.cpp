@@ -12,18 +12,31 @@ Freedom::~Freedom()
 
 void Freedom::Update()
 {
-
 	if (Mouse::Get()->Press(1) == false) return;
+
 
 	//상대
 	Vector3 f = Forward();
 	Vector3 u = Up();
 	Vector3 r = Right();
 
+
+	if (Keyboard::Get()->Press(VK_RIGHT))
+	{
+		string str;
+		Vector3 P;
+		str = "Camera Position : ";
+		str += to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
+		Gui::Get()->RenderText(5, 35, 1, 1, 1, str);
+	}
+
+
 	//절대
 	//Vector3 f = Vector3(0, 0, 1);
 	//Vector3 u = Vector3(0, 1, 0);
 	//Vector3 r = Vector3(1, 0, 0);
+
+
 
 	//Move
 	{
@@ -59,6 +72,8 @@ void Freedom::Update()
 
 		Rotation(R);
 	}
+
+
 }
 
 void Freedom::Speed(float move, float rotation)

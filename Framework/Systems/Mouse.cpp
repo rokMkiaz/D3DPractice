@@ -52,6 +52,8 @@ Mouse::~Mouse()
 
 void Mouse::Update()
 {
+
+
 	memcpy(buttonOldStatus, buttonStatus, sizeof(buttonOldStatus));
 
 	ZeroMemory(buttonStatus, sizeof(buttonStatus));
@@ -77,8 +79,8 @@ void Mouse::Update()
 	}
 
 	POINT point;
-	GetCursorPos(&point);
-	ScreenToClient(handle, &point);
+	GetCursorPos(&point);//전체 화면 기준인 커서의 좌표를 해당 클라이언트 좌표로 변환해주는 함수
+	ScreenToClient(handle, &point); //윈도우를 기준으로 설정된 좌표를 전체화면 기준으로 변환해주는 함수
 
 	wheelOldStatus.x = wheelStatus.x;
 	wheelOldStatus.y = wheelStatus.y;
@@ -142,6 +144,5 @@ LRESULT Mouse::InputProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 	return TRUE;
 }
-
 
 
