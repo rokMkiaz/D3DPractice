@@ -14,19 +14,20 @@ public:
 	virtual void ResizeScreen() override {}
 
 private:
+	void LoadTexture(wstring file);
+
+private:
 	Shader* shader;
 
-
-	UINT vertexCount;
-	Vertex* vertices;
+	VertexTexture vertices[6];
 	ID3D11Buffer* vertexBuffer;
+	//VertexBuffer* vertexBuffer;
 
-	UINT indexCount;
-	UINT* indices;
+	UINT indices[6] = { 0, 1, 2, 2, 1, 3 };
 	ID3D11Buffer* indexBuffer;
+	//IndexBuffer* indexBuffer;
 
-	Vector3 position = Vector3(0, 0, 0);
-	Vector3 rotation = Vector3(0, 0, 0);
 	Matrix world;
-	Color color = Color(0, 0, 1, 1);
+	//ID3D11ShaderResourceView* srv;
+	Texture* texture = NULL;
 };

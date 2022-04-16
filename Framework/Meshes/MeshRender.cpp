@@ -25,6 +25,8 @@ MeshRender::~MeshRender()
 void MeshRender::Update()
 {
 	mesh->Update();
+
+
 }
 
 void MeshRender::Render()

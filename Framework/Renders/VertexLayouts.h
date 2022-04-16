@@ -36,3 +36,13 @@ struct VertexColor
 };
 
 //=======================================================================================
+
+struct VertexTexture
+{
+	VertexTexture()
+		: Position(0, 0, 0)
+		, Uv(0, 0) {}
+
+	Vector3	Position;
+	Vector2	Uv;
+};

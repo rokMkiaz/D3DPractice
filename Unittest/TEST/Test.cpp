@@ -3,70 +3,27 @@
 
 void Test::Initialize()
 {
-	//TODO::
-	Context::Get()->GetCamera()->RotationDegree(27, 0, 0);
-	Context::Get()->GetCamera()->Position(9, 15, -16);
+	Context::Get()->GetCamera()->Position(0, 0, -5.0f);
 
-	shader = new Shader(L"15_Cube.fx");
+	shader = new Shader(L"16_Texture.fx");
 
-	float  w = 0.5f, h = 0.5f, d = 0.5f;
+	vertices[0].Position = Vector3(-0.5f, -0.5f, 0.0f);
+	vertices[1].Position = Vector3(-0.5f, +0.5f, 0.0f);
+	vertices[2].Position = Vector3(+0.5f, -0.5f, 0.0f);
+	vertices[3].Position = Vector3(+0.5f, +0.5f, 0.0f);
 
-	vertexCount = 24;
-	vertices = new Vertex[vertexCount];
+	vertices[0].Uv = Vector2(0, 1);
+	vertices[1].Uv = Vector2(0, 0);
+	vertices[2].Uv = Vector2(1, 1);
+	vertices[3].Uv = Vector2(1, 0);
 
-	//Front
-	vertices[0].Position = Vector3(-w, -h, -d);
-	vertices[1].Position = Vector3(-w, +h, -d);
-	vertices[2].Position = Vector3(+w, -h, -d);
-	vertices[3].Position = Vector3(+w, +h, -d);
-
-	//Back
-	vertices[4].Position = Vector3(-w, -h, +d);
-	vertices[5].Position = Vector3(+w, -h, +d);
-	vertices[6].Position = Vector3(-w, +h, +d);
-	vertices[7].Position = Vector3(+w, +h, +d);
-
-	//Top
-	vertices[8].Position = Vector3(-w, +h, -d);
-	vertices[9].Position = Vector3(-w, +h, +d);
-	vertices[10].Position = Vector3(+w, +h, -d);
-	vertices[11].Position = Vector3(+w, +h, +d);
-
-	//Bottom
-	vertices[12].Position = Vector3(-w, -h, -d);
-	vertices[13].Position = Vector3(+w, -h, -d);
-	vertices[14].Position = Vector3(-w, -h, +d);
-	vertices[15].Position = Vector3(+w, -h, +d);
-
-	//Left
-	vertices[16].Position = Vector3(-w, -h, +d);
-	vertices[17].Position = Vector3(-w, +h, +d);
-	vertices[18].Position = Vector3(-w, -h, -d);
-	vertices[19].Position = Vector3(-w, +h, -d);
-
-	//Right
-	vertices[20].Position = Vector3(+w, -h, -d);
-	vertices[21].Position = Vector3(+w, +h, -d);
-	vertices[22].Position = Vector3(+w, -h, +d);
-	vertices[23].Position = Vector3(+w, +h, +d);
-
-
-	indexCount = 36;
-	indices = new UINT[indexCount]
-	{
-		0, 1, 2, 2, 1, 3,
-		4, 5, 6, 6, 5, 7,
-		8, 9, 10, 10, 9, 11,
-		12, 13, 14, 14, 13, 15,
-		16, 17, 18, 18, 17, 19,
-		20, 21, 22, 22, 21, 23
-	};
-
+	//vertexBuffer = new VertexBuffer(vertices,4,0);
+	//indexBuffer = new IndexBuffer(indices,6);
 	//Create Vertex Buffer
 	{
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
-		desc.ByteWidth = sizeof(Vertex) * vertexCount;
+		desc.ByteWidth = sizeof(VertexTexture) * 4;
 		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA subResource = { 0 };
@@ -75,14 +32,11 @@ void Test::Initialize()
 		Check(D3D::GetDevice()->CreateBuffer(&desc, &subResource, &vertexBuffer));
 	}
 
-
-
-
 	//Create Index Buffer
 	{
 		D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(D3D11_BUFFER_DESC));
-		desc.ByteWidth = sizeof(UINT) * indexCount;
+		desc.ByteWidth = sizeof(UINT) * 6;
 		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA subResource = { 0 };
@@ -91,78 +45,60 @@ void Test::Initialize()
 		Check(D3D::GetDevice()->CreateBuffer(&desc, &subResource, &indexBuffer));
 	}
 
-	SafeDeleteArray(vertices);
-	SafeDeleteArray(indices);
-
-
 	D3DXMatrixIdentity(&world);
+
 }
 void Test::Destroy()
 {
 	SafeDelete(shader);
 
+	//SafeDelete(vertexBuffer);
+	//SafeDelete(indexBuffer);
 	SafeRelease(vertexBuffer);
 	SafeRelease(indexBuffer);
+
+	//SafeRelease(srv);
+	SafeDelete(texture);
 }
 
 void Test::Update()
 {
-	Context::Get()->GetCamera()->Update();
-	static float speed = 10.0f;
-	ImGui::SliderFloat("Speed", &speed, 5, 20);
-
-
-	if (Keyboard::Get()->Press(VK_SHIFT))
+	if (ImGui::Button("Open") == true)
 	{
-		if (Keyboard::Get()->Press(VK_RIGHT))
-			rotation.x += speed * Time::Delta();
-		else if (Keyboard::Get()->Press(VK_LEFT))
-			rotation.x -= speed * Time::Delta();
+		function<void(wstring)> f = bind(&Test::LoadTexture, this, placeholders::_1);
 
-		if (Keyboard::Get()->Press(VK_UP))
-			rotation.z += speed * Time::Delta();
-		else if (Keyboard::Get()->Press(VK_DOWN))
-			rotation.z -= speed * Time::Delta();
-	}
-	else
-	{
-		if (Keyboard::Get()->Press(VK_RIGHT))
-			position.x += speed * Time::Delta();
-		else if (Keyboard::Get()->Press(VK_LEFT))
-			position.x -= speed * Time::Delta();
-
-		if (Keyboard::Get()->Press(VK_UP))
-			position.z += speed * Time::Delta();
-		else if (Keyboard::Get()->Press(VK_DOWN))
-			position.z -= speed * Time::Delta();
+		D3DDesc desc = D3D::GetDesc();
+		Path::OpenFileDialog(L"", Path::ImageFilter, L"../../_Textures/", f, desc.handle);
 	}
 
-	position.x += speed * Time::Delta();
-	
-	Matrix R, T;
-	D3DXMatrixRotationYawPitchRoll(&R, rotation.y, rotation.x, rotation.z);
-	D3DXMatrixTranslation(&T, position.x, position.y, position.z);
 
-	world = R * T;
 }
 
 void Test::Render()
 {
-
-
-
-	shader->AsVector("Color")->SetFloatVector(color);
 	shader->AsMatrix("World")->SetMatrix(world);
 	shader->AsMatrix("View")->SetMatrix(Context::Get()->View());
 	shader->AsMatrix("Projection")->SetMatrix(Context::Get()->Projection());
 
+	if (texture != NULL)
+		shader->AsSRV("Map")->SetResource(texture->SRV());
 
-	UINT stride = sizeof(Vertex);
+
+	UINT stride = sizeof(VertexTexture);
 	UINT offset = 0;
 
-	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//vertexBuffer->Render();
+	//indexBuffer->Render();
 	D3D::GetDC()->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	D3D::GetDC()->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	shader->DrawIndexed(0, 0, indexCount);
+	shader->DrawIndexed(0, 0, 6);
+}
+
+void Test::LoadTexture(wstring file)
+{
+	SafeDelete(texture);
+
+	texture = new Texture(file);
 }

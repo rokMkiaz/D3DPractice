@@ -41,6 +41,7 @@ void Renderer::Update()
 
 void Renderer::Render()
 {
+
 	if (vertexBuffer != NULL)
 	{
 		vertexBuffer->Render();

@@ -21,14 +21,7 @@ void Freedom::Update()
 	Vector3 r = Right();
 
 
-	if (Keyboard::Get()->Press(VK_RIGHT))
-	{
-		string str;
-		Vector3 P;
-		str = "Camera Position : ";
-		str += to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
-		Gui::Get()->RenderText(5, 35, 1, 1, 1, str);
-	}
+
 
 
 	//Àý´ë

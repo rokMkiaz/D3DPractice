@@ -53,6 +53,8 @@ void DebugLine::RenderLine(Vector3& start, Vector3& end, Color& color)
 }
 void DebugLine::Update()
 {
+
+
 	Matrix world;
 	D3DXMatrixIdentity(&world);
 

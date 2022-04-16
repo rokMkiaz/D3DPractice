@@ -42,6 +42,7 @@ VertexBuffer::~VertexBuffer()
 
 void VertexBuffer::Render()
 {
+
 	UINT offset = 0;
 	D3D::GetDC()->IASetVertexBuffers(slot, 1, &buffer, &stride, &offset);
 }
