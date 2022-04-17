@@ -46,3 +46,26 @@ struct VertexTexture
 	Vector3	Position;
 	Vector2	Uv;
 };
+
+//=======================================================================================
+
+struct VertexNormal
+{
+	VertexNormal()
+		: Position(0, 0, 0)
+		, Normal(0, 0, 0) {}
+
+	VertexNormal(float x, float y, float z, float nx, float ny, float nz)
+	{
+		Position.x = x;
+		Position.y = y;
+		Position.z = z;
+
+		Normal.x = nx;
+		Normal.y = ny;
+		Normal.z = nz;
+	}
+
+	Vector3 Position;
+	Vector3 Normal;
+};

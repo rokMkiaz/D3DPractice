@@ -3,11 +3,13 @@
 #include "Systems/Window.h"
 
 
-#include"TEST/Test.h"
+#include"TEST/TextureLoadDemo.h"
+#include"TEST/HeightMapDemo.h"
 
 void Main::Initialize()
 {
-	Push(new Test);
+	Push(new HeightMapDemo);
+	//Push(new TextureLoadDemo);
 }
 
 void Main::Ready()
