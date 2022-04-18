@@ -13,6 +13,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{B864BF01-00A0-49A6-9DAD-137CD01EB614}"
 	ProjectSection(SolutionItems) = preProject
 		..\_Shaders\07_Rect.fx = ..\_Shaders\07_Rect.fx
+		..\_Shaders\09_World.fx = ..\_Shaders\09_World.fx
 		..\_Shaders\15_Cube.fx = ..\_Shaders\15_Cube.fx
 		..\_Shaders\ShaderCompiler.exe = ..\_Shaders\ShaderCompiler.exe
 	EndProjectSection

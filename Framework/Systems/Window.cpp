@@ -34,8 +34,6 @@ WPARAM Window::Run(IExecute* main)
 
 			TranslateMessage(&msg);//msg변수에 키보드 메시지가 들어 있을 경우 키에 대응하는 문자생성
 			DispatchMessage(&msg);
-			
-		
 		}
 		else
 		{
@@ -119,7 +117,8 @@ void Window::Create()
 	(
 		desc.handle,
 		centerX, centerY,
-		rect.right - rect.left, rect.bottom - rect.top,
+		rect.right - rect.left,
+		rect.bottom - rect.top,
 		TRUE
 	);
 	ShowWindow(desc.handle, SW_SHOWNORMAL);
@@ -187,8 +186,6 @@ void Window::MainRender()
 		Keyboard::Get()->Update();
 		Mouse::Get()->Update();
 	}
-
-
 	Gui::Get()->Update();
 	Context::Get()->Update();
 	DebugLine::Get()->Update();
@@ -203,12 +200,12 @@ void Window::MainRender()
 	D3D::Get()->Clear(desc.background);
 	{		
 		Context::Get()->Render();
-
+		
 		mainExecute->Render();
 		DebugLine::Get()->Render();
 		
 		mainExecute->PostRender();
-
+		
 		Gui::Get()->Render();
 	}
 	D3D::Get()->Present();

@@ -3,7 +3,6 @@
 
 void HeightMapDemo::Initialize()
 {
-
 	Context::Get()->GetCamera()->RotationDegree(20, 69, 0);
 	Context::Get()->GetCamera()->Position(-34, 29, 6.0f);
 
@@ -11,7 +10,7 @@ void HeightMapDemo::Initialize()
 
 
 	terrain = new Terrain(shader, L"Terrain/Graymap2.png");
-	terrain->Pass(0);
+	terrain->Pass(1);
 
 	triShader = new Shader(L"09_World.fx");
 
@@ -37,7 +36,18 @@ void HeightMapDemo::Destroy()
 
 void HeightMapDemo::Update()
 {
-	terrain->Update();
+
+
+	position = terrain->GetRaycastPosition();
+	position.y = terrain->GetVerticalRaycast(position) + 1.0f;
+	
+	string str = "";
+	str += to_string(position.x) + ", ";
+	str += to_string(position.y) + ", ";
+	str += to_string(position.z) + ", ";
+	
+	Gui::Get()->RenderText(Vector2(10, 60), Color(1, 0, 0, 1), str);
+
 
 	if (Keyboard::Get()->Press(VK_RIGHT))
 		position.x += 20.0f * Time::Delta();
@@ -50,7 +60,6 @@ void HeightMapDemo::Update()
 	else if (Keyboard::Get()->Press(VK_DOWN))
 		position.z -= 20.0f * Time::Delta();
 
-	position.y = terrain->GetVerticalRaycast(position) + 1.0f;
 
 	Vector3 start(position.x, 50, position.z);
 	Vector3 end = Vector3(position.x, 0.0f, position.z);
@@ -66,11 +75,20 @@ void HeightMapDemo::Update()
 	triShader->AsMatrix("World")->SetMatrix(world);
 	triShader->AsMatrix("View")->SetMatrix(Context::Get()->View());
 	triShader->AsMatrix("Projection")->SetMatrix(Context::Get()->Projection());
+
+
+	terrain->Update();
+}
+
+void HeightMapDemo::PreRender()
+{
+
 }
 
 
 void HeightMapDemo::Render()
 {
+
 	terrain->Render();
 
 	UINT stride = sizeof(Vertex);
@@ -83,7 +101,5 @@ void HeightMapDemo::Render()
 	triShader->Draw(0, 0, 3);
 
 	string str = to_string(position.x) + ", " + to_string(position.y) + ", " + to_string(position.z);
-	Gui::Get()->RenderText(5, 60, str);
+	Gui::Get()->RenderText(5, 75, str);
 }
-
-

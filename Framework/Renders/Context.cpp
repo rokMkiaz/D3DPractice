@@ -43,14 +43,11 @@ void Context::ResizeScreen()
 }
 void Context::Update()
 {
-
 	camera->Update();
-
 
 }
 void Context::Render()
 {
-	viewport->RSSetViewport();
 
 	string str = string("FrameRate : ") + to_string(ImGui::GetIO().Framerate);
 	Gui::Get()->RenderText(5, 5, 1, 1, 1, str);
@@ -68,10 +65,7 @@ void Context::Render()
 	str = "Camera Position : ";
 	str += to_string((int)P.x) + ", " + to_string((int)P.y) + ", " + to_string((int)P.z);
 	Gui::Get()->RenderText(5, 35, 1, 1, 1, str);
-
 	viewport->RSSetViewport();
-
-
 
 }
 Matrix Context::View()

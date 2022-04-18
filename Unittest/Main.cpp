@@ -8,8 +8,8 @@
 
 void Main::Initialize()
 {
-	Push(new HeightMapDemo);
-	//Push(new TextureLoadDemo);
+	//Push(new HeightMapDemo);
+	Push(new TextureLoadDemo);
 }
 
 void Main::Ready()
@@ -28,6 +28,7 @@ void Main::Destroy()
 
 void Main::Update()
 {
+
 	for (IExecute* exe : executes)
 		exe->Update();
 
@@ -35,6 +36,8 @@ void Main::Update()
 
 void Main::PreRender()
 {
+
+
 	for (IExecute* exe : executes)
 		exe->PreRender();
 
@@ -43,6 +46,7 @@ void Main::PreRender()
 
 void Main::Render()
 {
+
 	for (IExecute* exe : executes)
 		exe->Render();
 
@@ -50,6 +54,7 @@ void Main::Render()
 
 void Main::PostRender()
 {
+
 	for (IExecute* exe : executes)
 		exe->PostRender();
 
@@ -65,6 +70,11 @@ void Main::ResizeScreen()
 
 void Main::Push(IExecute* execute)
 {
+	if (Keyboard::Get()->Press(VK_RIGHT))
+	{
+		string str = string("RIGHT KEY PRESS");
+		Gui::Get()->RenderText(5, 90, 1, 1, 1, str);
+	}
 	executes.push_back(execute);
 
 	execute->Initialize();

@@ -34,7 +34,7 @@ void D3D::SetRenderTarget(ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* d
 {
 	if (rtv == nullptr)//널이들어오면 시스템, 아니면 사용자
 		rtv = renderTargetView;
-
+	
 	if (dsv == nullptr)
 		dsv = depthStencilView;
 
@@ -62,6 +62,7 @@ void D3D::ResizeScreen(float width, float height) //백버퍼삭제, 창조절 이후 백버
 {
 	if (width < 1 || height < 1)
 		return;
+
 	d3dDesc.width = width;
 	d3dDesc.height = height;
 
@@ -77,6 +78,8 @@ D3D::D3D()
 	:numerator(0),denominator(1)
 {
 	SetGpuInfo();
+
+
 	CreateSwapChainAndDevice();
 	CreateBackBuffer(d3dDesc.width, d3dDesc.height);
 }
@@ -267,7 +270,8 @@ void D3D::CreateBackBuffer(float width, float height)
 		ID3D11Texture2D* backBufferPointer;
 		hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBufferPointer);
 		Check(hr)
-			hr = D3D:: GetDevice()->CreateRenderTargetView(backBufferPointer, NULL, &renderTargetView);
+
+		hr = D3D:: GetDevice()->CreateRenderTargetView(backBufferPointer, NULL, &renderTargetView);
 		Check(hr)
 
 			SafeRelease(backBufferPointer);
