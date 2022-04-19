@@ -7,6 +7,7 @@ RenderTarget::RenderTarget(UINT width, UINT height, DXGI_FORMAT format)
 	this->width = (width < 1) ? (UINT)D3D::Width() : width;
 	this->height = (height < 1) ? (UINT)D3D::Height() : height;
 
+
 	D3D11_TEXTURE2D_DESC textureDesc;
 	ZeroMemory(&textureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 	textureDesc.Width = this->width;
@@ -30,7 +31,9 @@ RenderTarget::RenderTarget(UINT width, UINT height, DXGI_FORMAT format)
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 	Check(D3D::GetDevice()->CreateShaderResourceView(texture, &srvDesc, &srv));
+
 }
+
  
 RenderTarget::~RenderTarget()
 {

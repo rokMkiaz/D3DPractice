@@ -68,6 +68,7 @@ void Time::Start()
 		assert(false);
 
 	QueryPerformanceCounter((LARGE_INTEGER*)&lastTime);
+	isTimerStopped = false; // 1개월만에 Freedom작동 불능 오류 확인...
 }
 void Time::Stop()
 {
@@ -77,7 +78,7 @@ void Time::Stop()
 	INT64 stopTime = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&stopTime);
 	runningTime += (float)(stopTime - lastTime) / (float)ticksPerSecond;
-	isTimerStopped = true;
+	isTimerStopped = true; 
 }
 
 //Timer///////////////////////////////////////////////////////////////////

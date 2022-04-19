@@ -18,19 +18,14 @@ void Freedom::Update()
 
 
 	//상대
-	Vector3 f = Forward();
-	Vector3 u = Up();
-	Vector3 r = Right();
-
-
-
-
+	Vector3 f = Super::Forward();
+	Vector3 u = Super::Up();
+	Vector3 r = Super::Right();
 
 	//절대
 	//Vector3 f = Vector3(0, 0, 1);
 	//Vector3 u = Vector3(0, 1, 0);
 	//Vector3 r = Vector3(1, 0, 0);
-
 
 
 	//Move

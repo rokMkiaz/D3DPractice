@@ -19,14 +19,12 @@ void Camera::Position(float x, float y, float z)
 {
 	Position(Vector3(x, y, z));
 }
-
 void Camera::Position(Vector3& vec)
 {
 	position = vec;
 
 	Move();
 }
-
 void Camera::Position(Vector3* vec)
 {
 	*vec = position;
