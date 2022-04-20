@@ -29,7 +29,6 @@ private:
 
 	Texture* heightMap;
 
-
 	UINT width, height;
 
 	UINT vertexCount;

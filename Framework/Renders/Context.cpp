@@ -29,6 +29,7 @@ Context::Context()
 	perspective = new Perspective(desc.width, desc.height);
 	viewport = new Viewport(desc.width, desc.height);
 	camera = new Freedom();
+
 }
 Context::~Context()
 {

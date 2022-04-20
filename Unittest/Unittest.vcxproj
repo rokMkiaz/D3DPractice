@@ -25,13 +25,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TEST\HeightMapDemo.cpp" />
-    <ClCompile Include="TEST\TextureLoadDemo.cpp" />
+    <ClCompile Include="TEST\LoadDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TEST\HeightMapDemo.h" />
-    <ClInclude Include="TEST\TextureLoadDemo.h" />
+    <ClInclude Include="TEST\LoadDemo.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
