@@ -417,6 +417,7 @@ ID3DX11EffectDepthStencilViewVariable* Shader::AsDSV(string name)
 ID3DX11EffectConstantBuffer* Shader::AsConstantBuffer(string name)
 {
 	return effect->GetConstantBufferByName(name.c_str());
+	
 }
 
 ID3DX11EffectShaderVariable* Shader::AsShader(string name)

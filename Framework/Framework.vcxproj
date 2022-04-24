@@ -204,6 +204,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Objects\PostEffect.cpp" />
     <ClCompile Include="Objects\Projector.cpp" />
     <ClCompile Include="Objects\Shadow.cpp" />
+    <ClCompile Include="Objects\Tessellation.cpp" />
     <ClCompile Include="Renders\Buffers\ConstantBuffer.cpp" />
     <ClCompile Include="Renders\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Renders\Buffers\RawBuffer.cpp" />
@@ -264,6 +265,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Objects\PostEffect.h" />
     <ClInclude Include="Objects\Projector.h" />
     <ClInclude Include="Objects\Shadow.h" />
+    <ClInclude Include="Objects\Tessellation.h" />
     <ClInclude Include="Renders\Buffers\ConstantBuffer.h" />
     <ClInclude Include="Renders\Buffers\CsResource.h" />
     <ClInclude Include="Renders\Buffers\IndexBuffer.h" />

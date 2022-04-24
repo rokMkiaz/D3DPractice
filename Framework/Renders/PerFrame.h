@@ -67,5 +67,5 @@ private:
 	ConstantBuffer* spotLightBuffer;
 	ID3DX11EffectConstantBuffer* sSpotLightBuffer;
 
-	float SubDivisionLevel = 1.0f;
+	float SubDivisionLevel = 10.0f;
 };
