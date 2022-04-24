@@ -18,15 +18,16 @@ void Freedom::Update()
 
 
 	//상대
-	Vector3 f = Super::Forward();
-	Vector3 u = Super::Up();
-	Vector3 r = Super::Right();
+	Vector3 f = Forward(); 
+	Vector3 u = Up();
+	Vector3 r= Right();
 
 	//절대
 	//Vector3 f = Vector3(0, 0, 1);
 	//Vector3 u = Vector3(0, 1, 0);
 	//Vector3 r = Vector3(1, 0, 0);
 
+	
 
 	//Move
 	{
@@ -52,7 +53,7 @@ void Freedom::Update()
 	}
 	//Rotation
 	{
-		Vector3 R;
+		Vector3 R ;
 		Rotation(&R);
 
 		Vector3 val = Mouse::Get()->GetMoveValue();
@@ -62,8 +63,6 @@ void Freedom::Update()
 
 		Rotation(R);
 	}
-
-
 }
 
 void Freedom::Speed(float move, float rotation)

@@ -1,9 +1,9 @@
-#include"Framework.h"
-#include"Keyboard.h"
+#include "framework.h"
+#include "Keyboard.h"
 
 Keyboard* Keyboard::instance = NULL;
 
-Keyboard* Keyboard::Get()
+Keyboard * Keyboard::Get()
 {
 	assert(instance != NULL);
 
@@ -24,12 +24,15 @@ void Keyboard::Delete()
 
 void Keyboard::Update()
 {
+
+
 	memcpy(keyOldState, keyState, sizeof(keyOldState));
 
 	ZeroMemory(keyState, sizeof(keyState));
 	ZeroMemory(keyMap, sizeof(keyMap));
 
-	GetKeyboardState(keyState); //Keyboard의 Key입력이나 Mouse Button의 누름상태를 반환
+
+	GetKeyboardState(keyState);
 
 	for (DWORD i = 0; i < MAX_INPUT_KEY; i++)
 	{
@@ -59,4 +62,5 @@ Keyboard::Keyboard()
 
 Keyboard::~Keyboard()
 {
+
 }

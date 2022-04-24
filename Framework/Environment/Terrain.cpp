@@ -15,7 +15,6 @@ Terrain::Terrain(Shader* shader, wstring heightFile)
 	vertexBuffer = new VertexBuffer(vertices, vertexCount, stride);
 	indexBuffer = new IndexBuffer(indices, indexCount);
 
-
 	D3DXMatrixIdentity(&world);
 }
 
@@ -29,6 +28,7 @@ Terrain::~Terrain()
 	SafeDelete(vertexBuffer);
 	SafeDelete(indexBuffer);
 }
+
 void Terrain::Update()
 {
 
@@ -36,11 +36,14 @@ void Terrain::Update()
 	ImGui::SliderFloat3("Direction", direction, -1, 1);
 	shader->AsVector("Direction")->SetFloatVector(direction);
 
+
+
+
 	shader->AsMatrix("World")->SetMatrix(world);
 	shader->AsMatrix("View")->SetMatrix(Context::Get()->View());
 	shader->AsMatrix("Projection")->SetMatrix(Context::Get()->Projection());
 }
-
+ 
 void Terrain::Render()
 {
 	UINT stride = sizeof(TerrainVertex);
@@ -51,6 +54,7 @@ void Terrain::Render()
 	indexBuffer->Render();
 
 	shader->DrawIndexed(0, pass, indexCount);
+
 }
 
 float Terrain::GetHeight(Vector3& position)
@@ -90,6 +94,7 @@ float Terrain::GetHeight(Vector3& position)
 
 	return result.y;
 }
+
 float Terrain::GetVerticalRaycast(Vector3& position)
 {
 	UINT x = (UINT)position.x;
@@ -172,6 +177,8 @@ Vector3 Terrain::GetRaycastPosition()
 
 	return Vector3(-1, FLT_MIN, -1); //지형 어느 곳에도 충돌 x
 }
+
+
 void Terrain::CreateVertexData()
 {
 	vector<Color> heights;
@@ -179,7 +186,7 @@ void Terrain::CreateVertexData()
 
 	width = heightMap->GetWidth();
 	height = heightMap->GetHeight();
-
+	
 	vertexCount = width * height;
 	vertices = new TerrainVertex[vertexCount];
 	for (UINT z = 0; z < height; z++)
@@ -200,13 +207,13 @@ void Terrain::CreateIndexData()
 {
 
 	//그리드 그리기
-	indexCount = (width - 1) * (height - 1) * 6;
+	indexCount = (width-1) * (height-1) * 6;
 	indices = new UINT[indexCount];
 
 	UINT index = 0;
-	for (UINT y = 0; y < height - 1; y++)
+	for (UINT y = 0; y < height-1; y++)
 	{
-		for (UINT x = 0; x < width - 1; x++)
+		for (UINT x = 0; x < width-1; x++)
 		{
 			indices[index + 0] = width * y + x;
 			indices[index + 1] = width * (y + 1) + x;
@@ -247,3 +254,4 @@ void Terrain::CreateNormalData()
 	for (UINT i = 0; i < vertexCount; i++)
 		D3DXVec3Normalize(&vertices[i].Normal, &vertices[i].Normal);
 }
+

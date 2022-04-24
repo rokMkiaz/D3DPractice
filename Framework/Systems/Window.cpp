@@ -1,6 +1,6 @@
-#include"Framework.h"
-#include"Window.h"
-#include"IExecute.h"
+#include "Framework.h"
+#include "Window.h"
+#include "IExecute.h"
 
 IExecute* Window::mainExecute = NULL;
 
@@ -22,7 +22,11 @@ WPARAM Window::Run(IExecute* main)
 	Context::Create();
 	DebugLine::Create();
 
+	Lighting::Create();
+
+
 	mainExecute->Initialize();
+
 
 	MSG msg = { 0 };
 	while (true)
@@ -32,16 +36,19 @@ WPARAM Window::Run(IExecute* main)
 			if (msg.message == WM_QUIT)
 				break;
 
-			TranslateMessage(&msg);//msg변수에 키보드 메시지가 들어 있을 경우 키에 대응하는 문자생성
+			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
 		else
 		{
+		
 			MainRender();
 		}
 	}
 	mainExecute->Destroy();
 
+
+	Lighting::Delete();
 	DebugLine::Delete();
 	Context::Delete();
 	Gui::Delete();
@@ -50,15 +57,15 @@ WPARAM Window::Run(IExecute* main)
 	Keyboard::Delete();
 	D3D::Delete();
 
-	Destory();
-	
-	 
+	Destroy();
+
 	return msg.wParam;
 }
 
 void Window::Create()
 {
 	D3DDesc desc = D3D::GetDesc();
+
 
 	WNDCLASSEX wndClass;
 	wndClass.cbClsExtra = 0;
@@ -91,21 +98,22 @@ void Window::Create()
 
 	desc.handle = CreateWindowEx
 	(
-		WS_EX_APPWINDOW,
-		desc.appName.c_str(),
-		desc.appName.c_str(),
-		WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		NULL,
-		(HMENU)NULL,
-		desc.instance,
-		NULL
+		WS_EX_APPWINDOW
+		, desc.appName.c_str()
+		, desc.appName.c_str()
+		, WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW
+		, CW_USEDEFAULT
+		, CW_USEDEFAULT
+		, CW_USEDEFAULT
+		, CW_USEDEFAULT
+		, NULL
+		, (HMENU)NULL
+		, desc.instance
+		, NULL
 	);
 	assert(desc.handle != NULL);
 	D3D::SetDesc(desc);
+
 
 	RECT rect = { 0, 0, (LONG)desc.width, (LONG)desc.height };
 
@@ -115,20 +123,19 @@ void Window::Create()
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 	MoveWindow
 	(
-		desc.handle,
-		centerX, centerY,
-		rect.right - rect.left,
-		rect.bottom - rect.top,
-		TRUE
+		desc.handle
+		, centerX, centerY
+		, rect.right - rect.left, rect.bottom - rect.top
+		, TRUE
 	);
 	ShowWindow(desc.handle, SW_SHOWNORMAL);
 	SetForegroundWindow(desc.handle);
 	SetFocus(desc.handle);
-	
+
 	ShowCursor(true);
 }
 
-void Window::Destory()
+void Window::Destroy()
 {
 	D3DDesc desc = D3D::GetDesc();
 
@@ -140,7 +147,7 @@ void Window::Destory()
 	UnregisterClass(desc.appName.c_str(), desc.instance);
 }
 
-LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	Mouse::Get()->InputProc(message, wParam, lParam);
 
@@ -157,12 +164,8 @@ LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 			if (D3D::Get() != NULL)
 				D3D::Get()->ResizeScreen(width, height);
 
-
-
 			if (Context::Get() != NULL)
 				Context::Get()->ResizeScreen();
-
-
 
 			mainExecute->ResizeScreen();
 		}
@@ -174,6 +177,7 @@ LRESULT Window::WndProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 
 		return 0;
 	}
+
 	return DefWindowProc(handle, message, wParam, lParam);
 }
 
@@ -186,27 +190,29 @@ void Window::MainRender()
 		Keyboard::Get()->Update();
 		Mouse::Get()->Update();
 	}
+
 	Gui::Get()->Update();
 	Context::Get()->Update();
 	DebugLine::Get()->Update();
 
 	mainExecute->Update();
 
-	mainExecute->PreRender();
+	mainExecute->PreRender(); //렌더타겟화면을 쓰기위한 렌더
 
 	D3DDesc desc = D3D::GetDesc();
 
 	D3D::Get()->SetRenderTarget();
-	D3D::Get()->Clear(desc.background);
-	{		
+	D3D::Get()->Clear(desc.background); 
+	{
 		Context::Get()->Render();
-		
+
 		mainExecute->Render();
 		DebugLine::Get()->Render();
-		
+
 		mainExecute->PostRender();
-		
+
 		Gui::Get()->Render();
 	}
 	D3D::Get()->Present();
 }
+

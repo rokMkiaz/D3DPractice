@@ -33,7 +33,7 @@ protected:
 
 protected:
 	void View();
-
+	
 protected:
 	Matrix matView; //ºä Çà·Ä
 

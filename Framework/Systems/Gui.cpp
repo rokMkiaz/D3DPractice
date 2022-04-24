@@ -1,5 +1,5 @@
-#include"Framework.h"
-#include"Gui.h"
+#include "Framework.h"
+#include "Gui.h"
 
 Gui* Gui::instance = NULL;
 
@@ -9,19 +9,22 @@ void Gui::Create()
 
 	instance = new Gui();
 }
+
 void Gui::Delete()
 {
 	SafeDelete(instance);
 }
 
-Gui* Gui::Get()
+Gui * Gui::Get()
 {
 	return instance;
 }
+
 LRESULT Gui::MsgProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return ImGui_ImplWin32_Proc(handle, message, wParam, lParam);
 }
+
 void Gui::Resize()
 {
 	ImGui_ImplDX11_InvalidateDeviceObjects();
@@ -34,6 +37,7 @@ void Gui::Update()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 }
+
 void Gui::Render()
 {
 	ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -57,6 +61,7 @@ void Gui::Render()
 		ImGuiWindowFlags_NoDocking |
 		ImGuiWindowFlags_NoNavFocus
 	);
+
 	for (GuiText text : texts)
 	{
 		ImVec2 position = ImVec2(text.Position.x, text.Position.y);
@@ -67,6 +72,19 @@ void Gui::Render()
 	texts.clear();
 	ImGui::End();
 
+
+	//DockingPannel();
+
+	/*for (Widget* widget : widgets)
+	{
+	if (widget->Visible() == true)
+	{
+	widget->Begin();
+	widget->Render();
+	widget->End();
+	}
+	}*/
+
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
@@ -76,17 +94,18 @@ void Gui::Render()
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 	}
-
 }
-void Gui::AddWidget(Widget* widget)
+
+void Gui::AddWidget(Widget * widget)
 {
 	widgets.push_back(widget);
 }
 
-void Gui::RenderText(GuiText& text)
+void Gui::RenderText(GuiText & text)
 {
 	texts.push_back(text);
 }
+
 void Gui::RenderText(float x, float y, string content)
 {
 	GuiText text;
@@ -96,6 +115,7 @@ void Gui::RenderText(float x, float y, string content)
 
 	RenderText(text);
 }
+
 void Gui::RenderText(float x, float y, float r, float g, float b, string content)
 {
 	GuiText text;
@@ -105,6 +125,7 @@ void Gui::RenderText(float x, float y, float r, float g, float b, string content
 
 	RenderText(text);
 }
+
 void Gui::RenderText(D3DXVECTOR2 position, D3DXCOLOR color, string content)
 {
 	GuiText text;
@@ -114,6 +135,7 @@ void Gui::RenderText(D3DXVECTOR2 position, D3DXCOLOR color, string content)
 
 	RenderText(text);
 }
+
 Gui::Gui()
 {
 	IMGUI_CHECKVERSION();
@@ -133,6 +155,7 @@ Gui::~Gui()
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 }
+
 void Gui::ApplyStyle()
 {
 	ImGui::GetIO().ConfigWindowsResizeFromEdges = true;
@@ -204,4 +227,3 @@ void Gui::ApplyStyle()
 	style.Colors[ImGuiCol_PopupBg] = backgroundVeryDark;
 	style.Colors[ImGuiCol_DragDropTarget] = backgroundLight;
 }
-

@@ -24,8 +24,10 @@ void Mesh::SetShader(Shader* shader)
 	SafeDelete(perFrame);
 	perFrame = new PerFrame(shader);
 }
+
 void Mesh::Update()
 {
+
 	perFrame->Update();
 }
 

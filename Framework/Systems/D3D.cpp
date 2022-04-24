@@ -1,9 +1,8 @@
-#include"Framework.h"
-#include"D3D.h"
+#include "Framework.h"
+#include "D3D.h"
 
-//정적 변수 초기화
-vector<D3DEnumAdapterInfo*> D3D::adapterInfos;
-int D3D::selectedAdapterIndex = -1;
+vector<D3DEnumAdapterInfo*> D3D::apapterInfos;
+int D3D::selected_adapter_index = -1;
 
 D3D* D3D::instance = nullptr;
 
@@ -14,6 +13,8 @@ IDXGISwapChain* D3D::swapChain = nullptr;
 
 D3D* D3D::Get()
 {
+	//assert(instance != NULL);
+
 	return instance;
 }
 
@@ -28,7 +29,6 @@ void D3D::Delete()
 {
 	SafeDelete(instance);
 }
-
 
 void D3D::SetRenderTarget(ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* dsv)
 {
@@ -50,7 +50,7 @@ void D3D::Clear(D3DXCOLOR color, ID3D11RenderTargetView* rtv, ID3D11DepthStencil
 		dsv = depthStencilView;
 
 	deviceContext->ClearRenderTargetView(rtv, color);
-	deviceContext->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	deviceContext->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0); //깊이를 가지고 클리어 하느냐
 }
 
 void D3D::Present()
@@ -58,27 +58,26 @@ void D3D::Present()
 	swapChain->Present(d3dDesc.bVsync == true ? 1 : 0, 0);
 }
 
-void D3D::ResizeScreen(float width, float height) //백버퍼삭제, 창조절 이후 백버퍼 재형성
+void D3D::ResizeScreen(float width, float height)
 {
 	if (width < 1 || height < 1)
 		return;
-
+	
 	d3dDesc.width = width;
 	d3dDesc.height = height;
-
-	DeleteBackBuffer(); 
+	
+	DeleteBackBuffer();
 	{
 		HRESULT hr = swapChain->ResizeBuffers(0, (UINT)width, (UINT)height, DXGI_FORMAT_UNKNOWN, 0);
 		assert(SUCCEEDED(hr));
 	}
 	CreateBackBuffer(width, height);
-}	
+}
 
 D3D::D3D()
-	:numerator(0),denominator(1)
+	: numerator(0), denominator(1)
 {
 	SetGpuInfo();
-
 
 	CreateSwapChainAndDevice();
 	CreateBackBuffer(d3dDesc.width, d3dDesc.height);
@@ -96,7 +95,7 @@ D3D::~D3D()
 	SafeRelease(swapChain);
 }
 
-void D3D::EnumerateAdapters() //어댑터 찾기
+void D3D::EnumerateAdapters()
 {
 	IDXGIFactory1* factory;
 	if (FAILED(CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**)&factory)))
@@ -115,65 +114,67 @@ void D3D::EnumerateAdapters() //어댑터 찾기
 
 		Check(hr);
 
-		D3DEnumAdapterInfo* adapterInfo = new D3DEnumAdapterInfo();
-		ZeroMemory(adapterInfo, sizeof(D3DEnumAdapterInfo));
-		adapterInfo->AdapterOrdinal = index; //0번은 주사용 어댑터
-		adapter->GetDesc1(&adapterInfo->adapterDesc);
-		adapterInfo->adapter = adapter;
+		D3DEnumAdapterInfo* adapter_info = new D3DEnumAdapterInfo();
+		ZeroMemory(adapter_info, sizeof(D3DEnumAdapterInfo));
+		adapter_info->AdapterOrdinal = index;
+		adapter->GetDesc1(&adapter_info->AdapterDesc);
+		adapter_info->Adapter = adapter;
 
-		EnumerateAdapterOutput(adapterInfo);
+		EnumerateAdapterOutput(adapter_info);
 
-		adapterInfos.push_back(adapterInfo);
+		apapterInfos.push_back(adapter_info);
 
 		++index;
 	}
+
 	SafeRelease(factory);
 }
 
-bool D3D::EnumerateAdapterOutput(D3DEnumAdapterInfo* adapterInfo)
+bool D3D::EnumerateAdapterOutput(D3DEnumAdapterInfo* adapter_info)
 {
 	HRESULT hr;
 	IDXGIOutput* output = NULL;
 
-	hr = adapterInfo->adapter->EnumOutputs(0, &output);
+	hr = adapter_info->Adapter->EnumOutputs(0, &output);
 	if (DXGI_ERROR_NOT_FOUND == hr)
 		return false;
 
-	D3DEnumOutputInfo* outputInfo = new D3DEnumOutputInfo();
-	ZeroMemory(outputInfo, sizeof(D3DEnumOutputInfo));
+	D3DEnumOutputInfo* output_info = new D3DEnumOutputInfo();
+	ZeroMemory(output_info, sizeof(D3DEnumOutputInfo));
 
-	hr = output->GetDesc(&outputInfo->outputDesc);
+	hr = output->GetDesc(&output_info->OutputDesc);
 	Check(hr);
 
-	outputInfo->output = output;
+	output_info->Output = output;
 
-	UINT numModes = 0;
-	DXGI_MODE_DESC* displayModes = nullptr;
+	UINT num_modes = 0;
+	DXGI_MODE_DESC* display_modes = nullptr;
 	DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-	hr = output->GetDisplayModeList(format, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModes);
+	hr = output->GetDisplayModeList(format, DXGI_ENUM_MODES_INTERLACED, &num_modes, nullptr); // 모드 개수 가져오기
 	Check(hr);
 
-	displayModes = new DXGI_MODE_DESC[numModes];
-	hr = output->GetDisplayModeList(format, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModes);
+	display_modes = new DXGI_MODE_DESC[num_modes];
+	hr = output->GetDisplayModeList(format, DXGI_ENUM_MODES_INTERLACED, &num_modes, display_modes); // 디스플레이 모드 가져오기
 	Check(hr);
 
 
-	for (UINT i = 0; i < numModes; i++)
+	for (UINT i = 0; i < num_modes; i++)
 	{
 		bool isCheck = true;
-		isCheck &= displayModes[i].Width == d3dDesc.width;
-		isCheck &= displayModes[i].Height == d3dDesc.height;
+		isCheck &= display_modes[i].Width == d3dDesc.width;
+		isCheck &= display_modes[i].Height == d3dDesc.height;
 
 		if (isCheck == true)
 		{
-			outputInfo->numerator = displayModes[i].RefreshRate.Numerator;
-			outputInfo->denominator = displayModes[i].RefreshRate.Denominator;
+			output_info->Numerator = display_modes[i].RefreshRate.Numerator;
+			output_info->Denominator = display_modes[i].RefreshRate.Denominator;
 		}
 	}
-	adapterInfo->outputInfo = outputInfo;
 
-	SafeDeleteArray(displayModes);
+	adapter_info->OutputInfo = output_info;
+
+	SafeDeleteArray(display_modes);
 
 	return true;
 }
@@ -199,13 +200,13 @@ void D3D::CreateSwapChainAndDevice()
 
 	if (d3dDesc.bVsync == true)
 	{
-		swapChainDesc.BufferDesc.RefreshRate.Numerator = adapterInfos[0]->outputInfo->numerator;
-		swapChainDesc.BufferDesc.RefreshRate.Denominator = adapterInfos[0]->outputInfo->denominator;
+		swapChainDesc.BufferDesc.RefreshRate.Numerator = apapterInfos[0]->OutputInfo->Numerator;
+		swapChainDesc.BufferDesc.RefreshRate.Denominator = apapterInfos[0]->OutputInfo->Denominator;
 	}
 	else
 	{
 		swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
-		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; 
+		swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	}
 
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -221,70 +222,70 @@ void D3D::CreateSwapChainAndDevice()
 	creationFlags = D3DCOMPILE_PREFER_FLOW_CONTROL | D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
+
 	D3D_FEATURE_LEVEL featureLevels[] =
 	{
 		D3D_FEATURE_LEVEL_11_1,
 	};
 
 	UINT maxVideoMemory = 0;  //그래픽카드 메모리 비교
-	for (UINT i = 0; i < adapterInfos.size(); ++i)
+	for (UINT i = 0; i < apapterInfos.size(); ++i)
 	{
-		if (adapterInfos[i]->adapterDesc.DedicatedVideoMemory > maxVideoMemory)
+		if (apapterInfos[i]->AdapterDesc.DedicatedVideoMemory > maxVideoMemory)
 		{
-			selectedAdapterIndex = i;
-			maxVideoMemory = adapterInfos[i]->adapterDesc.DedicatedVideoMemory;
+			selected_adapter_index = i;
+			maxVideoMemory = apapterInfos[i]->AdapterDesc.DedicatedVideoMemory;
 		}
 	}
 
-	numerator = adapterInfos[0]->outputInfo->numerator;
-	denominator = adapterInfos[0]->outputInfo->denominator;
+	numerator = apapterInfos[0]->OutputInfo->Numerator;
+	denominator = apapterInfos[0]->OutputInfo->Denominator;
 
-	gpuMemorySize = adapterInfos[selectedAdapterIndex]->adapterDesc.DedicatedVideoMemory / 1024 / 1024;
-	gpuDescription = adapterInfos[selectedAdapterIndex]->adapterDesc.Description;
+	gpuMemorySize = apapterInfos[selected_adapter_index]->AdapterDesc.DedicatedVideoMemory / 1024 / 1024;
+	gpuDescription = apapterInfos[selected_adapter_index]->AdapterDesc.Description;
 
 	HRESULT hr = D3D11CreateDeviceAndSwapChain
 	(
-		adapterInfos[selectedAdapterIndex]->adapter,
-		D3D_DRIVER_TYPE_UNKNOWN,
-		NULL,
-		creationFlags,
-		featureLevels,
-		1,
-		D3D11_SDK_VERSION,
-		&swapChainDesc,
-		&swapChain,
-		&device,
-		NULL,
-		&deviceContext
+		apapterInfos[selected_adapter_index]->Adapter
+		, D3D_DRIVER_TYPE_UNKNOWN
+		, NULL
+		, creationFlags
+		, featureLevels
+		, 1
+		, D3D11_SDK_VERSION
+		, &swapChainDesc
+		, &swapChain
+		, &device
+		, NULL
+		, &deviceContext
 	);
 	assert(SUCCEEDED(hr));
-
 }
 
 void D3D::CreateBackBuffer(float width, float height)
 {
 	HRESULT hr;
 
-	//Create RenderTargetView
+	//Create RTV - System BackBuffer
 	{
-		ID3D11Texture2D* backBufferPointer;
-		hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBufferPointer);
+		ID3D11Texture2D* backbufferPointer;
+		hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backbufferPointer);
 		Check(hr)
 
-		hr = D3D:: GetDevice()->CreateRenderTargetView(backBufferPointer, NULL, &renderTargetView);
+		hr = D3D::GetDevice()->CreateRenderTargetView(backbufferPointer, NULL, &renderTargetView);
 		Check(hr)
 
-			SafeRelease(backBufferPointer);
+			SafeRelease(backbufferPointer);
 	}
 
-	//Create Depth Stencil View
+	//Create Texture - DSV용
 	{
 		D3D11_TEXTURE2D_DESC desc = { 0 };
 		desc.Width = (UINT)width;
 		desc.Height = (UINT)height;
 		desc.MipLevels = 1;
 		desc.ArraySize = 1;
-		desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; //깊이에 대해 24비트, 스텐실에 8비트 지원하는 z버퍼
+		desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
 		desc.Usage = D3D11_USAGE_DEFAULT;
@@ -292,10 +293,10 @@ void D3D::CreateBackBuffer(float width, float height)
 		desc.CPUAccessFlags = 0;
 		desc.MiscFlags = 0;
 
-
 		hr = D3D::GetDevice()->CreateTexture2D(&desc, NULL, &backBuffer);
 		assert(SUCCEEDED(hr));
 	}
+
 
 	{
 		D3D11_DEPTH_STENCIL_VIEW_DESC desc;
@@ -319,23 +320,22 @@ void D3D::DeleteBackBuffer()
 }
 
 D3DEnumAdapterInfo::D3DEnumAdapterInfo()
-	:adapter(nullptr), outputInfo(nullptr)
+	: Adapter(nullptr), OutputInfo(nullptr)
 {
 }
 
 D3DEnumAdapterInfo::~D3DEnumAdapterInfo()
 {
-	SafeRelease(adapter);
-	SafeDelete(outputInfo);
+	SafeRelease(Adapter);
+	SafeDelete(OutputInfo);
 }
 
 D3DEnumOutputInfo::D3DEnumOutputInfo()
-	:output(nullptr), numerator(0), denominator(1)
+	: Output(nullptr), Numerator(0), Denominator(1)
 {
 }
 
 D3DEnumOutputInfo::~D3DEnumOutputInfo()
 {
-	SafeRelease(output);
+	SafeRelease(Output);
 }
-

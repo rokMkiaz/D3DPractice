@@ -34,7 +34,6 @@ public:
 	bool Press(DWORD button)
 	{
 		return buttonMap[button] == BUTTON_INPUT_STATUS_PRESS;
-
 	}
 
 	D3DXVECTOR3 GetMoveValue()

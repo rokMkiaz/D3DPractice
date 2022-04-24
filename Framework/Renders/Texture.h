@@ -39,7 +39,6 @@ private:
 	ID3D11ShaderResourceView* view;
 };
 
-
 struct TextureDesc
 {
 	wstring file;
@@ -57,7 +56,6 @@ struct TextureDesc
 		return b;
 	}
 };
-
 
 class Textures
 {
@@ -89,3 +87,4 @@ private:
 private:
 	ID3D11ShaderResourceView* srv;
 };
+

@@ -20,36 +20,37 @@ private:
 		Plane Culling[4];
 		Plane Clipping;
 
+		float TessellationFactor;
 		float Time;
-		float Padding[3];
+		float Padding[2];
 	} desc;
 
-	//struct LightDesc
-	//{
-	//	Color Ambient;
-	//	Color Specular;
-	//	Vector3 Direction;
-	//	float Padding;
-	//
-	//	Vector3 Position;
-	//	float Padding2;
-	//} lightDesc;
+	struct LightDesc
+	{
+		Color Ambient;
+		Color Specular;
+		Vector3 Direction;
+		float Padding;
 
-	//struct PointLightDesc
-	//{
-	//	UINT Count = 0;
-	//	float Padding[3];
-	//
-	//	PointLight Lights[MAX_POINT_LIGHTS];
-	//} pointLightDesc;
-	//
-	//struct SpotLightDesc
-	//{
-	//	UINT Count = 0;
-	//	float Padding[3];
-	//
-	//	SpotLight Lights[MAX_SPOT_LIGHTS];
-	//} spotLightDesc;
+		Vector3 Position;
+		float Padding2;
+	} lightDesc;
+
+	struct PointLightDesc
+	{
+		UINT Count = 0;
+		float Padding[3];
+
+		PointLight Lights[MAX_POINT_LIGHTS];
+	} pointLightDesc;
+
+	struct SpotLightDesc
+	{
+		UINT Count = 0;
+		float Padding[3];
+
+		SpotLight Lights[MAX_SPOT_LIGHTS];
+	} spotLightDesc;
 
 private:
 	Shader* shader;
@@ -57,12 +58,14 @@ private:
 	ConstantBuffer* buffer;
 	ID3DX11EffectConstantBuffer* sBuffer;
 
-	//ConstantBuffer* lightBuffer;
-	//ID3DX11EffectConstantBuffer* sLightBuffer;
-	//
-	//ConstantBuffer* pointLightBuffer;
-	//ID3DX11EffectConstantBuffer* sPointLightBuffer;
-	//
-	//ConstantBuffer* spotLightBuffer;
-	//ID3DX11EffectConstantBuffer* sSpotLightBuffer;
+	ConstantBuffer* lightBuffer;
+	ID3DX11EffectConstantBuffer* sLightBuffer;
+
+	ConstantBuffer* pointLightBuffer;
+	ID3DX11EffectConstantBuffer* sPointLightBuffer;
+
+	ConstantBuffer* spotLightBuffer;
+	ID3DX11EffectConstantBuffer* sSpotLightBuffer;
+
+	float SubDivisionLevel = 1.0f;
 };

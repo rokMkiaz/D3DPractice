@@ -34,7 +34,6 @@ RenderTarget::RenderTarget(UINT width, UINT height, DXGI_FORMAT format)
 
 }
 
- 
 RenderTarget::~RenderTarget()
 {
 	SafeRelease(texture);

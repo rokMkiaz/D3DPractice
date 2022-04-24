@@ -38,24 +38,23 @@ void Transform::SetShader(Shader* shader)
 	sBuffer = shader->AsConstantBuffer("CB_World");
 }
 
-//
 void Transform::Position(float x, float y, float z)
 {
 	Position(Vector3(x, y, z));
 }
+
 void Transform::Position(Vector3& vec)
 {
 	position = vec;
 
-
-
 	UpdateWorld();
 }
+
 void Transform::Position(Vector3* vec)
 {
 	*vec = position;
 }
-//
+
 void Transform::Scale(float x, float y, float z)
 {
 	Scale(Vector3(x, y, z));
@@ -72,7 +71,7 @@ void Transform::Scale(Vector3* vec)
 {
 	*vec = scale;
 }
-//
+
 void Transform::Rotation(float x, float y, float z)
 {
 	Rotation(Vector3(x, y, z));
@@ -89,7 +88,7 @@ void Transform::Rotation(Vector3* vec)
 {
 	*vec = rotation;
 }
-//
+
 void Transform::RotationDegree(float x, float y, float z)
 {
 	RotationDegree(Vector3(x, y, z));
@@ -116,7 +115,6 @@ void Transform::RotationDegree(Vector3* vec)
 
 	*vec = temp;
 }
-//
 
 Vector3 Transform::Forward()
 {
@@ -132,6 +130,7 @@ Vector3 Transform::Right()
 {
 	return Vector3(bufferDesc.World._11, bufferDesc.World._12, bufferDesc.World._13);
 }
+
 void Transform::World(Matrix& matrix)
 {
 	Math::MatrixDecompose(matrix, scale, rotation, position);
@@ -141,8 +140,6 @@ void Transform::World(Matrix& matrix)
 
 void Transform::UpdateWorld()
 {
-
-
 	Matrix S, R, T;
 	D3DXMatrixScaling(&S, scale.x, scale.y, scale.z);
 	D3DXMatrixRotationYawPitchRoll(&R, rotation.y, rotation.x, rotation.z);
@@ -156,6 +153,7 @@ void Transform::Update()
 {
 
 }
+
 void Transform::Render()
 {
 	if (shader == NULL)

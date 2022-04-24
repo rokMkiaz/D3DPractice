@@ -12,7 +12,7 @@ public:
 
 	static int Random(int r1, int r2);
 	static float Random(float r1, float r2);
-
+	
 	static D3DXVECTOR2 RandomVec2(float r1, float r2);
 	static D3DXVECTOR3 RandomVec3(float r1, float r2);
 	static D3DXVECTOR4 RandomVec4(float r1, float r2);

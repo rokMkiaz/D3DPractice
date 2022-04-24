@@ -9,5 +9,5 @@ public:
 	void Set(float width, float height, float zn = 0.1f, float zf = 1000.0f, float fov = 0.0f) override;
 
 private:
-
+	
 };

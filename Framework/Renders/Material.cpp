@@ -66,6 +66,7 @@ void Material::Ambient(Color& color)
 {
 	colorDesc.Ambient = color;
 }
+
 void Material::Ambient(float r, float g, float b, float a)
 {
 	Ambient(Color(r, g, b, a));

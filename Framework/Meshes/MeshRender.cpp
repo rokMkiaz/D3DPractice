@@ -24,9 +24,8 @@ MeshRender::~MeshRender()
 
 void MeshRender::Update()
 {
+
 	mesh->Update();
-
-
 }
 
 void MeshRender::Render()
@@ -48,6 +47,7 @@ void MeshRender::UpdateTransforms()
 {
 	for (UINT i = 0; i < transforms.size(); i++)
 		memcpy(worlds[i], transforms[i]->World(), sizeof(Matrix));
+
 
 	D3D11_MAPPED_SUBRESOURCE subResource;
 	D3D::GetDC()->Map(instanceBuffer->Buffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);

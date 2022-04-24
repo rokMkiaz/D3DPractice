@@ -5,11 +5,13 @@
 
 #include"TEST/LoadDemo.h"
 #include"TEST/HeightMapDemo.h"
+#include"TEST/GetHeightMeshDemo.h"
 
 void Main::Initialize()
 {
+	Push(new GetHeightMeshDemo);
 	//Push(new HeightMapDemo);
-	Push(new LoadDemo);
+	//Push(new LoadDemo);
 }
 
 void Main::Ready()

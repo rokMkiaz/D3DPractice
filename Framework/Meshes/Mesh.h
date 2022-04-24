@@ -1,9 +1,9 @@
 #pragma once
 
-class Mesh
+class Mesh 
 {
 public:
-	typedef Vertex MeshVertex;
+	typedef VertexTextureNormalTangent MeshVertex;
 
 public:
 	Mesh();

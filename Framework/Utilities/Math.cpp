@@ -97,7 +97,7 @@ float Math::Lerp(float value1, float value2, float t)
 	return value1 + (value2 - value1) * t;
 }
 
-void Math::LerpMatrix(OUT D3DXMATRIX& out, const D3DXMATRIX& m1, const D3DXMATRIX& m2, float amount)
+void Math::LerpMatrix(OUT D3DXMATRIX & out, const D3DXMATRIX & m1, const D3DXMATRIX & m2, float amount)
 {
 	out._11 = m1._11 + (m2._11 - m1._11) * amount;
 	out._12 = m1._12 + (m2._12 - m1._12) * amount;
@@ -120,7 +120,7 @@ void Math::LerpMatrix(OUT D3DXMATRIX& out, const D3DXMATRIX& m1, const D3DXMATRI
 	out._44 = m1._44 + (m2._44 - m1._44) * amount;
 }
 
-D3DXQUATERNION Math::LookAt(const D3DXVECTOR3& origin, const D3DXVECTOR3& target, const D3DXVECTOR3& up)
+D3DXQUATERNION Math::LookAt(const D3DXVECTOR3 & origin, const D3DXVECTOR3 & target, const D3DXVECTOR3 & up)
 {
 	D3DXVECTOR3 f = (origin - target);
 	D3DXVec3Normalize(&f, &f);
@@ -186,7 +186,7 @@ float Math::Gaussian(float val, UINT blurCount)
 	return a * b;
 }
 
-void Math::MatrixDecompose(const D3DXMATRIX& m, OUT Vector3& S, OUT Vector3& R, OUT Vector3& T)
+void Math::MatrixDecompose(const D3DXMATRIX & m, OUT Vector3 & S, OUT Vector3 & R, OUT Vector3 & T)
 {
 	D3DXQUATERNION rotation;
 	D3DXMatrixDecompose(&S, &rotation, &T, &m);

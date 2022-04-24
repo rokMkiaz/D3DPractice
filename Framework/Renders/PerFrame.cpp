@@ -5,36 +5,38 @@ PerFrame::PerFrame(Shader* shader)
 	: shader(shader)
 {
 	buffer = new ConstantBuffer(&desc, sizeof(Desc));
-	//sBuffer = shader->AsConstantBuffer("CB_PerFrame");
-	
-	//lightBuffer = new ConstantBuffer(&lightDesc, sizeof(LightDesc));
-	//sLightBuffer = shader->AsConstantBuffer("CB_Light");
-	//
-	//pointLightBuffer = new ConstantBuffer(&pointLightDesc, sizeof(PointLightDesc));
-	//sPointLightBuffer = shader->AsConstantBuffer("CB_PointLights");
-	//
-	//spotLightBuffer = new ConstantBuffer(&spotLightDesc, sizeof(SpotLightDesc));
-	//sSpotLightBuffer = shader->AsConstantBuffer("CB_SpotLights");
+	sBuffer = shader->AsConstantBuffer("CB_PerFrame");
+
+	lightBuffer = new ConstantBuffer(&lightDesc, sizeof(LightDesc));
+	sLightBuffer = shader->AsConstantBuffer("CB_Light");
+
+	pointLightBuffer = new ConstantBuffer(&pointLightDesc, sizeof(PointLightDesc));
+	sPointLightBuffer = shader->AsConstantBuffer("CB_PointLights");
+
+	spotLightBuffer = new ConstantBuffer(&spotLightDesc, sizeof(SpotLightDesc));
+	sSpotLightBuffer = shader->AsConstantBuffer("CB_SpotLights");
 }
 
 PerFrame::~PerFrame()
 {
 	SafeDelete(buffer);
-	//SafeDelete(lightBuffer);
-	//SafeDelete(pointLightBuffer);
-	//SafeDelete(spotLightBuffer);
+	SafeDelete(lightBuffer);
+	SafeDelete(pointLightBuffer);
+	SafeDelete(spotLightBuffer);
 }
+
 void PerFrame::Update()
 {
+	
 	desc.Time = Time::Get()->Running();
 
-	//lightDesc.Ambient = Context::Get()->Ambient();
-	//lightDesc.Specular = Context::Get()->Specular();
-	//lightDesc.Direction = Context::Get()->Direction();
-	//lightDesc.Position = Context::Get()->Position();
-	//
-	//pointLightDesc.Count = Lighting::Get()->PointLights(pointLightDesc.Lights);
-	//spotLightDesc.Count = Lighting::Get()->SpotLights(spotLightDesc.Lights);
+	lightDesc.Ambient = Context::Get()->Ambient();
+	lightDesc.Specular = Context::Get()->Specular();
+	lightDesc.Direction = Context::Get()->Direction();
+	lightDesc.Position = Context::Get()->Position();
+
+	pointLightDesc.Count = Lighting::Get()->PointLights(pointLightDesc.Lights);
+	spotLightDesc.Count = Lighting::Get()->SpotLights(spotLightDesc.Lights);
 }
 
 void PerFrame::Render()
@@ -44,16 +46,18 @@ void PerFrame::Render()
 
 	desc.Projection = Context::Get()->Projection();
 	desc.VP = desc.View * desc.Projection;
+	//TODO::
+	desc.TessellationFactor = SubDivisionLevel;
 
 	buffer->Render();
 	sBuffer->SetConstantBuffer(buffer->Buffer());
 
-	//lightBuffer->Render();
-	//sLightBuffer->SetConstantBuffer(lightBuffer->Buffer());
-	//
-	//pointLightBuffer->Render();
-	//sPointLightBuffer->SetConstantBuffer(pointLightBuffer->Buffer());
-	//
-	//spotLightBuffer->Render();
-	//sSpotLightBuffer->SetConstantBuffer(spotLightBuffer->Buffer());
+	lightBuffer->Render();
+	sLightBuffer->SetConstantBuffer(lightBuffer->Buffer());
+
+	pointLightBuffer->Render();
+	sPointLightBuffer->SetConstantBuffer(pointLightBuffer->Buffer());
+
+	spotLightBuffer->Render();
+	sSpotLightBuffer->SetConstantBuffer(spotLightBuffer->Buffer());
 }

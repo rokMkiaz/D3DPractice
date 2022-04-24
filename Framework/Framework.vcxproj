@@ -178,13 +178,32 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Environment\CubeSky.cpp" />
+    <ClCompile Include="Environment\Rain.cpp" />
+    <ClCompile Include="Environment\Snow.cpp" />
     <ClCompile Include="Environment\Terrain.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Meshes\Mesh.cpp" />
+    <ClCompile Include="Meshes\MeshCube.cpp" />
+    <ClCompile Include="Meshes\MeshCylinder.cpp" />
+    <ClCompile Include="Meshes\MeshGrid.cpp" />
+    <ClCompile Include="Meshes\MeshQuad.cpp" />
     <ClCompile Include="Meshes\MeshRender.cpp" />
+    <ClCompile Include="Meshes\MeshTerrain.cpp" />
+    <ClCompile Include="Model\Model.cpp" />
+    <ClCompile Include="Model\ModelAnimator.cpp" />
+    <ClCompile Include="Model\ModelClip.cpp" />
+    <ClCompile Include="Model\ModelMesh.cpp" />
+    <ClCompile Include="Model\ModelRender.cpp" />
+    <ClCompile Include="Objects\Billboard.cpp" />
+    <ClCompile Include="Objects\Collider.cpp" />
+    <ClCompile Include="Objects\DynamicCubeMap.cpp" />
+    <ClCompile Include="Objects\PostEffect.cpp" />
+    <ClCompile Include="Objects\Projector.cpp" />
+    <ClCompile Include="Objects\Shadow.cpp" />
     <ClCompile Include="Renders\Buffers\ConstantBuffer.cpp" />
     <ClCompile Include="Renders\Buffers\IndexBuffer.cpp" />
     <ClCompile Include="Renders\Buffers\RawBuffer.cpp" />
@@ -193,6 +212,7 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Renders\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="Renders\Context.cpp" />
     <ClCompile Include="Renders\DebugLine.cpp" />
+    <ClCompile Include="Renders\Lighting.cpp" />
     <ClCompile Include="Renders\Material.cpp" />
     <ClCompile Include="Renders\PerFrame.cpp" />
     <ClCompile Include="Renders\Renderer.cpp" />
@@ -205,6 +225,8 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Systems\Mouse.cpp" />
     <ClCompile Include="Systems\Time.cpp" />
     <ClCompile Include="Systems\Window.cpp" />
+    <ClCompile Include="Utilities\BinaryFile.cpp" />
+    <ClCompile Include="Utilities\Xml.cpp" />
     <ClCompile Include="Viewer\Fixity.cpp" />
     <ClCompile Include="Utilities\Math.cpp" />
     <ClCompile Include="Utilities\Path.cpp" />
@@ -219,10 +241,29 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClCompile Include="Viewer\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Environment\CubeSky.h" />
+    <ClInclude Include="Environment\Rain.h" />
+    <ClInclude Include="Environment\Snow.h" />
     <ClInclude Include="Environment\Terrain.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Meshes\Mesh.h" />
+    <ClInclude Include="Meshes\MeshCube.h" />
+    <ClInclude Include="Meshes\MeshCylinder.h" />
+    <ClInclude Include="Meshes\MeshGrid.h" />
+    <ClInclude Include="Meshes\MeshQuad.h" />
     <ClInclude Include="Meshes\MeshRender.h" />
+    <ClInclude Include="Meshes\MeshTerrain.h" />
+    <ClInclude Include="Model\Model.h" />
+    <ClInclude Include="Model\ModelAnimator.h" />
+    <ClInclude Include="Model\ModelClip.h" />
+    <ClInclude Include="Model\ModelMesh.h" />
+    <ClInclude Include="Model\ModelRender.h" />
+    <ClInclude Include="Objects\Billboard.h" />
+    <ClInclude Include="Objects\Collider.h" />
+    <ClInclude Include="Objects\DynamicCubeMap.h" />
+    <ClInclude Include="Objects\PostEffect.h" />
+    <ClInclude Include="Objects\Projector.h" />
+    <ClInclude Include="Objects\Shadow.h" />
     <ClInclude Include="Renders\Buffers\ConstantBuffer.h" />
     <ClInclude Include="Renders\Buffers\CsResource.h" />
     <ClInclude Include="Renders\Buffers\IndexBuffer.h" />
@@ -232,7 +273,8 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Renders\Buffers\VertexBuffer.h" />
     <ClInclude Include="Renders\Context.h" />
     <ClInclude Include="Renders\DebugLine.h" />
-    <ClInclude Include="Renders\iBuffer.h" />
+    <ClInclude Include="Renders\iBuffers.h" />
+    <ClInclude Include="Renders\Lighting.h" />
     <ClInclude Include="Renders\Material.h" />
     <ClInclude Include="Renders\PerFrame.h" />
     <ClInclude Include="Renders\Renderer.h" />
@@ -247,9 +289,11 @@ copy/Y "$(SolutionDir)Debug\$(ProjectName).pdb" "$(SolutionDir)Unittest"</Comman
     <ClInclude Include="Systems\Mouse.h" />
     <ClInclude Include="Systems\Time.h" />
     <ClInclude Include="Systems\Window.h" />
+    <ClInclude Include="Utilities\BinaryFile.h" />
     <ClInclude Include="Utilities\Math.h" />
     <ClInclude Include="Utilities\Path.h" />
     <ClInclude Include="Utilities\String.h" />
+    <ClInclude Include="Utilities\Xml.h" />
     <ClInclude Include="Viewer\Camera.h" />
     <ClInclude Include="Viewer\DepthStencil.h" />
     <ClInclude Include="Viewer\Fixity.h" />

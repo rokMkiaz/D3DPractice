@@ -1,4 +1,4 @@
-#include "framework.h"
+﻿#include "framework.h"
 #include "Texture.h"
 
 using namespace DirectX;
@@ -15,6 +15,7 @@ Texture::Texture(wstring file, D3DX11_IMAGE_LOAD_INFO* loadInfo)
 	Textures::Load(this, loadInfo);
 	String::Replace(&this->file, L"../../_Textures", L"");
 }
+
 Texture::~Texture()
 {
 
@@ -35,6 +36,7 @@ ID3D11Texture2D* Texture::GetTexture()
 
 	return texture;
 }
+
 void Texture::SaveFile(wstring file, ID3D11Texture2D* src)
 {
 	D3D11_TEXTURE2D_DESC srcDesc;
@@ -55,7 +57,7 @@ void Texture::SaveFile(wstring file, ID3D11Texture2D* src)
 	HRESULT hr;
 	hr = D3D::GetDevice()->CreateTexture2D(&destDesc, NULL, &dest);
 	Check(hr);
-
+	
 	hr = D3DX11LoadTextureFromTexture(D3D::GetDC(), src, NULL, dest);
 	Check(hr);
 
@@ -249,8 +251,9 @@ void Textures::Load(Texture* texture, D3DX11_IMAGE_LOAD_INFO* loadInfo)
 	}
 }
 
-// TextureArray///////////////////////////////////////////////////////////////////////////////////////////
-
+//-----------------------------------------------------------------------------
+// TextureArray
+//-----------------------------------------------------------------------------
 TextureArray::TextureArray(vector<wstring>& names, UINT width, UINT height, UINT mipLevels)
 {
 	for (UINT i = 0; i < names.size(); i++)
@@ -435,3 +438,5 @@ vector<ID3D11Texture2D*> TextureArray::CreateTextures(vector<wstring>& names, UI
 	}
 	return returnTextures;
 }
+
+///////////////////////////////////////////////////////////////////////////////

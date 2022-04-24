@@ -36,14 +36,13 @@ Mouse::Mouse()
 	ZeroMemory(buttonCount, sizeof(int) * MAX_INPUT_MOUSE);
 
 	timeDblClk = GetDoubleClickTime();
-	startDblClk[0] = GetTickCount(); //Windows OS가 처음 Booting된 이후 현재까지 작동된 시간을 1/00초단위로 반환합니다.
+	startDblClk[0] = GetTickCount();
 
 	for (int i = 1; i < MAX_INPUT_MOUSE; i++)
-		startDblClk[i] = startDblClk[0]; 
+		startDblClk[i] = startDblClk[0];
 
 	DWORD tLine = 0;
 	SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &tLine, 0);
-	//SystemParametersInfo: 시스템 전체 매개변수 중 하나의 값을 검색하거나 설정합니다. 
 }
 
 Mouse::~Mouse()
@@ -52,7 +51,6 @@ Mouse::~Mouse()
 
 void Mouse::Update()
 {
-
 
 	memcpy(buttonOldStatus, buttonStatus, sizeof(buttonOldStatus));
 
@@ -79,8 +77,8 @@ void Mouse::Update()
 	}
 
 	POINT point;
-	GetCursorPos(&point);//전체 화면 기준인 커서의 좌표를 해당 클라이언트 좌표로 변환해주는 함수
-	ScreenToClient(handle, &point); //윈도우를 기준으로 설정된 좌표를 전체화면 기준으로 변환해주는 함수
+	GetCursorPos(&point);
+	ScreenToClient(handle, &point);
 
 	wheelOldStatus.x = wheelStatus.x;
 	wheelOldStatus.y = wheelStatus.y;
@@ -144,5 +142,3 @@ LRESULT Mouse::InputProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 	return TRUE;
 }
-
-

@@ -17,8 +17,8 @@ struct D3DDesc
 
 class D3D
 {
-public: 
-	static D3D* Get(); //ΩÃ±€≈Ê
+public:
+	static D3D* Get();
 
 	static void Create();
 	static void Delete();
@@ -72,45 +72,46 @@ public:
 
 	ID3D11DepthStencilView* DSV() { return depthStencilView; }
 
-
 private:
 	D3D();
 	~D3D();
 
 	static void EnumerateAdapters();
-	static bool EnumerateAdapterOutput(D3DEnumAdapterInfo* adapterInfo);
+	static bool EnumerateAdapterOutput(D3DEnumAdapterInfo* adapter_info);
 
 	static void SetGpuInfo();
-	
+
 	void CreateSwapChainAndDevice();
 
 	void CreateBackBuffer(float width, float height);
 	void DeleteBackBuffer();
 
 private:
-	static vector<D3DEnumAdapterInfo*> adapterInfos;
-	static int selectedAdapterIndex ;
-
-	static D3D* instance ;
+	static vector<D3DEnumAdapterInfo*> apapterInfos;
+	static int selected_adapter_index;
+	
+	static D3D* instance;
 	
 	static D3DDesc d3dDesc;
 	static ID3D11Device* device;
 	static ID3D11DeviceContext* deviceContext;
 	static IDXGISwapChain* swapChain;
 
+	
+
 	ID3D11Debug* debugDevice;
 
 	UINT gpuMemorySize;
 	wstring gpuDescription;
 
-	UINT numerator;  //HZ
+	UINT numerator;
 	UINT denominator;
 
 	ID3D11Texture2D* backBuffer;
 	ID3D11DepthStencilView* depthStencilView;
 	ID3D11RenderTargetView* renderTargetView;
 
-	Vector2 worldSize;
+	Vector2 WorldSize;
 };
 
 class D3DEnumAdapterInfo
@@ -122,22 +123,22 @@ public:
 	~D3DEnumAdapterInfo();
 
 	UINT AdapterOrdinal;
-	IDXGIAdapter1* adapter;
-	DXGI_ADAPTER_DESC1 adapterDesc;
+	IDXGIAdapter1* Adapter;
+	DXGI_ADAPTER_DESC1 AdapterDesc;
 
-	D3DEnumOutputInfo* outputInfo;
+	D3DEnumOutputInfo* OutputInfo;
 };
 
-class D3DEnumOutputInfo //∏¥œ≈Õ º∫¥…
+class D3DEnumOutputInfo
 {
 	const D3DEnumOutputInfo& operator = (const D3DEnumOutputInfo& rhs);
 
 public:
 	D3DEnumOutputInfo();
 	~D3DEnumOutputInfo();
-	IDXGIOutput* output;
-	DXGI_OUTPUT_DESC outputDesc;
+	IDXGIOutput* Output;
+	DXGI_OUTPUT_DESC OutputDesc;
 
-	UINT numerator;
-	UINT denominator;
+	UINT Numerator;
+	UINT Denominator;
 };

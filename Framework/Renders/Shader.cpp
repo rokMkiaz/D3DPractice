@@ -1,15 +1,16 @@
-#include"Framework.h"
-#include"Shader.h"
+#include "Framework.h"
+#include "Shader.h"
 
 Shader::Shader(wstring file)
-	:file(L"../../_Shaders/"+file)
+	: file(L"../../_Shaders/" + file)
 {
 	initialStateBlock = new StateBlock();
 	{
-		D3D::GetDC()->RSGetState(&initialStateBlock->rsRasterizerState);
-		D3D::GetDC()->OMGetBlendState(&initialStateBlock->omBlendState, initialStateBlock->omBlendFactor,&initialStateBlock->omSampleMask);
-		D3D::GetDC()->OMGetDepthStencilState(&initialStateBlock->omDepthStencilState, &initialStateBlock->omStencilRef);
+		D3D::GetDC()->RSGetState(&initialStateBlock->RSRasterizerState);
+		D3D::GetDC()->OMGetBlendState(&initialStateBlock->OMBlendState, initialStateBlock->OMBlendFactor, &initialStateBlock->OMSampleMask);
+		D3D::GetDC()->OMGetDepthStencilState(&initialStateBlock->OMDepthStencilState, &initialStateBlock->OMStencilRef);
 	}
+
 	CreateEffect();
 }
 
@@ -17,9 +18,9 @@ Shader::~Shader()
 {
 	for (Technique& temp : techniques)
 	{
-		for (Pass& pass : temp.passes)
+		for (Pass& pass : temp.Passes)
 		{
-			SafeRelease(pass.inputLayout);
+			SafeRelease(pass.InputLayout);
 		}
 	}
 
@@ -33,8 +34,8 @@ void Shader::CreateEffect()
 	{
 		MessageBox(NULL, file.c_str(), L"파일을 찾을 수 없음", MB_OK);
 		assert(false);
-	} 
-	//Shader 읽기
+	}
+
 	ID3DBlob* fxBlob;
 	if (Path::GetExtension(file) == L"fx")
 	{
@@ -82,46 +83,48 @@ void Shader::CreateEffect()
 		assert(false);
 	}
 	Check(D3DX11CreateEffectFromMemory(fxBlob->GetBufferPointer(), fxBlob->GetBufferSize(), 0, D3D::GetDevice(), &effect));
-	
+
+
 	effect->GetDesc(&effectDesc);
-	for (UINT i = 0; i < effectDesc.Techniques; i++)
+	for (UINT t = 0; t < effectDesc.Techniques; t++)
 	{
 		Technique technique;
-		technique.iTechnique = effect->GetTechniqueByIndex(i);
-		technique.iTechnique->GetDesc(&technique.desc);
-		technique.name = String::ToWString(technique.desc.Name);
+		technique.ITechnique = effect->GetTechniqueByIndex(t);
+		technique.ITechnique->GetDesc(&technique.Desc);
+		technique.Name = String::ToWString(technique.Desc.Name);
 
-		for (UINT j = 0; j < technique.desc.Passes; j++)
+		for (UINT p = 0; p < technique.Desc.Passes; p++)
 		{
 			Pass pass;
-			pass.iPass = technique.iTechnique->GetPassByIndex(j);
-			pass.iPass->GetDesc(&pass.desc);
-			pass.name = String::ToWString(pass.desc.Name);
-			pass.iPass->GetVertexShaderDesc(&pass.passVSDesc);
-			pass.passVSDesc.pShaderVariable->GetShaderDesc(pass.passVSDesc.ShaderIndex, &pass.effectVSDesc);
-		
-			for (UINT k = 0; k < pass.effectVSDesc.NumInputSignatureEntries; k++)
+			pass.IPass = technique.ITechnique->GetPassByIndex(p);
+			pass.IPass->GetDesc(&pass.Desc);
+			pass.Name = String::ToWString(pass.Desc.Name);
+			pass.IPass->GetVertexShaderDesc(&pass.PassVsDesc);
+			pass.PassVsDesc.pShaderVariable->GetShaderDesc(pass.PassVsDesc.ShaderIndex, &pass.EffectVsDesc);
+
+			for (UINT s = 0; s < pass.EffectVsDesc.NumInputSignatureEntries; s++)
 			{
 				D3D11_SIGNATURE_PARAMETER_DESC desc;
 
-				HRESULT hr = pass.passVSDesc.pShaderVariable->GetInputSignatureElementDesc(pass.passVSDesc.ShaderIndex, k, &desc);
+				HRESULT hr = pass.PassVsDesc.pShaderVariable->GetInputSignatureElementDesc(pass.PassVsDesc.ShaderIndex, s, &desc);
 				Check(hr);
 
-				pass.signatureDescs.push_back(desc);
+				pass.SignatureDescs.push_back(desc);
 			}
-			pass.inputLayout = CreateInputLayout(fxBlob, &pass.effectVSDesc, pass.signatureDescs);
-			pass.stateBlock = initialStateBlock;
 
-			technique.passes.push_back(pass);
-		
+			pass.InputLayout = CreateInputLayout(fxBlob, &pass.EffectVsDesc, pass.SignatureDescs);
+			pass.StateBlock = initialStateBlock;
+
+			technique.Passes.push_back(pass);
 		}
+
 		techniques.push_back(technique);
 	}
 
 	for (UINT i = 0; i < effectDesc.ConstantBuffers; i++)
 	{
 		ID3DX11EffectConstantBuffer* iBuffer;
-		iBuffer = effect->GetConstantBufferByIndex(i); //STDMETHOD(method)라는 녀석은 virtual HRESULT STDMETHODCALLTYPE method 인데
+		iBuffer = effect->GetConstantBufferByIndex(i);
 
 		D3DX11_EFFECT_VARIABLE_DESC vDesc;
 		iBuffer->GetDesc(&vDesc);
@@ -141,15 +144,11 @@ void Shader::CreateEffect()
 	}
 
 	SafeRelease(fxBlob);
-
 }
 
-//IA당시 정점 구성성분 특성에 따른 생성
 ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHADER_DESC* effectVsDesc, vector<D3D11_SIGNATURE_PARAMETER_DESC>& params)
-{ 
-
+{
 	std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
-
 	for (D3D11_SIGNATURE_PARAMETER_DESC& paramDesc : params)
 	{
 		D3D11_INPUT_ELEMENT_DESC elementDesc;
@@ -198,13 +197,15 @@ ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHA
 		}
 
 		string name = paramDesc.SemanticName;
-		transform(name.begin(), name.end(), name.begin(), toupper);//특정 함수를 써서 값을 변경할 때 사용  /DirectTex.h 
-	
+		transform(name.begin(), name.end(), name.begin(), toupper);
+
 		if (name == "POSITION")
 		{
 			elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
 			//elementDesc.InputSlot = paramDesc.SemanticIndex;
 		}
+
+
 		if (String::StartsWith(name, "INST") == true)
 		{
 			String::Replace(&name, "INST", "");
@@ -221,6 +222,7 @@ ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHA
 			inputLayoutDesc.push_back(elementDesc);
 	}
 
+
 	const void* pCode = effectVsDesc->pBytecode;
 	UINT pCodeSize = effectVsDesc->BytecodeLength;
 
@@ -229,11 +231,11 @@ ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHA
 		ID3D11InputLayout* inputLayout = NULL;
 		HRESULT hr = D3D::GetDevice()->CreateInputLayout
 		(
-			&inputLayoutDesc[0],
-			inputLayoutDesc.size(),
-			pCode,
-			pCodeSize,
-			&inputLayout
+			&inputLayoutDesc[0]
+			, inputLayoutDesc.size()
+			, pCode
+			, pCodeSize
+			, &inputLayout
 		);
 		Check(hr);
 
@@ -242,6 +244,7 @@ ID3D11InputLayout* Shader::CreateInputLayout(ID3DBlob* fxBlob, D3DX11_EFFECT_SHA
 
 	return NULL;
 }
+
 void Shader::Pass::Draw(UINT vertexCount, UINT startVertexLocation)
 {
 	BeginDraw();
@@ -249,6 +252,8 @@ void Shader::Pass::Draw(UINT vertexCount, UINT startVertexLocation)
 		D3D::GetDC()->Draw(vertexCount, startVertexLocation);
 	}
 	EndDraw();
+
+
 }
 
 void Shader::Pass::DrawIndexed(UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
@@ -282,22 +287,22 @@ void Shader::Pass::DrawIndexedInstanced(UINT indexCountPerInstance, UINT instanc
 
 void Shader::Pass::BeginDraw()
 {
-	iPass->ComputeStateBlockMask(&stateBlockMask);
+	IPass->ComputeStateBlockMask(&StateBlockMask);
 
-	D3D::GetDC()->IASetInputLayout(inputLayout);
-	iPass->Apply(0, D3D::GetDC());
+	D3D::GetDC()->IASetInputLayout(InputLayout);
+	IPass->Apply(0, D3D::GetDC());
 }
 
 void Shader::Pass::EndDraw()
 {
-	if (stateBlockMask.RSRasterizerState == 1)
-		D3D::GetDC()->RSSetState(stateBlock->rsRasterizerState);
+	if (StateBlockMask.RSRasterizerState == 1)
+		D3D::GetDC()->RSSetState(StateBlock->RSRasterizerState);
 
-	if (stateBlockMask.OMDepthStencilState == 1)
-		D3D::GetDC()->OMSetDepthStencilState(stateBlock->omDepthStencilState, stateBlock->omStencilRef);
+	if (StateBlockMask.OMDepthStencilState == 1)
+		D3D::GetDC()->OMSetDepthStencilState(StateBlock->OMDepthStencilState, StateBlock->OMStencilRef);
 
-	if (stateBlockMask.OMBlendState == 1)
-		D3D::GetDC()->OMSetBlendState(stateBlock->omBlendState, stateBlock->omBlendFactor, stateBlock->omSampleMask);
+	if (StateBlockMask.OMBlendState == 1)
+		D3D::GetDC()->OMSetBlendState(StateBlock->OMBlendState, StateBlock->OMBlendFactor, StateBlock->OMSampleMask);
 
 	D3D::GetDC()->HSSetShader(NULL, NULL, 0);
 	D3D::GetDC()->DSSetShader(NULL, NULL, 0);
@@ -306,7 +311,7 @@ void Shader::Pass::EndDraw()
 
 void Shader::Pass::Dispatch(UINT x, UINT y, UINT z)
 {
-	iPass->Apply(0, D3D::GetDC());
+	IPass->Apply(0, D3D::GetDC());
 	D3D::GetDC()->Dispatch(x, y, z);
 
 
@@ -321,52 +326,52 @@ void Shader::Pass::Dispatch(UINT x, UINT y, UINT z)
 
 void Shader::Technique::Draw(UINT pass, UINT vertexCount, UINT startVertexLocation)
 {
-	passes[pass].Draw(vertexCount, startVertexLocation);
+	Passes[pass].Draw(vertexCount, startVertexLocation);
 }
 
 void Shader::Technique::DrawIndexed(UINT pass, UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
 {
-	passes[pass].DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
+	Passes[pass].DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
 }
 
 void Shader::Technique::DrawInstanced(UINT pass, UINT vertexCountPerInstance, UINT instanceCount, UINT startVertexLocation, UINT startInstanceLocation)
 {
-	passes[pass].DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
+	Passes[pass].DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
 }
 
 void Shader::Technique::DrawIndexedInstanced(UINT pass, UINT indexCountPerInstance, UINT instanceCount, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation)
 {
-	passes[pass].DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
+	Passes[pass].DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
 }
 
 void Shader::Technique::Dispatch(UINT pass, UINT x, UINT y, UINT z)
 {
-	passes[pass].Dispatch(x, y, z);
+	Passes[pass].Dispatch(x, y, z);
 }
 
 void Shader::Draw(UINT technique, UINT pass, UINT vertexCount, UINT startVertexLocation)
 {
-	techniques[technique].passes[pass].Draw(vertexCount, startVertexLocation);
+	techniques[technique].Passes[pass].Draw(vertexCount, startVertexLocation);
 }
 
 void Shader::DrawIndexed(UINT technique, UINT pass, UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
 {
-	techniques[technique].passes[pass].DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
+	techniques[technique].Passes[pass].DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
 }
 
 void Shader::DrawInstanced(UINT technique, UINT pass, UINT vertexCountPerInstance, UINT instanceCount, UINT startVertexLocation, UINT startInstanceLocation)
 {
-	techniques[technique].passes[pass].DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
+	techniques[technique].Passes[pass].DrawInstanced(vertexCountPerInstance, instanceCount, startVertexLocation, startInstanceLocation);
 }
 
 void Shader::DrawIndexedInstanced(UINT technique, UINT pass, UINT indexCountPerInstance, UINT instanceCount, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation)
 {
-	techniques[technique].passes[pass].DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
+	techniques[technique].Passes[pass].DrawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
 }
 
 void Shader::Dispatch(UINT technique, UINT pass, UINT x, UINT y, UINT z)
 {
-	techniques[technique].passes[pass].Dispatch(x, y, z);
+	techniques[technique].Passes[pass].Dispatch(x, y, z);
 }
 
 ID3DX11EffectVariable* Shader::Variable(string name)

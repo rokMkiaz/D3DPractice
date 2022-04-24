@@ -37,11 +37,12 @@ void Renderer::Update()
 {
 	perFrame->Update();
 	transform->Update();
+
+
 }
 
 void Renderer::Render()
 {
-
 	if (vertexBuffer != NULL)
 	{
 		vertexBuffer->Render();
@@ -53,5 +54,5 @@ void Renderer::Render()
 	D3D::GetDC()->IASetPrimitiveTopology(topology);
 
 	perFrame->Render();
-	transform->Render();
+	transform->Render(); 
 }

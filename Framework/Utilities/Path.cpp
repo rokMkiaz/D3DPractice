@@ -1,5 +1,5 @@
-#include"Framework.h"
-#include"Path.h"
+#include "Framework.h"
+#include "Path.h"
 #include <string.h>
 #include <shlwapi.h>
 #include "String.h"
@@ -12,7 +12,7 @@ bool Path::ExistFile(string path)
 
 bool Path::ExistFile(wstring path)
 {
-	DWORD fileValue = GetFileAttributes(path.c_str()); //파일 속성을 알아보는 용도
+	DWORD fileValue = GetFileAttributes(path.c_str());
 
 	return fileValue < 0xFFFFFFFF;
 }
@@ -50,6 +50,7 @@ string Path::Combine(vector<string> paths)
 
 	return temp;
 }
+
 wstring Path::Combine(vector<wstring> paths)
 {
 	wstring temp = L"";
@@ -123,7 +124,7 @@ wstring Path::GetFileNameWithoutExtension(wstring path)
 	return fileName.substr(0, index);
 }
 
-//분류
+
 const WCHAR* Path::ImageFilter = L"Image\0*.png;*.bmp;*.jpg";
 const WCHAR* Path::BinModelFilter = L"Binary Model\0*.model";
 const WCHAR* Path::FbxModelFilter = L"Fbx Model\0*.fbx;*.obj\0";
@@ -189,7 +190,6 @@ void Path::SaveFileDialog(wstring file, const WCHAR* filter, wstring folder, fun
 			func(loadName);
 		}
 	}
-
 }
 
 void Path::GetFiles(vector<string>* files, string path, string filter, bool bFindSubFolder)
@@ -204,6 +204,8 @@ void Path::GetFiles(vector<string>* files, string path, string filter, bool bFin
 		files->push_back(String::ToString(str));
 }
 
+//path : ../Temp/
+//filter : *.txt
 void Path::GetFiles(vector<wstring>* files, wstring path, wstring filter, bool bFindSubFolder)
 {
 	wstring file = path + filter;
@@ -243,7 +245,7 @@ void Path::CreateFolder(string path)
 void Path::CreateFolder(wstring path)
 {
 	if (ExistDirectory(path) == false)
-		CreateDirectory(path.c_str(), NULL); //출력에 파일이 없으면 폴더를 만들어라
+		CreateDirectory(path.c_str(), NULL);
 }
 
 void Path::CreateFolders(string path)
@@ -274,7 +276,7 @@ bool Path::IsRelativePath(string path)
 
 bool Path::IsRelativePath(wstring path)
 {
-	BOOL b = PathIsRelative(path.c_str());  //경로 처리 함수
+	BOOL b = PathIsRelative(path.c_str());
 
 	return b >= TRUE;
 }

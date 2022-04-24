@@ -26,18 +26,22 @@ void DebugLine::RenderLine(Vector3& start, Vector3& end)
 {
 	RenderLine(start, end, Color(0, 1, 0, 1));
 }
+
 void DebugLine::RenderLine(Vector3& start, Vector3& end, float r, float g, float b)
 {
 	RenderLine(start, end, Color(r, g, b, 1));
 }
+
 void DebugLine::RenderLine(float x, float y, float z, float x2, float y2, float z2)
 {
 	RenderLine(Vector3(x, y, z), Vector3(x2, y2, z2), Color(0, 1, 0, 1));
 }
+
 void DebugLine::RenderLine(float x, float y, float z, float x2, float y2, float z2, float r, float g, float b)
 {
 	RenderLine(Vector3(x, y, z), Vector3(x2, y2, z2), Color(r, g, b, 1));
 }
+
 void DebugLine::RenderLine(float x, float y, float z, float x2, float y2, float z2, Color& color)
 {
 	RenderLine(Vector3(x, y, z), Vector3(x2, y2, z2), color);
@@ -51,6 +55,7 @@ void DebugLine::RenderLine(Vector3& start, Vector3& end, Color& color)
 	vertices[drawCount].Color = color;
 	vertices[drawCount++].Position = end;
 }
+
 void DebugLine::Update()
 {
 
@@ -62,8 +67,10 @@ void DebugLine::Update()
 	shader->AsMatrix("View")->SetMatrix(Context::Get()->View());
 	shader->AsMatrix("Projection")->SetMatrix(Context::Get()->Projection());
 }
+
 void DebugLine::Render()
 {
+
 	if (drawCount < 1) return;
 
 	D3D::GetDC()->UpdateSubresource(vertexBuffer, 0, NULL, vertices, sizeof(VertexColor) * drawCount, 0);

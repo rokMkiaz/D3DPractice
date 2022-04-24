@@ -12,12 +12,13 @@ Projection::Projection(float width, float height, float zn, float zf, float fov)
 {
 
 }
+
 Projection::~Projection()
 {
 
 }
 
-void Projection::GetMatrix(Matrix* matrix)
+void Projection::GetMatrix(Matrix * matrix)
 {
 	memcpy(matrix, &this->matrix, sizeof(Matrix));
 }

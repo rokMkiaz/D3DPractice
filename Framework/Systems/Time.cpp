@@ -10,42 +10,49 @@ Time::Time(void) :
 	ticksPerSecond(0), currentTime(0), lastTime(0), lastFPSUpdate(0), fpsUpdateInterval(0),
 	frameCount(0), runningTime(0), framePerSecond(0)
 {
-	QueryPerformanceFrequency((LARGE_INTEGER*)&ticksPerSecond);
+	QueryPerformanceFrequency((LARGE_INTEGER *)&ticksPerSecond);
 	fpsUpdateInterval = ticksPerSecond >> 1;
 
 	/*TwBar* bar = TweakBar::Get()->GetBar();
 	TwAddVarRO(bar, "Time", TW_TYPE_FLOAT, &framePerSecond, "");*/
 }
+
 Time::~Time(void)
 {
 
 }
+
 Time* Time::Get()
 {
 	assert(instance != NULL);
 
 	return instance;
 }
+
 void Time::Create()
 {
 	assert(instance == NULL);
 
 	instance = new Time();
 }
+
 void Time::Delete()
 {
 	SafeDelete(instance);
 }
+
 void Time::Update()
 {
+
 	if (isTimerStopped) return;
 
-	//현재시간을 가져와 시간 간격 및 진행 시간을 계산한다.
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime); //현재 실행속도 측정하는 함수
+	//1. 현재시간을 가져와 시간 간격 및 진행 시간을 계산한다.
+	QueryPerformanceCounter((LARGE_INTEGER *)&currentTime);
 	timeElapsed = (float)(currentTime - lastTime) / (float)ticksPerSecond;
 	runningTime += timeElapsed;
 
-	//FPS Update
+
+	//2. FPS Update
 	frameCount++;
 	if (currentTime - lastFPSUpdate >= fpsUpdateInterval)
 	{
@@ -59,29 +66,34 @@ void Time::Update()
 
 	lastTime = currentTime;
 }
+
 void Time::Print()
 {
+
 }
+
 void Time::Start()
 {
 	if (!isTimerStopped)
 		assert(false);
 
-	QueryPerformanceCounter((LARGE_INTEGER*)&lastTime);
-	isTimerStopped = false; // 1개월만에 Freedom작동 불능 오류 확인...
+	QueryPerformanceCounter((LARGE_INTEGER *)&lastTime);
+	isTimerStopped = false;
 }
+
 void Time::Stop()
 {
 	if (isTimerStopped)
 		assert(false);
 
 	INT64 stopTime = 0;
-	QueryPerformanceCounter((LARGE_INTEGER*)&stopTime);
+	QueryPerformanceCounter((LARGE_INTEGER *)&stopTime);
 	runningTime += (float)(stopTime - lastTime) / (float)ticksPerSecond;
-	isTimerStopped = true; 
+	isTimerStopped = true;
 }
 
-//Timer///////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 Timer::Timer()
 {
 	bComplete = false;
@@ -100,26 +112,26 @@ void Timer::Start(function<void()> func, int milliSec, UINT repeat)
 
 	bComplete = false;
 	thread t([=]()
+	{
+		while (true)
 		{
-			while (true)
-			{
-				if (repeat > 0 && count == repeat)
-					break;
+			if (repeat > 0 && count == repeat)
+				break;
 
-				if (bComplete == true)
-					break;
+			if (bComplete == true)
+				break;
 
-				count++;
-				Sleep(milliSec);
+			count++;
+			Sleep(milliSec);
 
-				if (bComplete == true)
-					break;
+			if (bComplete == true)
+				break;
 
-				func();
-			}
+			func();
+		}
 
-			Stop();
-		});
+		Stop();
+	});
 	t.detach();
 }
 
@@ -129,22 +141,22 @@ void Timer::Stop()
 
 	bComplete = true;
 }
+
 ///////////////////////////////////////////////////////////////////////////////
 
 Performance::Performance()
 {
-	QueryPerformanceFrequency((LARGE_INTEGER*)&tick); //성능비교를 위한 함수
+	QueryPerformanceFrequency((LARGE_INTEGER *)&tick); //성능비교를 위한 함수
 }
 
 void Performance::Start()
 {
-	QueryPerformanceCounter((LARGE_INTEGER*)&start);
+	QueryPerformanceCounter((LARGE_INTEGER *)&start);
 }
 
 float Performance::End()
 {
-	QueryPerformanceCounter((LARGE_INTEGER*)&end);
+	QueryPerformanceCounter((LARGE_INTEGER *)&end);
 
 	return (float)((double)(end - start) / tick * 1000.0f);
-
 }

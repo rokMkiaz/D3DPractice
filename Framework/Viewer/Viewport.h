@@ -12,7 +12,7 @@ public:
 	float GetWidth() { return width; }
 	float GetHeight() { return height; }
 
-	void Project(Vector3* pOut, Vector3& source, Matrix& W, Matrix& V, Matrix& P);
+	void Project(Vector3* pOut, Vector3& source, Matrix & W, Matrix& V, Matrix& P);
 	void Unproject(Vector3* pOut, Vector3& source, Matrix& W, Matrix& V, Matrix& P);
 
 private:

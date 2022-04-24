@@ -4,6 +4,7 @@ class Terrain
 {
 public:
 	typedef VertexNormal TerrainVertex;
+	typedef Material TerrainTexture;
 
 public:
 	Terrain(Shader* shader, wstring heightFile);
@@ -18,6 +19,15 @@ public:
 	float GetVerticalRaycast(Vector3& position);
 	Vector3 GetRaycastPosition();
 
+	TerrainVertex* GetVerticesData() { return vertices; }
+	UINT GetVertexCount() { return vertexCount; }
+
+	UINT* GetIndicesData() { return indices; }
+	UINT GetIndexCount() { return indexCount; }
+
+
+
+
 private:
 	void CreateVertexData();
 	void CreateIndexData();
@@ -28,6 +38,7 @@ private:
 	Shader* shader;
 
 	Texture* heightMap;
+	TerrainTexture* heightMapTexture;
 
 	UINT width, height;
 
@@ -35,11 +46,9 @@ private:
 	TerrainVertex* vertices;
 	VertexBuffer* vertexBuffer;
 
-
 	UINT indexCount;
 	UINT* indices;
 	IndexBuffer* indexBuffer;
-
 
 	Matrix world;
 };

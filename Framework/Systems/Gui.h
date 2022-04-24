@@ -1,11 +1,15 @@
 #pragma once
+
 struct GuiText
 {
 	D3DXVECTOR2 Position;
 	D3DXCOLOR Color;
 	string Content;
 
-	GuiText() {}
+	GuiText()
+	{
+
+	}
 };
 
 class Gui
@@ -38,7 +42,7 @@ private:
 
 private:
 	static Gui* instance;
-	vector<class Widget*> widgets;
+	vector<class Widget *> widgets;
 
 	vector<GuiText> texts;
 };
