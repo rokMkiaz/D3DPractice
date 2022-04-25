@@ -5,35 +5,22 @@ public:
 	Tessellation(Shader* shader);
 	~Tessellation();
 
-	void Render();
+	void Update() override;
+	void Render() override;
 
+	void Add(Vector3& position, Vector2& scale, UINT mapIndex);
+	void AddTexture(wstring file);
 
 private:
-	struct OutputConstantHS   
+	struct VertexTessellation
 	{
-		float	edges[3];
-		float	inside;
-	};
-
-	struct OutputHS
-	{
-		float pos;
-		Vector2 Scale;
-		UINT MapIndex;
-	};
-	struct OutputDS
-	{
-
-		Vector4	pos;
+		Vector3 postion;
 	};
 
 private:
-	VertexBuffer* vertexBuffer = NULL;
-	IndexBuffer* indexBuffer = NULL;
+	ID3DX11EffectConstantBuffer* sHullShader;
+	ID3DX11EffectConstantBuffer* sDomainShader;
 
-	UINT* indices;
-
-	UINT vertexCount, indexCount;
-
-
+	vector<VertexTessellation> vertices;
+	vector<UINT> indices;
 };
