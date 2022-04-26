@@ -1,28 +1,41 @@
 #include "Framework.h"
 #include "Tessellation.h"
-struct OutputHS
-{
-	float pos;
-	Vector2 Scale;
-	UINT MapIndex;
-};
-struct OutputDS
-{
-	Vector4	pos;
-};
 
-Tessellation::Tessellation(Shader* shader)
+
+Tessellation::Tessellation(Shader* shader, VertexTextureNormalTangent* vertices, UINT vertexCount, UINT&indices, UINT indexCount)
 	:Renderer(shader)
 {
-	sHullShader = shader->AsConstantBuffer("OutputHS");
-	sDomainShader = shader->AsConstantBuffer("OutputDS");
+	buffer = new ConstantBuffer(&desc, sizeof(Desc));
+	sBuffer = shader->AsConstantBuffer("CB_Tessellation");
 
+	
+	vector< VertexTessellation> v;
+
+	for (UINT i = 0; i < vertexCount; i++)
+	{
+		VertexTessellation tV=
+		{
+			vertices->Position
+		};
+
+		v.push_back(tV);
+	}
+	this->vertices = new VertexTessellation[v.size()];
+	this->vertexCount = vertexCount;
+
+	copy(v.begin(),v.end(),stdext::checked_array_iterator<VertexTessellation*>(this->vertices, this->vertexCount));
+
+	this->indices = &indices;
+	this->indexCount = indexCount;
+
+	vertexBuffer = new VertexBuffer(this->vertices, this->vertexCount, sizeof(VertexTessellation));
+	indexBuffer = new IndexBuffer(this->indices, this->indexCount);
 }
 
 Tessellation::~Tessellation()
 {
-	SafeDelete(sHullShader);
-	SafeDelete(sDomainShader);
+	SafeDelete(sBuffer);
+
 }
 
 void Tessellation::Update()
@@ -33,5 +46,11 @@ void Tessellation::Update()
 void Tessellation::Render()
 {
 
+	Super::Render();
+
+	buffer->Render();
+	sBuffer->SetConstantBuffer(buffer->Buffer());
+
 }
+
 

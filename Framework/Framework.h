@@ -130,6 +130,7 @@ typedef D3DXPLANE Plane;
 #include"Objects/DynamicCubeMap.h"
 #include"Objects/Projector.h"
 #include"Objects/Shadow.h"
+#include"Objects/Tessellation.h"
 
 //TODO::
 #include"Environment/Terrain.h"

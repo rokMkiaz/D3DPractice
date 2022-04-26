@@ -15,6 +15,7 @@ public:
 
 private:
 	void Mesh();
+	void MakeTessellation();
 	void Pass(UINT mesh, UINT model, UINT anim);
 
 
@@ -23,6 +24,7 @@ private:
 
 	MeshRender* terrain;
 	Material* grid;
+	Tessellation* tessellation;
 
 	vector<MeshRender*> meshes;
 	vector<ModelRender*> models;
