@@ -60,6 +60,15 @@ private:
 		UINT OMSampleMask;
 		ID3D11DepthStencilState* OMDepthStencilState;
 		UINT OMStencilRef;
+
+		ID3D11HullShader* tHullShader;
+		ID3D11ClassInstance* tHullInstance;
+		UINT tNumHullInstance;
+		ID3D11DomainShader* tDomainShader;
+		ID3D11ClassInstance* tDomainInstance;
+		UINT tNumDomainInstance;
+
+
 	};
 	StateBlock* initialStateBlock;
 

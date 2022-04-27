@@ -3,11 +3,8 @@
 
 
 Tessellation::Tessellation(Shader* shader, VertexTextureNormalTangent* vertices, UINT vertexCount, UINT&indices, UINT indexCount)
-	:Renderer(shader)
+	:Renderer(L"75_Test.fx")
 {
-	buffer = new ConstantBuffer(&desc, sizeof(Desc));
-	sBuffer = shader->AsConstantBuffer("CB_Tessellation");
-
 	
 	vector< VertexTessellation> v;
 
@@ -34,7 +31,7 @@ Tessellation::Tessellation(Shader* shader, VertexTextureNormalTangent* vertices,
 
 Tessellation::~Tessellation()
 {
-	SafeDelete(sBuffer);
+
 
 }
 
@@ -48,8 +45,6 @@ void Tessellation::Render()
 
 	Super::Render();
 
-	buffer->Render();
-	sBuffer->SetConstantBuffer(buffer->Buffer());
 
 }
 

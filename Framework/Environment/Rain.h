@@ -1,5 +1,5 @@
 #pragma once
-class Rain :Renderer
+class Rain : public Renderer
 {
 
 public:

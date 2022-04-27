@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{B8
 		..\_Shaders\19_Terrain.fx = ..\_Shaders\19_Terrain.fx
 		..\_Shaders\20_DebugLine.fx = ..\_Shaders\20_DebugLine.fx
 		..\_Shaders\75_Lighting.fx = ..\_Shaders\75_Lighting.fx
+		..\_Shaders\75_Test.fx = ..\_Shaders\75_Test.fx
 		..\_Shaders\ShaderCompiler.exe = ..\_Shaders\ShaderCompiler.exe
 	EndProjectSection
 EndProject

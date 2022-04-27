@@ -15,17 +15,9 @@ private:
 	{
 		Vector3 postion;
 	};
-	struct Desc
-	{
-		Vector3 OutputHS ;
-		float CB_HS_Padding;
-
-		Vector4 OutputDS ;
-	}desc;
 
 private:
-	ConstantBuffer* buffer;
-	ID3DX11EffectConstantBuffer* sBuffer;
+
 
 
 	VertexTessellation* vertices;

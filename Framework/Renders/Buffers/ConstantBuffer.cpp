@@ -14,10 +14,7 @@ ConstantBuffer::ConstantBuffer(void* data, UINT dataSize)
 
 	Check(D3D::GetDevice()->CreateBuffer(&desc, NULL, &buffer));
 
-	//if (hullShader == NULL)
-	//	D3D::GetDC()->HSSetConstantBuffers(0, 1, &buffer);
-	//if (domainShader == NULL)
-	//	D3D::GetDC()->DSSetConstantBuffers(0, 1, &buffer);
+
 }
 
 ConstantBuffer::~ConstantBuffer()
@@ -35,10 +32,7 @@ void ConstantBuffer::Render()
 	}
 	D3D::GetDC()->Unmap(buffer, 0);
 
-	//if (hullShader != nullptr)
-	//	D3D::GetDC()->HSSetShader(hullShader, NULL, 0);
-	//if (domainShader != nullptr)
-	//	D3D::GetDC()->DSSetShader(domainShader, NULL, 0);
+
 
 
 }

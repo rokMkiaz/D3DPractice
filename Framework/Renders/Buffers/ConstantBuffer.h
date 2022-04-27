@@ -12,8 +12,6 @@ public:
 private:
 	ID3D11Buffer* buffer;
 	
-	ID3D11HullShader*   hullShader = nullptr ;
-	ID3D11DomainShader* domainShader= nullptr;
 
 	void* data;
 	UINT dataSize;
