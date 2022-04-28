@@ -6,6 +6,7 @@ public:
 	~ConstantBuffer();
 
 	ID3D11Buffer* Buffer() { return buffer; }
+	ID3D11Buffer** pBuffer() { return &buffer; }
 
 	void Render();
 

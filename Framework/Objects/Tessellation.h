@@ -17,8 +17,8 @@ private:
 	};
 
 private:
-
-
+	ConstantBuffer* TessellationBuffer;
+	
 
 	VertexTessellation* vertices;
 	UINT* indices;

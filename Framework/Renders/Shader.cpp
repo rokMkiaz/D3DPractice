@@ -11,7 +11,6 @@ Shader::Shader(wstring file)
 		D3D::GetDC()->OMGetDepthStencilState(&initialStateBlock->OMDepthStencilState, &initialStateBlock->OMStencilRef);
 		D3D::GetDC()->HSGetShader(&initialStateBlock->tHullShader,&initialStateBlock->tHullInstance,&initialStateBlock->tNumHullInstance);
 		D3D::GetDC()->DSGetShader(&initialStateBlock->tDomainShader, &initialStateBlock->tDomainInstance, &initialStateBlock->tNumDomainInstance);
-	
 
 	}
 
@@ -104,6 +103,7 @@ void Shader::CreateEffect()
 			pass.IPass->GetDesc(&pass.Desc);
 			pass.Name = String::ToWString(pass.Desc.Name);
 			pass.IPass->GetVertexShaderDesc(&pass.PassVsDesc);
+
 			pass.PassVsDesc.pShaderVariable->GetShaderDesc(pass.PassVsDesc.ShaderIndex, &pass.EffectVsDesc);
 
 			for (UINT s = 0; s < pass.EffectVsDesc.NumInputSignatureEntries; s++)
@@ -426,7 +426,6 @@ ID3DX11EffectDepthStencilViewVariable* Shader::AsDSV(string name)
 ID3DX11EffectConstantBuffer* Shader::AsConstantBuffer(string name)
 {
 	return effect->GetConstantBufferByName(name.c_str());
-	
 }
 
 ID3DX11EffectShaderVariable* Shader::AsShader(string name)

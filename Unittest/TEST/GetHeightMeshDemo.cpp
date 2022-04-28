@@ -6,12 +6,12 @@ void GetHeightMeshDemo::Initialize()
 	Context::Get()->GetCamera()->RotationDegree(24, 54, 0);
 	Context::Get()->GetCamera()->Position(-31, 53, -2);
 
-	shader = new Shader(L"75_Lighting.fx");
+	shader = new Shader(L"75_Lighting.fxo");
 	//shader = new Shader(L"113_Shadow.fxo");
 
 
 	Mesh();
-	MakeTessellation();
+
 }
 
 void GetHeightMeshDemo::Destroy()
@@ -24,14 +24,14 @@ void GetHeightMeshDemo::Update()
 {
 	
 	terrain->Update();
-	//tessellation->Update();
+	tessellation->Update();
 }
 
 void GetHeightMeshDemo::PreRender()
 {
 	grid->Render();
 	terrain->Render();
-	//tessellation->Render();
+	tessellation->Render();
 }
 
 void GetHeightMeshDemo::Render()
@@ -39,7 +39,8 @@ void GetHeightMeshDemo::Render()
 	Pass(0,1,2);
 	grid->Render();
 	terrain->Render();
-	//tessellation->Render();
+	
+	tessellation->Render();
 	
 }
 
@@ -57,13 +58,15 @@ void GetHeightMeshDemo::Mesh()
 
 
 	terrain->UpdateTransforms();
+	MakeTessellation();
+
 	meshes.push_back(terrain);
 }
 
 void GetHeightMeshDemo::MakeTessellation()
 {
-	//tessellation = new Tessellation(shader, ((MeshTerrain*)terrain)->GetVerticesData(), ((MeshTerrain*)terrain)->GetVertexCount(),
-	//	*((MeshTerrain*)terrain)->GetIndicesData(), ((MeshTerrain*)terrain)->GetIndexCount());
+	tessellation = new Tessellation(shader, ((MeshTerrain*)terrain)->GetVerticesData(), ((MeshTerrain*)terrain)->GetVertexCount(),
+		*((MeshTerrain*)terrain)->GetIndicesData(), ((MeshTerrain*)terrain)->GetIndexCount());
 
 	
 }
@@ -71,9 +74,9 @@ void GetHeightMeshDemo::MakeTessellation()
 void GetHeightMeshDemo::Pass(UINT mesh, UINT model, UINT anim)
 {
 	
-	//tessellation->Pass(0);
+	tessellation->Pass(0);
 	for (MeshRender* temp : meshes)
-		temp->Pass(mesh);
+		temp->Pass(0);
 
 	for (ModelRender* temp : models)
 		temp->Pass(model);
