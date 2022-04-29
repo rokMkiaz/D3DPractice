@@ -9,9 +9,6 @@ Shader::Shader(wstring file)
 		D3D::GetDC()->RSGetState(&initialStateBlock->RSRasterizerState);
 		D3D::GetDC()->OMGetBlendState(&initialStateBlock->OMBlendState, initialStateBlock->OMBlendFactor, &initialStateBlock->OMSampleMask);
 		D3D::GetDC()->OMGetDepthStencilState(&initialStateBlock->OMDepthStencilState, &initialStateBlock->OMStencilRef);
-		D3D::GetDC()->HSGetShader(&initialStateBlock->tHullShader,&initialStateBlock->tHullInstance,&initialStateBlock->tNumHullInstance);
-		D3D::GetDC()->DSGetShader(&initialStateBlock->tDomainShader, &initialStateBlock->tDomainInstance, &initialStateBlock->tNumDomainInstance);
-
 	}
 
 	CreateEffect();
@@ -308,12 +305,8 @@ void Shader::Pass::EndDraw()
 	if (StateBlockMask.OMBlendState == 1)
 		D3D::GetDC()->OMSetBlendState(StateBlock->OMBlendState, StateBlock->OMBlendFactor, StateBlock->OMSampleMask);
 	
-	if (StateBlockMask.HS == 1)
-		D3D::GetDC()->HSSetShader(StateBlock->tHullShader,&StateBlock->tHullInstance, StateBlock->tNumHullInstance);
-		
-	if(StateBlockMask.DS==1)
-		D3D::GetDC()->DSSetShader(StateBlock->tDomainShader, &StateBlock->tDomainInstance, StateBlock->tNumDomainInstance);
-	
+	D3D::GetDC()->HSSetShader(NULL, NULL, 0);
+	D3D::GetDC()->DSSetShader(NULL, NULL, 0);
 	D3D::GetDC()->GSSetShader(NULL, NULL, 0);
 
 }

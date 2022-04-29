@@ -2,6 +2,8 @@
 class Tessellation : public Renderer
 {
 public:
+	typedef VertexTextureNormalTangent TessellationVertex;
+public:
 	Tessellation(Shader* shader, VertexTextureNormalTangent* vertices, UINT vertexCount,UINT&indices,UINT indexCount);
 	~Tessellation();
 
@@ -10,16 +12,11 @@ public:
 
 	//void AddTexture(wstring file);
 
-private:
-	struct VertexTessellation
-	{
-		Vector3 postion;
-	};
 
 private:
 	ConstantBuffer* TessellationBuffer;
 	
 
-	VertexTessellation* vertices;
+	TessellationVertex* vertices;
 	UINT* indices;
 };

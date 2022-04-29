@@ -24,14 +24,14 @@ void GetHeightMeshDemo::Update()
 {
 	
 	terrain->Update();
-	tessellation->Update();
+	//tessellation->Update();
 }
 
 void GetHeightMeshDemo::PreRender()
 {
 	grid->Render();
 	terrain->Render();
-	tessellation->Render();
+	//tessellation->Render();
 }
 
 void GetHeightMeshDemo::Render()
@@ -40,7 +40,7 @@ void GetHeightMeshDemo::Render()
 	grid->Render();
 	terrain->Render();
 	
-	tessellation->Render();
+	//tessellation->Render();
 	
 }
 
@@ -57,8 +57,8 @@ void GetHeightMeshDemo::Mesh()
 
 
 
+	//MakeTessellation();
 	terrain->UpdateTransforms();
-	MakeTessellation();
 
 	meshes.push_back(terrain);
 }
@@ -74,7 +74,7 @@ void GetHeightMeshDemo::MakeTessellation()
 void GetHeightMeshDemo::Pass(UINT mesh, UINT model, UINT anim)
 {
 	
-	tessellation->Pass(0);
+	//tessellation->Pass(0);
 	for (MeshRender* temp : meshes)
 		temp->Pass(0);
 
