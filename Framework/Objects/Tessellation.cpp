@@ -5,7 +5,8 @@
 Tessellation::Tessellation(Shader* shader, VertexTextureNormalTangent* vertices, UINT vertexCount, UINT&indices, UINT indexCount)
 	:Renderer(shader) //L"76_Test.fx"
 {
-	
+	Topology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+
 	vector< TessellationVertex> v;
 
 	for (UINT i = 0; i < vertexCount; i++)

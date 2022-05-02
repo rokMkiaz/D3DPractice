@@ -20,9 +20,8 @@ private:
 		Plane Culling[4];
 		Plane Clipping;
 
-		float TessellationFactor;
 		float Time;
-		float Padding[2];
+		float Padding[3];
 	} desc;
 
 	struct LightDesc
