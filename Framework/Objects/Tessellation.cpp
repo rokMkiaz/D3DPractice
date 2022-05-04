@@ -2,33 +2,17 @@
 #include "Tessellation.h"
 
 
-Tessellation::Tessellation(Shader* shader, VertexTextureNormalTangent* vertices, UINT vertexCount, UINT&indices, UINT indexCount)
-	:Renderer(shader) //L"76_Test.fx"
+Tessellation::Tessellation(Shader* shader)
+	:Renderer(shader) 
 {
 	Topology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-	vector< TessellationVertex> v;
 
-	for (UINT i = 0; i < vertexCount; i++)
-	{
-		TessellationVertex tV = vertices[i];
-	
+	tessellationBuffer = new ConstantBuffer(&desc, sizeof(Desc));
+	sBuffer = shader->AsConstantBuffer("CB_Tessellation");
 
-		v.push_back(tV);
-	}
-	this->vertices = new TessellationVertex[v.size()];
-	this->vertexCount = vertexCount;
-
-	copy(v.begin(),v.end(),stdext::checked_array_iterator<TessellationVertex*>(this->vertices, this->vertexCount));
-
-	this->indices = &indices;
-	this->indexCount = indexCount;
-
-	vertexBuffer = new VertexBuffer(this->vertices, this->vertexCount, sizeof(TessellationVertex));
-	indexBuffer = new IndexBuffer(this->indices, this->indexCount);
-
-	TessellationBuffer = new ConstantBuffer(this, sizeof(TessellationVertex));
-
+	D3D::GetDC()->HSSetConstantBuffers(0, 1, tessellationBuffer->pBuffer());
+	D3D::GetDC()->DSSetConstantBuffers(0, 1, tessellationBuffer->pBuffer());
 }
 
 Tessellation::~Tessellation()
@@ -44,11 +28,41 @@ void Tessellation::Update()
 
 void Tessellation::Render()
 {
+	desc.TessellationVP = Context::Get()->View(); * Context::Get()->Projection();
+	desc.TessellationFactor = 1.0f;
 
-	D3D::GetDC()->HSSetConstantBuffers(0,1,TessellationBuffer->pBuffer());
-	D3D::GetDC()->DSSetConstantBuffers(0, 1, TessellationBuffer->pBuffer());
+	tessellationBuffer->Render();
+	sBuffer->SetConstantBuffer(tessellationBuffer->Buffer());
+
+	if (vertexCount != vertices.size())
+	{
+		vertexCount = vertices.size();
+
+		SafeDelete(vertexBuffer);
+		vertexBuffer = new VertexBuffer(&vertices[0], vertices.size(), sizeof(VertexTessellation));
+		
+		UINT indexCount = 3;
+		UINT indices[] = { 0,1,2 };
+		indexBuffer = new IndexBuffer(indices,indexCount);
+	
+
+	}
+
+
+	
+
 	Super::Render();
 
+
+}
+
+void Tessellation::Add(Vector3& position, Vector4& color)
+{
+	VertexTessellation vertex =
+	{
+		position,color
+	};
+	vertices.push_back(vertex);
 
 }
 
