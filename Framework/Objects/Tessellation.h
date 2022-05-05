@@ -10,14 +10,15 @@ public:
 
 	//void AddTexture(wstring file);
 	void Add(Vector3& position, Vector4& color);
+	void AddTexture(wstring file);
 
 private:
 	struct Desc
 	{
 		Matrix TessellationVP;
 
-		float TessellationFactor;
-		float Padding[3];
+		float TessellationFactor[3];
+		float Tessellationinside;
 	}desc;
 
 	struct VertexTessellation
@@ -31,7 +32,8 @@ private:
 	ConstantBuffer* tessellationBuffer = NULL;
 	ID3DX11EffectConstantBuffer* sBuffer = NULL;
 
-
+	Texture* texture = NULL;
+	ID3DX11EffectShaderResourceVariable* sDiffuseMap;
 
 	vector<VertexTessellation> vertices;
 

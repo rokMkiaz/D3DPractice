@@ -24,7 +24,9 @@ private:
 
 	MeshRender* terrain;
 	Material* grid;
+
 	Tessellation* tessellation;
+	Material* tessellationMaterial;
 
 	vector<MeshRender*> meshes;
 	vector<ModelRender*> models;

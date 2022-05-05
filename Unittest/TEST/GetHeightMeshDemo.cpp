@@ -31,7 +31,9 @@ void GetHeightMeshDemo::PreRender()
 {
 	grid->Render();
 	terrain->Render();
+
 	tessellation->Render();
+	tessellationMaterial->Render();
 }
 
 void GetHeightMeshDemo::Render()
@@ -41,7 +43,7 @@ void GetHeightMeshDemo::Render()
 	terrain->Render();
 	
 	tessellation->Render();
-	
+	tessellationMaterial->Render();
 }
 
 void GetHeightMeshDemo::Mesh()
@@ -65,21 +67,30 @@ void GetHeightMeshDemo::Mesh()
 
 void GetHeightMeshDemo::MakeTessellation()
 {
+	tessellationMaterial = new Material(shader);
+	tessellationMaterial->DiffuseMap(L"Terrain/DarkDirt.png");
+
+
 	tessellation = new Tessellation(shader);
-	Vector3 position = { 0,0,0 };
+	tessellation->Pass(3);
+
+	Vector3 position = { 0,0,20 };
+	Vector3 position1 = { 10,0,20 };
+	Vector3 position2 = { 10,10,20 };
 	Vector4 color = { 1,1,1,1 };
 
+	tessellation->AddTexture(L"Terrain/DarkDirt.png");
 	tessellation->Add(position, color);
+	tessellation->Add(position1, color);
+	tessellation->Add(position2, color);
+
 	
 	
 
-	
 }
 
 void GetHeightMeshDemo::Pass(UINT mesh, UINT model, UINT anim)
 {
-	
-	tessellation->Pass(3);
 	for (MeshRender* temp : meshes)
 		temp->Pass(0);
 
