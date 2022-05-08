@@ -52,7 +52,7 @@ void GetHeightMeshDemo::Mesh()
 	grid->DiffuseMap(L"Terrain/DarkDirt.png");
 
 	Transform* transform = NULL;
-	terrain = new MeshRender(shader, new MeshTerrain(L"Terrain/Graymap2.png"));
+	terrain = new MeshRender(shader, new MeshTerrain(L"Terrain/Graymap2.png", 10, 10));
 	transform = terrain->AddTransform();
 	transform->Position(0, 0, 20);
 	transform->Scale(1, 1, 1);

@@ -1,10 +1,12 @@
 #include"Framework.h"
 #include"MeshTerrain.h"
 
-MeshTerrain::MeshTerrain(wstring heightFile)
+MeshTerrain::MeshTerrain(wstring heightFile, UINT countX, UINT countZ)
 {
 	heightMap = new Texture(heightFile);
 
+	this->countX = countX+1;
+	this->countZ = countZ+1;
 }
 
 MeshTerrain::~MeshTerrain()
@@ -153,8 +155,7 @@ void MeshTerrain::CreateVertexData()
 
 	vector<MeshVertex> v;
 	//¸Å½Ã °¹¼ö
-	UINT countX = 21;
-	UINT countZ = 21;
+
 
 	for (UINT z = 0; z < height; z++)
 	{

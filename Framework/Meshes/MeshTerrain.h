@@ -3,18 +3,13 @@
 class MeshTerrain : public Mesh
 {
 public:
-	MeshTerrain(wstring heightFile);
+	MeshTerrain(wstring heightFile,UINT countX,UINT countZ );
 	~MeshTerrain();
 
 	float GetHeight(Vector3& position);
 	float GetVerticalRaycast(Vector3& position);
 	Vector3 GetRaycastPosition();
 
-	MeshVertex* GetVerticesData() { return vertices; }
-	UINT GetVertexCount() { return vertexCount; }
-
-	UINT* GetIndicesData() { return indices; }
-	UINT GetIndexCount() { return indexCount; }
 
 
 private:
@@ -27,9 +22,9 @@ private:
 private:
 	Texture* heightMap;
 
-	UINT width, height;
+	UINT width = 0, height = 0;
 
-
+	UINT countX  = 0, countZ = 0;
 
 	Matrix world;
 };
