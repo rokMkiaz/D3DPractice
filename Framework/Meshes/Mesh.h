@@ -16,16 +16,19 @@ public:
 	void Update();
 	void Render(UINT drawCount);
 
-
+	
 	MeshVertex* GetVerticesData() { return vertices; }
 	UINT GetVertexCount() { return vertexCount; }
 
 	UINT* GetIndicesData() { return indices; }
 	UINT GetIndexCount() { return indexCount; }
 
+private:
+	void MakeTessellation();
+
 protected:
 	virtual void Create() = 0;
-
+	
 
 protected:
 	Shader* shader;
@@ -35,6 +38,8 @@ protected:
 
 	VertexBuffer* vertexBuffer = NULL;
 	IndexBuffer* indexBuffer = NULL;
+
+	class Tessellation* tessellation;
 
 	MeshVertex* vertices;
 	UINT* indices;

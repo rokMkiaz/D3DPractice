@@ -2,21 +2,21 @@
 class Tessellation : public Renderer
 {
 public:
-	Tessellation(Shader* shader);
+	typedef VertexTextureNormalTangent MeshVertex;
+public:
+	Tessellation(Shader* shader, MeshVertex* vertices , UINT vertexCount);
 	~Tessellation();
 
 	void Update() override;
 	void Render() override;
 
 	//void AddTexture(wstring file);
-	void Add(Vector3& position, Vector4& color);
 	void AddTexture(wstring file);
 
 private:
 	struct Desc
 	{
 		Matrix TessellationVP;
-
 		float TessellationFactor[3];
 		float Tessellationinside;
 	}desc;
@@ -24,7 +24,7 @@ private:
 	struct VertexTessellation
 	{
 		Vector3 position;
-		Vector4 color;
+		Vector3 color;
 	};
 
 
@@ -35,6 +35,7 @@ private:
 	Texture* texture = NULL;
 	ID3DX11EffectShaderResourceVariable* sDiffuseMap;
 
-	vector<VertexTessellation> vertices;
+	VertexTessellation* vertices;
+	UINT vertexCount;
 
 };

@@ -26,5 +26,7 @@ private:
 
 	UINT countX  = 0, countZ = 0;
 
+
+
 	Matrix world;
 };

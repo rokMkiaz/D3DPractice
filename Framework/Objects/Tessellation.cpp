@@ -2,10 +2,14 @@
 #include "Tessellation.h"
 
 
-Tessellation::Tessellation(Shader* shader)
+Tessellation::Tessellation(Shader* shader, MeshVertex *vertices, UINT vertexCount)
 	:Renderer(shader) 
 {
 	Topology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+
+	this->vertices->position = vertices->Position;
+	this->vertices->color = vertices->Normal;
+	this->vertexCount = vertexCount;
 
 
 	tessellationBuffer = new ConstantBuffer(&desc, sizeof(Desc));
@@ -20,6 +24,8 @@ Tessellation::~Tessellation()
 {
 	SafeDelete(sBuffer);
 	SafeDelete(tessellationBuffer);
+
+	SafeDelete(vertices);
 
 }
 
@@ -41,31 +47,22 @@ void Tessellation::Render()
 	sBuffer->SetConstantBuffer(tessellationBuffer->Buffer());
 
 
-	if (vertexCount != vertices.size())
+
+	vertexBuffer = new VertexBuffer(&vertices[0], vertexCount, sizeof(VertexTessellation));
+
+
+	if ( texture != NULL)
 	{
-		vertexCount = vertices.size();
-
-		SafeDelete(vertexBuffer);
-		vertexBuffer = new VertexBuffer(&vertices[0], vertices.size(), sizeof(VertexTessellation));
-
+		sDiffuseMap->SetResource(texture->SRV());
 	}
 
-
 	Super::Render();
-	sDiffuseMap->SetResource(texture->SRV());
+	
 	shader->Draw(0, Pass(), vertexCount);
 
 }
 
-void Tessellation::Add(Vector3& position, Vector4& color)
-{
-	VertexTessellation vertex =
-	{
-		position,color
-	};
-	vertices.push_back(vertex);
 
-}
 
 void Tessellation::AddTexture(wstring file)
 {
