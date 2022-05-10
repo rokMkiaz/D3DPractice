@@ -23,10 +23,7 @@ public:
 	UINT* GetIndicesData() { return indices; }
 	UINT GetIndexCount() { return indexCount; }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 6a3dabf1d266e1424da246b3aee6e75efb055cb3
 
 protected:
 	virtual void Create() = 0;
@@ -41,10 +38,7 @@ protected:
 	VertexBuffer* vertexBuffer = NULL;
 	IndexBuffer* indexBuffer = NULL;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 6a3dabf1d266e1424da246b3aee6e75efb055cb3
 
 	MeshVertex* vertices;
 	UINT* indices;

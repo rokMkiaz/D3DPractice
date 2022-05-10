@@ -6,13 +6,11 @@ public:
 	~ConstantBuffer();
 
 	ID3D11Buffer* Buffer() { return buffer; }
-	ID3D11Buffer** pBuffer() { return &buffer; }
 
 	void Render();
 
 private:
 	ID3D11Buffer* buffer;
-	
 
 	void* data;
 	UINT dataSize;

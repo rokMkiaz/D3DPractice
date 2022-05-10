@@ -60,7 +60,7 @@ void Projector::Update()
 
 	//Orthographic
 	{
-		static float width = this->width, height = this->height;
+		static float width = (float)this->width, height = (float)this->height;
 		static float n = 1.0f, f = 100.0f;
 
 		ImGui::SliderFloat("Width", &width, 0, 100);

@@ -13,8 +13,6 @@ ConstantBuffer::ConstantBuffer(void* data, UINT dataSize)
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	Check(D3D::GetDevice()->CreateBuffer(&desc, NULL, &buffer));
-
-
 }
 
 ConstantBuffer::~ConstantBuffer()
@@ -27,12 +25,7 @@ void ConstantBuffer::Render()
 	D3D11_MAPPED_SUBRESOURCE subResource;
 	Check(D3D::GetDC()->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource));
 	{
-		
 		memcpy(subResource.pData, data, dataSize);
 	}
 	D3D::GetDC()->Unmap(buffer, 0);
-
-
-
-
 }
