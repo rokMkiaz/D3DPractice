@@ -27,7 +27,6 @@ void Mesh::SetShader(Shader* shader)
 
 void Mesh::Update()
 {
-	tessellation->Update();
 	perFrame->Update();
 }
 
@@ -36,7 +35,7 @@ void Mesh::Render(UINT drawCount)
 	if (vertexBuffer == NULL || indexBuffer == NULL)
 	{
 		Create();
-		MakeTessellation();
+
 
 		vertexBuffer = new VertexBuffer(vertices, vertexCount, sizeof(MeshVertex));
 		indexBuffer = new IndexBuffer(indices, indexCount);
@@ -46,14 +45,10 @@ void Mesh::Render(UINT drawCount)
 	indexBuffer->Render();
 
 	
-	tessellation->Render();
+
 
 	D3D::GetDC()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	shader->DrawIndexedInstanced(0, pass, indexCount, drawCount);
 }
 
-void Mesh::MakeTessellation()
-{
-	tessellation = new Tessellation(shader, vertices, vertexCount);
-	tessellation->Pass(3);
-}
+

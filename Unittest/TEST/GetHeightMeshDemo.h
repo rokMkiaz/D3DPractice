@@ -26,7 +26,7 @@ private:
 	Material* grid;
 
 	Tessellation* tessellation;
-	Material* tessellationMaterial;
+	//Material* tessellationMaterial;
 
 	vector<MeshRender*> meshes;
 	vector<ModelRender*> models;
