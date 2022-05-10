@@ -24,7 +24,11 @@ void GetHeightMeshDemo::Update()
 {
 	
 	terrain->Update();
+<<<<<<< HEAD
 
+=======
+	//tessellation->Update();
+>>>>>>> 6a3dabf1d266e1424da246b3aee6e75efb055cb3
 }
 
 void GetHeightMeshDemo::PreRender()
@@ -41,9 +45,15 @@ void GetHeightMeshDemo::Render()
 	Pass(0,1,2);
 	grid->Render();
 	terrain->Render();
+<<<<<<< HEAD
 	
 	//tessellation->Render();
 	//tessellationMaterial->Render();
+=======
+	MakeTessellation();
+	///tessellation->Render();
+	///tessellationMaterial->Render();
+>>>>>>> 6a3dabf1d266e1424da246b3aee6e75efb055cb3
 }
 
 void GetHeightMeshDemo::Mesh()
@@ -60,25 +70,25 @@ void GetHeightMeshDemo::Mesh()
 
 
 	terrain->UpdateTransforms();
+<<<<<<< HEAD
 	//MakeTessellation();
+=======
+	
+>>>>>>> 6a3dabf1d266e1424da246b3aee6e75efb055cb3
 
 	meshes.push_back(terrain);
 }
 
 void GetHeightMeshDemo::MakeTessellation()
 {
-	tessellationMaterial = new Material(shader);
-	tessellationMaterial->DiffuseMap(L"Terrain/DarkDirt.png");
+	//tessellationMaterial = new Material(shader);
+	//tessellationMaterial->DiffuseMap(L"Terrain/DarkDirt.png");
+
+	tessellation = new Tessellation(shader, terrain->GetMesh()->GetVerticesData(), terrain->GetMesh()->GetVertexCount());
+	//tessellation->Pass(3);
 
 
-	tessellation->Pass(3);
-
-	Vector3 position = { 0,0,20 };
-	Vector3 position1 = { 10,0,20 };
-	Vector3 position2 = { 10,10,20 };
-	Vector4 color = { 1,1,1,1 };
-
-	tessellation->AddTexture(L"Terrain/DarkDirt.png");
+	//tessellation->AddTexture(L"Terrain/DarkDirt.png");
 
 
 	
