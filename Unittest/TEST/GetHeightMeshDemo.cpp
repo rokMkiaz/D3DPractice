@@ -24,7 +24,7 @@ void GetHeightMeshDemo::Update()
 {
 	
 	terrain->Update();
-	tessellation->Update();
+
 }
 
 void GetHeightMeshDemo::PreRender()
@@ -32,8 +32,8 @@ void GetHeightMeshDemo::PreRender()
 	grid->Render();
 	terrain->Render();
 
-	tessellation->Render();
-	tessellationMaterial->Render();
+	//tessellation->Render();
+	//tessellationMaterial->Render();
 }
 
 void GetHeightMeshDemo::Render()
@@ -42,8 +42,8 @@ void GetHeightMeshDemo::Render()
 	grid->Render();
 	terrain->Render();
 	
-	tessellation->Render();
-	tessellationMaterial->Render();
+	//tessellation->Render();
+	//tessellationMaterial->Render();
 }
 
 void GetHeightMeshDemo::Mesh()
@@ -60,7 +60,7 @@ void GetHeightMeshDemo::Mesh()
 
 
 	terrain->UpdateTransforms();
-	MakeTessellation();
+	//MakeTessellation();
 
 	meshes.push_back(terrain);
 }
