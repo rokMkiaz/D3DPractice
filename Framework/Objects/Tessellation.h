@@ -35,7 +35,7 @@ private:
 	Texture* texture = NULL;
 	ID3DX11EffectShaderResourceVariable* sDiffuseMap;
 
-	VertexTessellation* vertices;
+	vector<VertexTessellation> vertices;
 	UINT vertexCount;
 
 };

@@ -7,10 +7,16 @@ Tessellation::Tessellation(Shader* shader, MeshVertex *vertices, UINT vertexCoun
 {
 	Topology(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
 
-	this->vertices->position = vertices->Position;
-	this->vertices->color = vertices->Normal;
+	for (UINT i = 0; vertices == nullptr; i++)
+	{
+		if (vertices == nullptr)break;
+		VertexTessellation vertex
+		{
+			vertices[i].Position,vertices[i].Normal
+		};
+		this->vertices.push_back(vertex);
+	}
 	this->vertexCount = vertexCount;
-
 
 	tessellationBuffer = new ConstantBuffer(&desc, sizeof(Desc));
 	sBuffer = shader->AsConstantBuffer("CB_Tessellation");
@@ -25,7 +31,7 @@ Tessellation::~Tessellation()
 	SafeDelete(sBuffer);
 	SafeDelete(tessellationBuffer);
 
-	SafeDelete(vertices);
+	
 
 }
 
@@ -38,17 +44,20 @@ void Tessellation::Update()
 void Tessellation::Render()
 {
 	desc.TessellationVP = Context::Get()->View() * Context::Get()->Projection();
-	desc.TessellationFactor[0] = vertices[0].position[0];
-	desc.TessellationFactor[1] = vertices[0].position[1];
-	desc.TessellationFactor[2] = vertices[0].position[2];
 
+	for (vector<VertexTessellation>::iterator iter = vertices.begin(); iter != vertices.end() ; iter++)
+	{
+		desc.TessellationFactor[0] = iter->position[0];
+		desc.TessellationFactor[1] = iter->position[1];
+		desc.TessellationFactor[2] = iter->position[2];
+	}
 
 	tessellationBuffer->Render();
 	sBuffer->SetConstantBuffer(tessellationBuffer->Buffer());
 
 
 
-	vertexBuffer = new VertexBuffer(&vertices[0], vertexCount, sizeof(VertexTessellation));
+	vertexBuffer = new VertexBuffer(&vertices, vertexCount, sizeof(VertexTessellation));
 
 
 	if ( texture != NULL)
@@ -58,7 +67,7 @@ void Tessellation::Render()
 
 	Super::Render();
 	
-	shader->Draw(0, Pass(), vertexCount);
+	shader->DrawIndexed(0, Pass(), vertexCount);
 
 }
 
