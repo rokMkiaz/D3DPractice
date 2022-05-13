@@ -55,18 +55,16 @@ void Tessellation::Render()
 	tessellationBuffer->Render();
 	sBuffer->SetConstantBuffer(tessellationBuffer->Buffer());
 
+	vertexBuffer = new VertexBuffer(&vertices[0], vertices.size(), sizeof(VertexTessellation));
 
 
-	vertexBuffer = new VertexBuffer(&vertices, vertexCount, sizeof(VertexTessellation));
 
-
+	Super::Render();
+	
 	if ( texture != NULL)
 	{
 		sDiffuseMap->SetResource(texture->SRV());
 	}
-
-	Super::Render();
-	
 	shader->DrawIndexed(0, Pass(), vertexCount);
 
 }

@@ -7,7 +7,7 @@ void GetHeightMeshDemo::Initialize()
 	Context::Get()->GetCamera()->Position(-31, 53, -2);
 
 	//shader = new Shader(L"75_Lighting.fxo");
-	shader = new Shader(L"114_Tessellation_Test.fxo");
+	shader = new Shader(L"114_Tessellation_Test.fx");
 
 
 	Mesh();
@@ -25,7 +25,7 @@ void GetHeightMeshDemo::Update()
 	
 	terrain->Update();
 
-	//tessellation->Update();
+	tessellation->Update();
 
 }
 
@@ -34,7 +34,7 @@ void GetHeightMeshDemo::PreRender()
 	grid->Render();
 	terrain->Render();
 
-	//tessellation->Render();
+	tessellation->Render();
 	//tessellationMaterial->Render();
 }
 
@@ -45,7 +45,7 @@ void GetHeightMeshDemo::Render()
 	terrain->Render();
 
 	
-	//tessellation->Render();
+	tessellation->Render();
 	//tessellationMaterial->Render();
 
 	//MakeTessellation();
